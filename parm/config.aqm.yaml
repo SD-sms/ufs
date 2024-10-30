@@ -4,15 +4,18 @@ user:
   MACHINE: [hera/orion/hercules/derecho]
   ACCOUNT: [account name]
 workflow:
-  USE_CRON_TO_RELAUNCH: true
+  USE_CRON_TO_RELAUNCH: false
   CRON_RELAUNCH_INTVL_MNTS: 3
   EXPT_SUBDIR: aqm_AQMNA13km_warmstart
   PREDEF_GRID_NAME: AQM_NA_13km
   CCPP_PHYS_SUITE: FV3_GFS_v16
   DATE_FIRST_CYCL: '2023111000'
-  DATE_LAST_CYCL: '2023111100'
-  INCR_CYCL_FREQ: 24
-  FCST_LEN_HRS: 24
+  DATE_LAST_CYCL: '2023111006'
+  INCR_CYCL_FREQ: 6
+  FCST_LEN_HRS: -1
+  FCST_LEN_CYCL:
+    - 6
+    - 12
   PREEXISTING_DIR_METHOD: rename
   VERBOSE: true
   DEBUG: false
@@ -25,7 +28,7 @@ workflow:
 #  WARMSTART_CYCLE_DIR: '/work/noaa/epic/SRW-AQM_DATA/aqm_data/restart/2023111000' # for orion/hercules
 #  WARMSTART_CYCLE_DIR: '/glade/work/chanhooj/SRW-AQM_DATA/aqm_data/restart/2023111000' # for derecho
 nco:
-  envir_default: test_aqm_warmstart
+  envir_default: test_aqm
   NET_default: aqm
   RUN_default: aqm
 rocoto:
@@ -33,7 +36,7 @@ rocoto:
     taskgroups: '{{ ["parm/wflow/prep.yaml", "parm/wflow/aqm_prep.yaml", "parm/wflow/coldstart.yaml", "parm/wflow/upp_post.yaml"]|include }}'
     metatask_run_ensemble:
       task_forecast_mem#mem#:
-        walltime: 01:20:00
+        walltime: 00:50:00
 task_get_extrn_ics:
   EXTRN_MDL_NAME_ICS: FV3GFS
   FV3GFS_FILE_FMT_ICS: netcdf
@@ -48,7 +51,7 @@ task_forecast:
   LAYOUT_X: 50
   LAYOUT_Y: 34
   BLOCKSIZE: 16
-  RESTART_INTERVAL: 12 24
+  RESTART_INTERVAL: 6 12 24
   QUILTING: true
   PRINT_ESMF: false
   DO_FCST_RESTART: false
@@ -78,6 +81,7 @@ cpl_aqm_parm:
   AQM_RC_FIRE_FREQUENCY: hourly
   AQM_LBCS_FILES: am4_bndy.c793.2019<MM>.v1.nc
   AQM_GEFS_FILE_PREFIX: geaer
+  AQM_GEFS_FILE_CYC: '00'
   NEXUS_GRID_FN: grid_spec_793.nc
   NUM_SPLIT_NEXUS: 3
 

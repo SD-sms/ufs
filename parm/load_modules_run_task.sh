@@ -111,13 +111,25 @@ fi
 if [ "${task_name}" = "smoke_dust" ]; then
   set +u
   if [ "${machine}" = "hera" ]; then
-    module unload python
     module use /contrib/miniconda3/modulefiles
     module load miniconda3/4.12.0
-    export ESMFMKFILE="/home/Chan-hoo.Jeon/.conda/envs/esmpy/lib/esmf.mk"
-    source /scratch2/NCEPDEV/naqfc/Chan-hoo.Jeon/PyVENV/main_aqm_pyenv/bin/activate
+    conda activate /scratch2/NCEPDEV/naqfc/Chan-hoo.Jeon/PY_VENV/main_aqm_pyenv
+  elif [ "${machine}" = "orion" ] || [ "${machine}" = "hercules" ]; then
+    module load miniconda3/24.3.0
+    source activate base
+    conda activate /work/noaa/epic/chjeon/PY_VENV/main_aqm_pyenv
   fi
   set -u
+fi
+
+# Load HPSS for some specific machines
+if [ "${machine}" = "hera" ] || [ "${machine}" = "wcoss2" ]; then
+  hpss_tasks=( "get_extrn_ics" "get_extrn_lbcs" "fire_emission" "nexus_gfs_sfc" )
+  if [[ ${hpss_tasks[@]} =~ "${task_name}" ]] ; then
+    set +u
+    module load hpss
+    set -u
+  fi
 fi
 
 module list

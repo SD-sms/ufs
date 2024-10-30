@@ -10,7 +10,7 @@ set -xue
 #
 . ${PARMsrw}/source_util_funcs.sh
 task_global_vars=( "EBB_DCYCLE" "FIXsmoke" "INCR_CYCL_FREQ" \
-  "PRE_TASK_CMDS" "PREDEF_GRID_NAME" "RESTART_INTERVAL" \
+  "PERSISTENCE" "PRE_TASK_CMDS" "PREDEF_GRID_NAME" "RESTART_INTERVAL" \
   "SMOKE_DUST_FILE_PREFIX" )
 for var in ${task_global_vars[@]}; do
   source_config_for_task ${var} ${GLOBAL_VAR_DEFNS_FP}
@@ -116,7 +116,8 @@ else
     "${DATA_SHARE}" \
     "${PREDEF_GRID_NAME}" \
     "${EBB_DCYCLE}" \
-    "${RESTART_INTERVAL}"
+    "${RESTART_INTERVAL}"\
+    "${PERSISTENCE}"
   export err=$?
   if [ $err -ne 0 ]; then
     message_txt="generate_fire_emissions.py failed with return code $err"
