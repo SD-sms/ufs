@@ -4,11 +4,15 @@ import datetime as dt
 import pandas as pd
 import os
 import fnmatch
-#import ESMF
-import esmpy as ESMF
 import xarray as xr
 import numpy as np
 from netCDF4 import Dataset
+
+try:
+    import esmpy as ESMF
+except ImportError:
+    # esmpy version 8.3.1 is required on Orion/Hercules
+    import ESMF
 
 #Create date range, this is later used to search for RAVE and HWP from previous 24 hours
 def date_range(current_day, ebb_dcycle, persistence):
