@@ -2,11 +2,9 @@
 #
 # Detect HPC platforms
 #
-if [[ -d /scratch1 ]] ; then
+if [[ -d /scratch2/NAGAPE ]] ; then
   PLATFORM="hera"
-elif [[ -d /mnt ]] ; then
-  PLATFORM="jet"
-elif [[ -d /work ]]; then
+elif [[ -d /work/noaa ]]; then
   hoststr=$(hostname)
   if [[ "$hoststr" == "hercules"* ]]; then
     PLATFORM="hercules"
@@ -17,9 +15,12 @@ elif [[ -d /ncrc ]]; then
   PLATFORM="gaea"
 elif [[ -d /glade ]]; then
   PLATFORM="derecho"
+elif [[ -d /lfs4/HFIP ]] ; then
+  PLATFORM="jet"
 elif [[ -d /lfs/h2 ]] ; then
   PLATFORM="wcoss2"
 else
   PLATFORM="unknown"
 fi
 MACHINE="${PLATFORM}"
+#echo "MACHINE(PLATFORM)=" ${MACHINE}
