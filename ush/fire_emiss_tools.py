@@ -6,8 +6,11 @@ import xarray as xr
 from datetime import datetime
 from netCDF4 import Dataset
 import interp_tools as i_tools
+from func_typer import func_typer
 
-#Compute average FRP from raw RAVE for the previous 24 hours 
+
+#Compute average FRP from raw RAVE for the previous 24 hours
+@func_typer
 def averaging_FRP(ebb_dcycle, fcst_dates, cols, rows, intp_dir, rave_to_intp, veg_map, tgt_area, beta, fg_to_ug, to_s):
     base_array = np.zeros((cols*rows))
     frp_daily = base_array
@@ -86,6 +89,7 @@ def averaging_FRP(ebb_dcycle, fcst_dates, cols, rows, intp_dir, rave_to_intp, ve
 
     return(frp_avg_reshaped, ebb_total_reshaped)
 
+@func_typer
 def estimate_fire_duration(intp_avail_hours, intp_dir, fcst_dates, current_day, cols, rows, rave_to_intp):
     # There are two steps here.
     #   1) First day simulation no RAVE from previous 24 hours available (fire age is set to zero)
@@ -122,10 +126,12 @@ def estimate_fire_duration(intp_avail_hours, intp_dir, fcst_dates, current_day, 
 
     return(te)
 
+@func_typer
 def save_fire_dur(cols, rows, te):
     fire_dur = np.array(te).reshape(cols, rows)
     return(fire_dur)
 
+@func_typer
 def produce_emiss_24hr_file(ebb_dcycle, frp_reshaped, intp_dir, current_day, tgt_latt, tgt_lont, ebb_smoke_reshaped, cols, rows):
     file_path = os.path.join(intp_dir, f'SMOKE_RRFS_data_{current_day}00.nc')
     with Dataset(file_path, 'w') as fout:
@@ -138,6 +144,7 @@ def produce_emiss_24hr_file(ebb_dcycle, frp_reshaped, intp_dir, current_day, tgt
         i_tools.Store_by_Level(fout,'ebb_smoke_hr','EBB emissions','ug m-2 s-1','3D','0.f','1.f')
         fout.variables['ebb_smoke_hr'][:, :, :] = ebb_smoke_reshaped
 
+@func_typer
 def produce_emiss_file(xarr_hwp, frp_avg_reshaped, totprcp_ave_arr, xarr_totprcp, intp_dir, current_day, tgt_latt, tgt_lont, ebb_tot_reshaped, fire_age, cols, rows):
     # Ensure arrays are not negative or NaN
     frp_avg_reshaped = np.clip(frp_avg_reshaped, 0, None)

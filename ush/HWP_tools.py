@@ -8,6 +8,10 @@ from datetime import timedelta
 import xarray as xr
 import fnmatch
 
+from func_typer import func_typer
+
+
+@func_typer
 def check_restart_files(hourly_hwpdir, fcst_dates):
     hwp_avail_hours = []
     hwp_non_avail_hours = []
@@ -26,6 +30,7 @@ def check_restart_files(hourly_hwpdir, fcst_dates):
     print(f'Available restart at: {hwp_avail_hours}, Non-available restart files at: {hwp_non_avail_hours}')
     return(hwp_avail_hours, hwp_non_avail_hours)
 
+@func_typer
 def copy_missing_restart(nwges_dir, hwp_non_avail_hours, hourly_hwpdir, len_restart_interval):
     restart_avail_hours = []
     restart_nonavail_hours_test = []
@@ -115,6 +120,7 @@ def copy_missing_restart(nwges_dir, hwp_non_avail_hours, hourly_hwpdir, len_rest
 
     return(restart_avail_hours, restart_nonavail_hours_test)
 
+@func_typer
 def process_hwp(fcst_dates, hourly_hwpdir, cols, rows, intp_dir, rave_to_intp):
     hwp_ave = [] 
     totprcp = np.zeros((cols*rows))

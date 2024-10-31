@@ -1,8 +1,15 @@
 from typing import Callable, Any
 
+_CACHE = []
 
 def func_typer(func: Callable) -> Callable:
+    global _CACHE
+
     func_name = func.__name__
+    if func_name in _CACHE:
+        return func
+    _CACHE.append(func_name)
+
     arg_names = func.__code__.co_varnames[:func.__code__.co_argcount]
 
     def printer(msg: str) -> None:

@@ -8,6 +8,8 @@ import xarray as xr
 import numpy as np
 from netCDF4 import Dataset
 
+from func_typer import func_typer
+
 try:
     import esmpy as ESMF
 except ImportError:
@@ -15,6 +17,7 @@ except ImportError:
     import ESMF
 
 #Create date range, this is later used to search for RAVE and HWP from previous 24 hours
+@func_typer
 def date_range(current_day, ebb_dcycle, persistence):
     print(f'Searching for interpolated RAVE for {current_day}')
     print(f'EBB CYCLE: {ebb_dcycle}')
@@ -45,6 +48,7 @@ def date_range(current_day, ebb_dcycle, persistence):
     return(fcst_dates)
 
 # Check if interoplated RAVE is available for the previous 24 hours
+@func_typer
 def check_for_intp_rave(intp_dir, fcst_dates, rave_to_intp):
     intp_avail_hours = []
     intp_non_avail_hours = []
@@ -74,6 +78,7 @@ def check_for_intp_rave(intp_dir, fcst_dates, rave_to_intp):
     return(intp_avail_hours, intp_non_avail_hours, inp_files_2use)
 
 #Check if raw RAVE in intp_non_avail_hours list is available for interpolatation
+@func_typer
 def check_for_raw_rave(RAVE, intp_non_avail_hours, intp_avail_hours):
     rave_avail = []
     rave_avail_hours = []
@@ -98,6 +103,7 @@ def check_for_raw_rave(RAVE, intp_non_avail_hours, intp_avail_hours):
     return(rave_avail, rave_avail_hours, rave_nonavail_hours_test, first_day)
 
 #Create source and target fields
+@func_typer
 def creates_st_fields(grid_in, grid_out, intp_dir, rave_avail_hours):
 
     # Open datasets with context managers
@@ -117,6 +123,7 @@ def creates_st_fields(grid_in, grid_out, intp_dir, rave_avail_hours):
     return(srcfield, tgtfield, tgt_latt, tgt_lont, srcgrid, tgtgrid, src_latt, tgt_area)
 
 #Define output and variable meta data
+@func_typer
 def create_emiss_file(fout, cols, rows):
     """Create necessary dimensions for the emission file."""
     fout.createDimension('t', None)
@@ -125,6 +132,7 @@ def create_emiss_file(fout, cols, rows):
     setattr(fout, 'PRODUCT_ALGORITHM_VERSION', 'Beta')
     setattr(fout, 'TIME_RANGE', '1 hour')
 
+@func_typer
 def Store_latlon_by_Level(fout, varname, var, long_name, units, dim, fval, sfactor):
     """Store a 2D variable (latitude/longitude) in the file."""
     var_out = fout.createVariable(varname,   'f4', ('lat','lon'))
@@ -135,6 +143,7 @@ def Store_latlon_by_Level(fout, varname, var, long_name, units, dim, fval, sfact
     var_out.FillValue=fval
     var_out.coordinates='geolat geolon'
 
+@func_typer
 def Store_by_Level(fout, varname, long_name, units, dim, fval, sfactor):
     """Store a 3D variable (time, latitude/longitude) in the file."""
     var_out = fout.createVariable(varname,   'f4', ('t','lat','lon'))
@@ -145,6 +154,7 @@ def Store_by_Level(fout, varname, long_name, units, dim, fval, sfactor):
     var_out.coordinates='t geolat geolon'
 
 #create a dummy rave interpolated file if first day or regrider fails
+@func_typer
 def create_dummy(intp_dir, current_day, tgt_latt, tgt_lont, cols, rows):
     file_path = os.path.join(intp_dir, f'SMOKE_RRFS_data_{current_day}00.nc')
     dummy_file = np.zeros((cols, rows))  # Changed to 3D to match the '3D' dimensions
@@ -169,6 +179,7 @@ def create_dummy(intp_dir, current_day, tgt_latt, tgt_lont, cols, rows):
     return "Emissions dummy file created successfully"
 
 #generate regridder
+@func_typer
 def generate_regrider(rave_avail_hours, srcfield, tgtfield, weightfile, inp_files_2use, intp_avail_hours):
     print('Checking conditions for generating regridder.')
     use_dummy_emiss = len(rave_avail_hours) == 0 and len(intp_avail_hours) == 0
@@ -193,6 +204,7 @@ def generate_regrider(rave_avail_hours, srcfield, tgtfield, weightfile, inp_file
     return(regridder, use_dummy_emiss)
 
 #mask edges of domain for interpolation 
+@func_typer
 def mask_edges(data, mask_width=1):
     """
     data: numpy array, the data to mask
@@ -215,7 +227,8 @@ def mask_edges(data, mask_width=1):
     return(data)
 
 #process RAVE available for interpolation
-def interpolate_rave(RAVE, rave_avail, rave_avail_hours, use_dummy_emiss, vars_emis, regridder, 
+@func_typer
+def interpolate_rave(RAVE, rave_avail, rave_avail_hours, use_dummy_emiss, vars_emis, regridder,
                     srcgrid, tgtgrid, rave_to_intp, intp_dir, src_latt, tgt_latt, tgt_lont, cols, rows):
     for index, current_hour in enumerate(rave_avail_hours):
         file_name = rave_avail[index]
