@@ -115,9 +115,9 @@ if [ "${task_name}" = "smoke_dust" ]; then
     module load miniconda3/4.12.0
     conda activate /scratch2/NCEPDEV/naqfc/Chan-hoo.Jeon/PY_VENV/main_aqm_pyenv
   elif [ "${machine}" = "orion" ] || [ "${machine}" = "hercules" ]; then
-    module load miniconda3/24.3.0
-    source activate base
-    conda activate /work/noaa/epic/chjeon/PY_VENV/main_aqm_pyenv
+    # Esmpy/ESMF segfaults when running through conda. Use a manually built esmpy v8.3.1 and local Python modules.
+    module load py-xarray py-pyyaml py-netcdf4
+    export PYTHONPATH=/work/noaa/epic/bwkoziol/main_aqm/esmf/src/addon/ESMPy/src:$PYTHONPATH
   fi
   set -u
 fi
