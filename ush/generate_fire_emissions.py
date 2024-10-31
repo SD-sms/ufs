@@ -15,10 +15,12 @@ import numpy as np
 import fire_emiss_tools as femmi_tools
 import HWP_tools
 import interp_tools as i_tools
+from func_typer import func_typer
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Workflow
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+@func_typer
 def generate_emiss_workflow(staticdir, ravedir, intp_dir, predef_grid, ebb_dcycle, restart_interval, persistence):
    
    # staticdir: path to FIX files
