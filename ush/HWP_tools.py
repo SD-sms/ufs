@@ -1,18 +1,28 @@
 #!/usr/bin/env python3
+from typing import List, Tuple
 
 import numpy as np
 import os
 import datetime as dt
-import shutil
 from datetime import timedelta
 import xarray as xr
 import fnmatch
+
+from xarray import DataArray
 
 from func_typer import func_typer
 
 
 @func_typer
-def check_restart_files(hourly_hwpdir, fcst_dates):
+def check_restart_files(hourly_hwpdir: str, fcst_dates: List[str]) -> Tuple[List[str], List[str]]:
+    """
+    Args:
+        hourly_hwpdir: The input HWP data directory.
+        fcst_dates: A list of forecast dates.
+
+    Returns:
+        A tuple containing a list of available HWP hours and unavailable HWP hours.
+    """
     hwp_avail_hours = []
     hwp_non_avail_hours = []
 
@@ -31,7 +41,17 @@ def check_restart_files(hourly_hwpdir, fcst_dates):
     return(hwp_avail_hours, hwp_non_avail_hours)
 
 @func_typer
-def copy_missing_restart(nwges_dir, hwp_non_avail_hours, hourly_hwpdir, len_restart_interval):
+def copy_missing_restart(nwges_dir: str, hwp_non_avail_hours: List[str], hourly_hwpdir: str, len_restart_interval: int) -> Tuple[List[str], List[str]]:
+    """
+    Args:
+        nwges_dir: <tdk: not sure what this directory is>
+        hwp_non_avail_hours: List of HWP hours that are not available.
+        hourly_hwpdir: List of available HWP hours.
+        len_restart_interval: The length of the restart inverval.
+
+    Returns:
+        A tuple containing a list of available restart files and unavailable restart files.
+    """
     restart_avail_hours = []
     restart_nonavail_hours_test = []
 
@@ -121,8 +141,22 @@ def copy_missing_restart(nwges_dir, hwp_non_avail_hours, hourly_hwpdir, len_rest
     return(restart_avail_hours, restart_nonavail_hours_test)
 
 @func_typer
-def process_hwp(fcst_dates, hourly_hwpdir, cols, rows, intp_dir, rave_to_intp):
-    hwp_ave = [] 
+def process_hwp(fcst_dates: List[str], hourly_hwpdir: str, cols: int, rows: int, intp_dir: str, rave_to_intp: str) -> Tuple[np.ndarray, DataArray, np.ndarray, DataArray]:
+    """
+    Process HWP files.
+
+    Args:
+        fcst_dates: List of forecast dates.
+        hourly_hwpdir: Path to HWP data directory.
+        cols: Number of output columns.
+        rows: Number of output rows.
+        intp_dir: Path to interpolate RAVE file directory.
+        rave_to_intp: File prefix indicating which RAVE files to interpolate.
+
+    Returns:
+        A tuple containing a numpy array of average HWP, an xarray data array version of the average HWP, a numpy array of average total precipitation, and an xarray data array verion of average total precipitation.
+    """
+    hwp_ave = []
     totprcp = np.zeros((cols*rows))
     var1, var2 = 'rrfs_hwp_ave', 'totprcp_ave' 
 
