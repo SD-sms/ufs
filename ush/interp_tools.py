@@ -25,7 +25,7 @@ def date_range(current_day, ebb_dcycle, persistence):
     
     if ebb_dcycle == 1:
        print('Find  RAVE for ebb_dcyc 1')
-       if persistence == True:
+       if persistence:
           # Start date range from one day prior if persistence is True
           print('Creating emissions for persistence method where satellite FRP persist from previous day')
           start_datetime = fcst_datetime - dt.timedelta(days=1) 

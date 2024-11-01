@@ -19,7 +19,7 @@ import interp_tools as i_tools
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Workflow
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-def generate_emiss_workflow(staticdir, ravedir, intp_dir, predef_grid, ebb_dcycle, restart_interval, persistence):
+def generate_emiss_workflow(staticdir, ravedir, intp_dir, predef_grid, ebb_dcycle, restart_interval, persistence_flag):
    
    # staticdir: path to FIX files
    # ravedir: path to RAVE fire data files (hourly), typically workding directory (DATA)
@@ -40,9 +40,10 @@ def generate_emiss_workflow(staticdir, ravedir, intp_dir, predef_grid, ebb_dcycl
    vars_emis = ["FRP_MEAN","FRE"]
    cols, rows = (2700, 3950) if predef_grid == 'RRFS_NA_3km' else (1092, 1820) 
    print('PREDEF GRID',predef_grid,'cols,rows',cols,rows)
-   print('WARNING, EBB_DCYCLE set to', ebb_dcycle, 'and persistence=', persistence, 'if persistence is false, emissions comes from same day satellite obs')   
+   print('WARNING, EBB_DCYCLE set to', ebb_dcycle, 'and persistence_flag=', persistence_flag, 'if persistence is false, emissions comes from same day satellite obs')
    #used later when working with ebb_dcyle 1 or 2
    ebb_dcycle = float(ebb_dcycle)
+   persistence = persistence_flag.lower() == 'true'
 
    print("CDATE:",current_day)
    print("DATA:", nwges_dir)
