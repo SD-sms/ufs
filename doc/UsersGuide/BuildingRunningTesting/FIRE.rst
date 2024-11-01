@@ -224,6 +224,10 @@ In addition to the standard UFS and UPP output described elsewhere in this users
 
    These files contain output directly from the fire model (hence why they are at a greater frequency), including variables such as the fire perimeter and area, smoke emitted, and fuel percentage burnt. 
 
+.. image:: https://private-user-images.githubusercontent.com/12705538/382190299-de126b41-c4ed-4cd8-b392-1e75dcded686.png
+   :alt: Image of the simulated fire area from an example run
+   :align: center
+
 .. _FIRE-WE2E:
 
 
