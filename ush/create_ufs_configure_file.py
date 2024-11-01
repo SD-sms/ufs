@@ -156,4 +156,4 @@ if __name__ == "__main__":
     args = _parse_args(sys.argv[1:])
     conf = load_yaml_config(args.path_to_defns)
     confg = flatten_dict(conf)
-    create_ufs_configure_file(run_dir=args.run_dir,cfg=conf)
+    create_ufs_configure_file(run_dir=args.run_dir,cfg=confg)
