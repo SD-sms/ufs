@@ -40,10 +40,10 @@ def generate_emiss_workflow(staticdir, ravedir, intp_dir, predef_grid, ebb_dcycl
    vars_emis = ["FRP_MEAN","FRE"]
    cols, rows = (2700, 3950) if predef_grid == 'RRFS_NA_3km' else (1092, 1820) 
    print('PREDEF GRID',predef_grid,'cols,rows',cols,rows)
-   print('WARNING, EBB_DCYCLE set to', ebb_dcycle, 'and persistence_flag=', persistence_flag, 'if persistence is false, emissions comes from same day satellite obs')
+   persistence = convert_string_flag_to_boolean(persistence_flag)
+   print('WARNING, EBB_DCYCLE set to', ebb_dcycle, 'and persistence=', persistence, 'if persistence is False, emissions comes from same day satellite obs')
    #used later when working with ebb_dcyle 1 or 2
    ebb_dcycle = float(ebb_dcycle)
-   persistence = persistence_flag.lower() == 'true'
 
    print("CDATE:",current_day)
    print("DATA:", nwges_dir)
@@ -102,6 +102,17 @@ def generate_emiss_workflow(staticdir, ravedir, intp_dir, predef_grid, ebb_dcycl
    else:
        print('First day true, no RAVE files available. Use dummy emissions file')
        i_tools.create_dummy(intp_dir, current_day, tgt_latt, tgt_lont, cols, rows)
+
+
+def convert_string_flag_to_boolean(flag: str) -> bool:
+    lowered = flag.lower()
+    if lowered == 'true':
+        return True
+    elif lowered == 'false':
+        return False
+    else:
+        raise ValueError('Boolean flag not recognized. Acceptable values are true, TRUE, false, or FALSE')
+
 
 if __name__ == '__main__':
 
