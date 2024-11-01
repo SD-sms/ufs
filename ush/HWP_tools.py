@@ -47,7 +47,7 @@ def copy_missing_restart(nwges_dir: str, hwp_non_avail_hours: List[str], hourly_
         nwges_dir: <tdk: not sure what this directory is>
         hwp_non_avail_hours: List of HWP hours that are not available.
         hourly_hwpdir: List of available HWP hours.
-        len_restart_interval: The length of the restart inverval.
+        len_restart_interval: The length of the restart interval.
 
     Returns:
         A tuple containing a list of available restart files and unavailable restart files.
