@@ -193,49 +193,36 @@ The workflow run is complete when all tasks display a "SUCCEEDED" message. If ev
 
 .. code-block:: console
 
-         CYCLE                   TASK       JOBID       STATE   EXIT STATUS   TRIES   DURATION
-   ============================================================================================
-   202302170000              make_grid    47411619   SUCCEEDED             0       1       36.0
-   202302170000              make_orog    47411728   SUCCEEDED             0       1      151.0
-   202302170000         make_sfc_climo    47411801   SUCCEEDED             0       1       58.0
-   202302170000          nexus_gfs_sfc    47411620   SUCCEEDED             0       1       37.0
-   202302170000      nexus_emission_00    47411729   SUCCEEDED             0       1      251.0
-   202302170000      nexus_emission_01    47411730   SUCCEEDED             0       1      250.0
-   202302170000      nexus_emission_02    47411731   SUCCEEDED             0       1      250.0
-   202302170000       nexus_post_split    47412034   SUCCEEDED             0       1       44.0
-   202302170000          fire_emission    47411621   SUCCEEDED             0       1       19.0
-   202302170000           point_source    47411732   SUCCEEDED             0       1       82.0
-   202302170000               aqm_lbcs    47412961   SUCCEEDED             0       1      159.0
-   202302170000          get_extrn_ics    47411622   SUCCEEDED             0       1      314.0
-   202302170000         get_extrn_lbcs    47411623   SUCCEEDED             0       1        0.0
-   202302170000        make_ics_mem000    47659593   SUCCEEDED             0       1      126.0
-   202302170000       make_lbcs_mem000    47659594   SUCCEEDED             0       1      113.0
-   202302170000        run_fcst_mem000    47659742   SUCCEEDED             0       1      763.0
-   202302170000   run_post_mem000_f000    47659910   SUCCEEDED             0       1       30.0
-   202302170000   run_post_mem000_f001    47660029   SUCCEEDED             0       1       30.0
-   202302170000   run_post_mem000_f002    47660030   SUCCEEDED             0       1       31.0
-   ...
-   202302170000   run_post_mem000_f006    47660110   SUCCEEDED             0       1       29.0
-   ============================================================================================
-   202302170600          nexus_gfs_sfc    47659421   SUCCEEDED             0       1       44.0
-   202302170600      nexus_emission_00    47659475   SUCCEEDED             0       1      323.0
-   202302170600      nexus_emission_01    47659476   SUCCEEDED             0       1      323.0
-   202302170600      nexus_emission_02    47659477   SUCCEEDED             0       1      329.0
-   202302170600       nexus_post_split    47659595   SUCCEEDED             0       1       60.0
-   202302170600          fire_emission    47659422   SUCCEEDED             0       1       18.0
-   202302170600           point_source    47659478   SUCCEEDED             0       1      128.0
-   202302170600                aqm_ics    47659597   SUCCEEDED             0       1      159.0
-   202302170600               aqm_lbcs    47659598   SUCCEEDED             0       1      158.0
-   202302170600          get_extrn_ics    47659423   SUCCEEDED             0       1      493.0
-   202302170600         get_extrn_lbcs    47659424   SUCCEEDED             0       1      536.0
-   202302170600        make_ics_mem000    47659594   SUCCEEDED             0       1      134.0
-   202302170600       make_lbcs_mem000    47659596   SUCCEEDED             0       1      112.0
-   202302170600        run_fcst_mem000    47659812   SUCCEEDED             0       1     1429.0
-   202302170600   run_post_mem000_f000    47659998   SUCCEEDED             0       1       30.0
-   202302170600   run_post_mem000_f001    47660042   SUCCEEDED             0       1       31.0
-   202302170600   run_post_mem000_f002    47660043   SUCCEEDED             0       1       29.0
-   ...
-   202302170600   run_post_mem000_f012    47660134   SUCCEEDED             0       1       30.0
+          CYCLE                    TASK                       JOBID               STATE         EXIT STATUS     TRIES      DURATION
+   ================================================================================================================================
+   202008131800               make_grid                     6498125           SUCCEEDED                   0         1          70.0
+   202008131800               make_orog                     6498145           SUCCEEDED                   0         1          87.0
+   202008131800          make_sfc_climo                     6498172           SUCCEEDED                   0         1          90.0
+   202008131800           get_extrn_ics                     6498126           SUCCEEDED                   0         1          46.0
+   202008131800          get_extrn_lbcs                     6498127           SUCCEEDED                   0         1          46.0
+   202008131800         make_ics_mem000                     6498202           SUCCEEDED                   0         1          91.0
+   202008131800        make_lbcs_mem000                     6498203           SUCCEEDED                   0         1         106.0
+   202008131800         run_fcst_mem000                     6498309           SUCCEEDED                   0         1        1032.0
+   202008131800    run_post_mem000_f000                     6498336           SUCCEEDED                   0         1          75.0
+   202008131800    run_post_mem000_f001                     6498387           SUCCEEDED                   0         1          76.0
+   202008131800    run_post_mem000_f002                     6498408           SUCCEEDED                   0         1          75.0
+   202008131800    run_post_mem000_f003                     6498409           SUCCEEDED                   0         1          75.0
+   202008131800    run_post_mem000_f004                     6498432           SUCCEEDED                   0         1          64.0
+   202008131800    run_post_mem000_f005                     6498433           SUCCEEDED                   0         1          77.0
+   202008131800    run_post_mem000_f006                     6498435           SUCCEEDED                   0         1          74.0
+   202008131800    integration_test_mem000                     6498434           SUCCEEDED                   0         1          27.0
+
+In addition to the standard UFS and UPP output described elsewhere in this users guide, the UFS_FIRE runs produce additional output files :numref:`described above <FIREConfig>`:
+
+.. code-block:: console
+
+   $ cd /path/to/expt_dir/experiment
+   $ ls 2020081318/fire_output*
+   fire_output_2020-08-13_18:00:00.nc  fire_output_2020-08-13_19:30:00.nc  fire_output_2020-08-13_21:00:00.nc  fire_output_2020-08-13_22:30:00.nc
+   fire_output_2020-08-13_18:30:00.nc  fire_output_2020-08-13_20:00:00.nc  fire_output_2020-08-13_21:30:00.nc  fire_output_2020-08-13_23:00:00.nc
+   fire_output_2020-08-13_19:00:00.nc  fire_output_2020-08-13_20:30:00.nc  fire_output_2020-08-13_22:00:00.nc  fire_output_2020-08-13_23:30:00.nc
+
+   These files contain output directly from the fire model (hence why they are at a greater frequency), including variables such as the fire perimeter and area, smoke emitted, and fuel percentage burnt. 
 
 .. _FIRE-WE2E:
 
