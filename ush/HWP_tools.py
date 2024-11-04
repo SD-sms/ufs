@@ -25,6 +25,7 @@ def check_restart_files(hourly_hwpdir: str, fcst_dates: Index) -> Tuple[List[str
     hwp_non_avail_hours = []
 
     for cycle in fcst_dates:
+        assert isinstance(cycle, str)
         restart_file = f"{cycle[:8]}.{cycle[8:10]}0000.phy_data.nc"
         file_path = os.path.join(hourly_hwpdir, restart_file)
 
@@ -157,6 +158,7 @@ def process_hwp(fcst_dates: Index, hourly_hwpdir: str, cols: int, rows: int, int
     var1, var2 = 'rrfs_hwp_ave', 'totprcp_ave' 
 
     for cycle in fcst_dates:
+        assert isinstance(cycle, str)
         try:
             print(f'Processing restart file for date: {cycle}')
             file_path = os.path.join(hourly_hwpdir, f"{cycle[:8]}.{cycle[8:10]}0000.phy_data.nc")
