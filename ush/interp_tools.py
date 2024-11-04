@@ -254,7 +254,7 @@ def create_dummy(intp_dir: str, current_day: str, tgt_latt: DataArray, tgt_lont:
 
     return "Emissions dummy file created successfully"
 
-def generate_regridder(rave_avail_hours: List[str], srcfield: ESMF.Field, tgtfield: ESMF.Field, weightfile: str, inp_files_2use: List[str], intp_avail_hours: List[str]) -> Tuple[Any, bool]:
+def generate_regridder(rave_avail_hours: List[str], srcfield: ESMF.Field, tgtfield: ESMF.Field, weightfile: str, intp_avail_hours: List[str]) -> Tuple[Any, bool]:
     """
     Generate an ESMF regridder unless we are using dummy emissions.
     Args:
@@ -262,7 +262,6 @@ def generate_regridder(rave_avail_hours: List[str], srcfield: ESMF.Field, tgtfie
         srcfield: The source ESMF field.
         tgtfield: The destination ESMF field.
         weightfile: The ESMF weight field mapping the RAVE grid to the forecast grid.
-        inp_files_2use: <tdk: unused>
         intp_avail_hours: The available interpolated hours.
 
     Returns:

@@ -8,10 +8,11 @@ from datetime import timedelta
 import xarray as xr
 import fnmatch
 
+from pandas import Index
 from xarray import DataArray
 
 
-def check_restart_files(hourly_hwpdir: str, fcst_dates: List[str]) -> Tuple[List[str], List[str]]:
+def check_restart_files(hourly_hwpdir: str, fcst_dates: Index) -> Tuple[List[str], List[str]]:
     """
     Args:
         hourly_hwpdir: The input HWP data directory.
@@ -136,7 +137,7 @@ def copy_missing_restart(nwges_dir: str, hwp_non_avail_hours: List[str], hourly_
 
     return(restart_avail_hours, restart_nonavail_hours_test)
 
-def process_hwp(fcst_dates: List[str], hourly_hwpdir: str, cols: int, rows: int, intp_dir: str, rave_to_intp: str) -> Tuple[np.ndarray, DataArray, np.ndarray, DataArray]:
+def process_hwp(fcst_dates: Index, hourly_hwpdir: str, cols: int, rows: int, intp_dir: str, rave_to_intp: str) -> Tuple[np.ndarray, DataArray, np.ndarray, DataArray]:
     """
     Process HWP files.
 
