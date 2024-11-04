@@ -182,8 +182,6 @@ Users may check experiment status from the experiment directory with either of t
    # Check the experiment status and relaunch the workflow (for manual jobs)
    ./launch_FV3LAM_wflow.sh; tail -n 40 log.launch_FV3LAM_wflow
 
-To see a description of each of the FIRE workflow tasks, see :numref:`Section %s <FIRE-more-tasks>`.
-
 .. _FIRESuccess:
 
 Experiment Output
@@ -212,7 +210,7 @@ The workflow run is complete when all tasks display a "SUCCEEDED" message. If ev
    202008131800    run_post_mem000_f006                     6498435           SUCCEEDED                   0         1          74.0
    202008131800    integration_test_mem000                     6498434           SUCCEEDED                   0         1          27.0
 
-In addition to the standard UFS and UPP output described elsewhere in this users guide, the UFS_FIRE runs produce additional output files :numref:`described above <FIREConfig>`:
+In addition to the standard UFS and UPP output described elsewhere in this users guide, the UFS_FIRE runs produce additional output files :ref:`described above <FIREConfig>`:
 
 .. code-block:: console
 
@@ -222,7 +220,7 @@ In addition to the standard UFS and UPP output described elsewhere in this users
    fire_output_2020-08-13_18:30:00.nc  fire_output_2020-08-13_20:00:00.nc  fire_output_2020-08-13_21:30:00.nc  fire_output_2020-08-13_23:00:00.nc
    fire_output_2020-08-13_19:00:00.nc  fire_output_2020-08-13_20:30:00.nc  fire_output_2020-08-13_22:00:00.nc  fire_output_2020-08-13_23:30:00.nc
 
-   These files contain output directly from the fire model (hence why they are at a greater frequency), including variables such as the fire perimeter and area, smoke emitted, and fuel percentage burnt. 
+These files contain output directly from the fire model (hence why they are at a greater frequency), including variables such as the fire perimeter and area, smoke emitted, and fuel percentage burnt. 
 
 .. image:: https://private-user-images.githubusercontent.com/12705538/382190299-de126b41-c4ed-4cd8-b392-1e75dcded686.png
    :alt: Image of the simulated fire area from an example run
