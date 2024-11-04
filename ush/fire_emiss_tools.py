@@ -1,17 +1,42 @@
 #!/usr/bin/env python3
 
 import os
+from typing import Tuple, Any
+
 import numpy as np
 import xarray as xr
 from datetime import datetime
 from netCDF4 import Dataset
+from pandas import Index
+from xarray import DataArray
+
 import interp_tools as i_tools
 from func_typer import func_typer
 
 
-#Compute average FRP from raw RAVE for the previous 24 hours
 @func_typer
-def averaging_FRP(ebb_dcycle, fcst_dates, cols, rows, intp_dir, rave_to_intp, veg_map, tgt_area, beta, fg_to_ug, to_s):
+def averaging_FRP(ebb_dcycle: int, fcst_dates: Index, cols: int, rows: int, intp_dir: str, rave_to_intp: str, veg_map: str, tgt_area: DataArray, beta: float, fg_to_ug: float, to_s: int) -> Tuple[np.ndarray, np.ndarray]:
+    """
+    Compute average FRP from raw RAVE for the previous 24 hours.
+
+    Args:
+        ebb_dcycle: Valid values are ``1`` or ``2``.
+        fcst_dates: Forecast hours to use for averaging.
+        cols: Number of columns.
+        rows: Number of rows.
+        intp_dir: Directory containing the interpolated data.
+        rave_to_intp: Prefix of the target RAVE files.
+        veg_map: Path to the vegetation mapping file.
+        tgt_area: Data array containing the target cell areas.
+        beta: Scale factor applied to emissions.
+        fg_to_ug: Unit conversion factor.
+        to_s: Unit conversion factor.
+
+    Returns:
+        A typle containing:
+            * ``0``: Average FRP.
+            * ``1``: Total EBB.
+    """
     base_array = np.zeros((cols*rows))
     frp_daily = base_array
     ebb_smoke_total = []
@@ -90,10 +115,23 @@ def averaging_FRP(ebb_dcycle, fcst_dates, cols, rows, intp_dir, rave_to_intp, ve
     return(frp_avg_reshaped, ebb_total_reshaped)
 
 @func_typer
-def estimate_fire_duration(intp_avail_hours, intp_dir, fcst_dates, current_day, cols, rows, rave_to_intp):
+def estimate_fire_duration(intp_avail_hours: Any, intp_dir: str, fcst_dates: Index, current_day: str, cols: int, rows: int, rave_to_intp: str):
+    """
+    Estimate fire duration potentially using data from previous cycles.
+
     # There are two steps here.
-    #   1) First day simulation no RAVE from previous 24 hours available (fire age is set to zero)
-    #   2) previus files are present (estimate fire age as the difference between the date of the current cycle and the date whe the fire was last observed whiting 24 hours)
+    #   1) First day simulation no RAVE from previous 24 hours available (fire age is set to zero).
+    #   2) Previous files are present (estimate fire age as the difference between the date of the current cycle and the date whe the fire was last observed within 24 hours).
+
+    Args:
+        intp_avail_hours: <tdk: unused>
+        intp_dir: Path to interpolated RAVE data.
+        fcst_dates: Forecast hours used in the current cycle.
+        current_day: The current day hour.
+        cols: Number of columns.
+        rows: Number of rows.
+        rave_to_intp: Prefix of the target RAVE files.
+    """
     t_fire = np.zeros((cols, rows))
 
     for date_str in fcst_dates:
@@ -127,12 +165,37 @@ def estimate_fire_duration(intp_avail_hours, intp_dir, fcst_dates, current_day, 
     return(te)
 
 @func_typer
-def save_fire_dur(cols, rows, te):
+def save_fire_dur(cols: int, rows: int, te: np.ndarray) -> np.ndarray:
+    """
+    Reshape the fire duration array.
+
+    Args:
+        cols: Number of columns.
+        rows: Number of rows.
+        te: Target array to reshape.
+
+    Returns:
+        The rehshaped fire duration array.
+    """
     fire_dur = np.array(te).reshape(cols, rows)
     return(fire_dur)
 
 @func_typer
-def produce_emiss_24hr_file(ebb_dcycle, frp_reshaped, intp_dir, current_day, tgt_latt, tgt_lont, ebb_smoke_reshaped, cols, rows):
+def produce_emiss_24hr_file(ebb_dcycle: Any, frp_reshaped: np.ndarray, intp_dir: str, current_day: str, tgt_latt: DataArray, tgt_lont: DataArray, ebb_smoke_reshaped: np.ndarray, cols: int, rows: int) -> None:
+    """
+    Create a 24-hour emissions file.
+
+    Args:
+        ebb_dcycle: <tdk: unused>
+        frp_reshaped: FRP numpy array.
+        intp_dir: Directory containing interpolated RAVE files.
+        current_day: The current forecast cycle day/hour.
+        tgt_latt: Target grid latitudes.
+        tgt_lont: Target grid longitudes.
+        ebb_smoke_reshaped: EBB smoke array reshaped.
+        cols: Number of columns.
+        rows: Number of rows.
+    """
     file_path = os.path.join(intp_dir, f'SMOKE_RRFS_data_{current_day}00.nc')
     with Dataset(file_path, 'w') as fout:
         i_tools.create_emiss_file(fout, cols, rows)
@@ -145,7 +208,27 @@ def produce_emiss_24hr_file(ebb_dcycle, frp_reshaped, intp_dir, current_day, tgt
         fout.variables['ebb_smoke_hr'][:, :, :] = ebb_smoke_reshaped
 
 @func_typer
-def produce_emiss_file(xarr_hwp, frp_avg_reshaped, totprcp_ave_arr, xarr_totprcp, intp_dir, current_day, tgt_latt, tgt_lont, ebb_tot_reshaped, fire_age, cols, rows):
+def produce_emiss_file(xarr_hwp: DataArray, frp_avg_reshaped: np.ndarray, totprcp_ave_arr: Any, xarr_totprcp: DataArray, intp_dir: str, current_day: str, tgt_latt: DataArray, tgt_lont: DataArray, ebb_tot_reshaped: np.ndarray, fire_age: np.ndarray, cols: int, rows: int) -> str:
+    """
+    Produce the emissions file.
+
+    Args:
+        xarr_hwp: Data array containing HWP.
+        frp_avg_reshaped: Average FRP array.
+        totprcp_ave_arr: Average total precipitation array.
+        xarr_totprcp: Average total precipitation as a data array.
+        intp_dir: Directory containing interpolated RAVE data.
+        current_day: The current forecast day/hour.
+        tgt_latt: The target grid latitude.
+        tgt_lont: The target grid longitudes.
+        ebb_tot_reshaped: Total EBB array.
+        fire_age: Estimated fire age array.
+        cols: Number of columns.
+        rows: Number of rows.
+
+    Returns:
+        A string indicating the file was written as expected.
+    """
     # Ensure arrays are not negative or NaN
     frp_avg_reshaped = np.clip(frp_avg_reshaped, 0, None)
     frp_avg_reshaped = np.nan_to_num(frp_avg_reshaped)

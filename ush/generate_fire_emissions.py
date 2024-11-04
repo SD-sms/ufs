@@ -28,8 +28,8 @@ def generate_emiss_workflow(staticdir: str, ravedir: str, intp_dir: str, predef_
        ravedir: Path to the directory containing RAVE fire data files (hourly). This is typically the working directory (DATA).
        intp_dir: Path to interpolated RAVE data files from the previous cycles (DATA_SHARE).
        predef_grid: If ``RRFS_NA_3km``, use pre-defined grid dimensions.
-       ebb_dcycle: <tdk: It looks like the only option is 1. What does this variable mean?>
-       restart_interval: Indicates if restart files should be copied. <tdk: The actual values don't seemed used?>
+       ebb_dcycle: <tdk: What do the values of this variable mean?> Valid values are ``1`` or ``2``.
+       restart_interval: Indicates if restart files should be copied. The actual interval values are not used.
        persistence: If ``TRUE``, use satellite observations from the previous day. Otherwise, use observations from the same day.
    """
 
