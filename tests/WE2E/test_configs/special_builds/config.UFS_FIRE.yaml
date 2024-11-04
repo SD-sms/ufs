@@ -12,14 +12,12 @@ workflow:
   PREEXISTING_DIR_METHOD: rename
 task_get_extrn_ics:
   USE_USER_STAGED_EXTRN_FILES: true
-  EXTRN_MDL_SOURCE_BASEDIR_ICS: '{{ fire.FIRE_INPUT_DIR }}/HRRR'
   EXTRN_MDL_NAME_ICS: HRRR
   FV3GFS_FILE_FMT_ICS: grib2
   EXTRN_MDL_FILES_ICS:
     - '{fyyyymmdd}.hrrr.t{fhh}z.wrfprsf00.grib2'
 task_get_extrn_lbcs:
   USE_USER_STAGED_EXTRN_FILES: true
-  EXTRN_MDL_SOURCE_BASEDIR_LBCS: '{{ fire.FIRE_INPUT_DIR }}/HRRR'
   EXTRN_MDL_FILES_LBCS:
     - '{fyyyymmdd}.hrrr.t{fhh}z.wrfprsf00.grib2'
   EXTRN_MDL_NAME_LBCS: HRRR
