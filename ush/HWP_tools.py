@@ -10,10 +10,7 @@ import fnmatch
 
 from xarray import DataArray
 
-from func_typer import func_typer
 
-
-@func_typer
 def check_restart_files(hourly_hwpdir: str, fcst_dates: List[str]) -> Tuple[List[str], List[str]]:
     """
     Args:
@@ -40,7 +37,6 @@ def check_restart_files(hourly_hwpdir: str, fcst_dates: List[str]) -> Tuple[List
     print(f'Available restart at: {hwp_avail_hours}, Non-available restart files at: {hwp_non_avail_hours}')
     return(hwp_avail_hours, hwp_non_avail_hours)
 
-@func_typer
 def copy_missing_restart(nwges_dir: str, hwp_non_avail_hours: List[str], hourly_hwpdir: str, len_restart_interval: int) -> Tuple[List[str], List[str]]:
     """
     Args:
@@ -140,7 +136,6 @@ def copy_missing_restart(nwges_dir: str, hwp_non_avail_hours: List[str], hourly_
 
     return(restart_avail_hours, restart_nonavail_hours_test)
 
-@func_typer
 def process_hwp(fcst_dates: List[str], hourly_hwpdir: str, cols: int, rows: int, intp_dir: str, rave_to_intp: str) -> Tuple[np.ndarray, DataArray, np.ndarray, DataArray]:
     """
     Process HWP files.
@@ -196,4 +191,3 @@ def process_hwp(fcst_dates: List[str], hourly_hwpdir: str, cols: int, rows: int,
     xarr_totprcp = xr.DataArray(totprcp_ave_arr)
     
     return(hwp_ave_arr, xarr_hwp, totprcp_ave_arr, xarr_totprcp)
-

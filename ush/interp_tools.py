@@ -13,8 +13,6 @@ from numpy import ndarray
 from pandas import Index
 from xarray import DataArray
 
-from func_typer import func_typer
-
 try:
     import esmpy as ESMF
 except ImportError:
@@ -22,7 +20,6 @@ except ImportError:
     import ESMF
 
 
-@func_typer
 def date_range(current_day: str, ebb_dcycle: int, persistence: str) -> Index:
     """
     Create date range, this is later used to search for RAVE and HWP from previous 24 hours.
@@ -63,7 +60,6 @@ def date_range(current_day: str, ebb_dcycle: int, persistence: str) -> Index:
     print(f'Current cycle: {fcst_datetime}')
     return(fcst_dates)
 
-@func_typer
 def check_for_intp_rave(intp_dir: str, fcst_dates: Index, rave_to_intp: str) -> Tuple[List[str], List[str], bool] :
     """
     Check if interpolated RAVE is available for the previous 24 hours.
@@ -103,7 +99,6 @@ def check_for_intp_rave(intp_dir: str, fcst_dates: Index, rave_to_intp: str) -> 
 
     return(intp_avail_hours, intp_non_avail_hours, inp_files_2use)
 
-@func_typer
 def check_for_raw_rave(RAVE: str, intp_non_avail_hours: List[str], intp_avail_hours: List[str]) -> Tuple[List[str], List[str], List[str], bool]:
     """
     Check if raw RAVE in intp_non_avail_hours list is available for interpolation.
@@ -138,10 +133,10 @@ def check_for_raw_rave(RAVE: str, intp_non_avail_hours: List[str], intp_avail_ho
     print(f'FIRST DAY?: {first_day}')
     return(rave_avail, rave_avail_hours, rave_nonavail_hours_test, first_day)
 
-#Create source and target fields
-@func_typer
 def creates_st_fields(grid_in: str, grid_out: str, intp_dir: str, rave_avail_hours: List[str]) -> Tuple[ESMF.Field, ESMF.Field, DataArray, DataArray, ESMF.Grid, ESMF.Grid, DataArray, DataArray]:
     """
+    Create source and target fields for regridding.
+
     Args:
         grid_in: Path to input grid.
         grid_out: Path to output grid.
@@ -167,7 +162,6 @@ def creates_st_fields(grid_in: str, grid_out: str, intp_dir: str, rave_avail_hou
     print('Grid in and out files available. Generating target and source fields')
     return(srcfield, tgtfield, tgt_latt, tgt_lont, srcgrid, tgtgrid, src_latt, tgt_area)
 
-@func_typer
 def create_emiss_file(fout: Dataset, cols: int, rows: int) -> None:
     """
     Create necessary dimensions for the emission file.
@@ -183,7 +177,6 @@ def create_emiss_file(fout: Dataset, cols: int, rows: int) -> None:
     setattr(fout, 'PRODUCT_ALGORITHM_VERSION', 'Beta')
     setattr(fout, 'TIME_RANGE', '1 hour')
 
-@func_typer
 def Store_latlon_by_Level(fout: Dataset, varname: str, var: DataArray, long_name: str, units: str, dim: str, fval: str, sfactor: str) -> None:
     """
     Store a 2D variable (latitude/longitude) in the file.
@@ -206,7 +199,6 @@ def Store_latlon_by_Level(fout: Dataset, varname: str, var: DataArray, long_name
     var_out.FillValue=fval
     var_out.coordinates='geolat geolon'
 
-@func_typer
 def Store_by_Level(fout: Dataset, varname: str, long_name: str, units: str, dim: str, fval: str, sfactor: str) -> None:
     """
     Store a 3D variable (time, latitude/longitude) in the file.
@@ -227,7 +219,6 @@ def Store_by_Level(fout: Dataset, varname: str, long_name: str, units: str, dim:
     var_out.FillValue=fval
     var_out.coordinates='t geolat geolon'
 
-@func_typer
 def create_dummy(intp_dir: str, current_day: str, tgt_latt: DataArray, tgt_lont: DataArray, cols: int, rows: int) -> str:
     """
     Create a dummy RAVE interpolated file if first day or regridder fails.
@@ -265,7 +256,6 @@ def create_dummy(intp_dir: str, current_day: str, tgt_latt: DataArray, tgt_lont:
 
     return "Emissions dummy file created successfully"
 
-@func_typer
 def generate_regridder(rave_avail_hours: List[str], srcfield: ESMF.Field, tgtfield: ESMF.Field, weightfile: str, inp_files_2use: List[str], intp_avail_hours: List[str]) -> Tuple[Any, bool]:
     """
     Generate an ESMF regridder unless we are using dummy emissions.
@@ -302,7 +292,6 @@ def generate_regridder(rave_avail_hours: List[str], srcfield: ESMF.Field, tgtfie
 
     return(regridder, use_dummy_emiss)
 
-@func_typer
 def mask_edges(data: ndarray, mask_width: int=1) -> ndarray:
     """
     Mask edges of domain for interpolation.
@@ -333,7 +322,6 @@ def mask_edges(data: ndarray, mask_width: int=1) -> ndarray:
 
     return(data)
 
-@func_typer
 def interpolate_rave(RAVE: str, rave_avail: List[str], rave_avail_hours: List[str], use_dummy_emiss: bool, vars_emis: List[str], regridder: Any,
                     srcgrid: ESMF.Grid, tgtgrid: ESMF.Grid, rave_to_intp: str, intp_dir: str, src_latt: DataArray, tgt_latt: DataArray, tgt_lont: DataArray, cols: int, rows: int) -> None:
     """

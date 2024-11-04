@@ -13,12 +13,10 @@ import os
 import fire_emiss_tools as femmi_tools
 import HWP_tools
 import interp_tools as i_tools
-from func_typer import func_typer
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Workflow
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-@func_typer
 def generate_emiss_workflow(staticdir: str, ravedir: str, intp_dir: str, predef_grid: str, ebb_dcycle: str, restart_interval: str, persistence: str) -> None:
    """
    Prepares fire-related ICs. This is the main function that handles data movement and interpolation.

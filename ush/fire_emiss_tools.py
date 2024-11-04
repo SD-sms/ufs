@@ -11,10 +11,8 @@ from pandas import Index
 from xarray import DataArray
 
 import interp_tools as i_tools
-from func_typer import func_typer
 
 
-@func_typer
 def averaging_FRP(ebb_dcycle: int, fcst_dates: Index, cols: int, rows: int, intp_dir: str, rave_to_intp: str, veg_map: str, tgt_area: DataArray, beta: float, fg_to_ug: float, to_s: int) -> Tuple[np.ndarray, np.ndarray]:
     """
     Compute average FRP from raw RAVE for the previous 24 hours.
@@ -114,7 +112,6 @@ def averaging_FRP(ebb_dcycle: int, fcst_dates: Index, cols: int, rows: int, intp
 
     return(frp_avg_reshaped, ebb_total_reshaped)
 
-@func_typer
 def estimate_fire_duration(intp_avail_hours: Any, intp_dir: str, fcst_dates: Index, current_day: str, cols: int, rows: int, rave_to_intp: str):
     """
     Estimate fire duration potentially using data from previous cycles.
@@ -180,7 +177,6 @@ def save_fire_dur(cols: int, rows: int, te: np.ndarray) -> np.ndarray:
     fire_dur = np.array(te).reshape(cols, rows)
     return(fire_dur)
 
-@func_typer
 def produce_emiss_24hr_file(ebb_dcycle: Any, frp_reshaped: np.ndarray, intp_dir: str, current_day: str, tgt_latt: DataArray, tgt_lont: DataArray, ebb_smoke_reshaped: np.ndarray, cols: int, rows: int) -> None:
     """
     Create a 24-hour emissions file.
@@ -207,7 +203,6 @@ def produce_emiss_24hr_file(ebb_dcycle: Any, frp_reshaped: np.ndarray, intp_dir:
         i_tools.Store_by_Level(fout,'ebb_smoke_hr','EBB emissions','ug m-2 s-1','3D','0.f','1.f')
         fout.variables['ebb_smoke_hr'][:, :, :] = ebb_smoke_reshaped
 
-@func_typer
 def produce_emiss_file(xarr_hwp: DataArray, frp_avg_reshaped: np.ndarray, totprcp_ave_arr: Any, xarr_totprcp: DataArray, intp_dir: str, current_day: str, tgt_latt: DataArray, tgt_lont: DataArray, ebb_tot_reshaped: np.ndarray, fire_age: np.ndarray, cols: int, rows: int) -> str:
     """
     Produce the emissions file.
