@@ -1,4 +1,3 @@
-total_member:            1
 start_year:              {{ start_year }}
 start_month:             {{ start_month }}
 start_day:               {{ start_day }}

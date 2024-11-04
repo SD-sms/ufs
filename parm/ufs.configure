@@ -24,7 +24,7 @@ ATM_diag_line }}
 {% if cpl_aqm  %}
 # AQM #
 AQM_model:                      aqm
-AQM_petlist_bounds:             -1 -1
+AQM_petlist_bounds:             {{ AQM_pb }}
 AQM_attributes::
   Verbosity = 0
   Diagnostic = 0

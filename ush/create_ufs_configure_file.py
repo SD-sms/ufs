@@ -31,12 +31,14 @@ def create_ufs_configure_file(run_dir,cfg):
     # Set necessary variables for each coupled configuration
 
     atm_end = str(int(cfg["PE_MEMBER01"]) - int(cfg["FIRE_NUM_TASKS"]) -1)
+    aqm_end = str(int(cfg["LAYOUT_X"]) * int(cfg["LAYOUT_Y"]) - 1)
     fire_start = str(int(cfg["PE_MEMBER01"]) - int(cfg["FIRE_NUM_TASKS"]))
     fire_end = str(int(cfg["PE_MEMBER01"]) - 1)
 
+    atm_petlist_bounds = f'0 {atm_end}'
     if cfg["CPL_AQM"]:
         earth_component_list = 'ATM AQM'
-        atm_petlist_bounds = '-1 -1'
+        aqm_petlist_bounds = f'0 {aqm_end}'
         atm_omp_num_threads_line = ''
         atm_diag_line = ''
         runseq = [ f"  @{cfg['DT_ATMOS']}\n",
@@ -48,7 +50,6 @@ def create_ufs_configure_file(run_dir,cfg):
                    "  @" ]
     elif cfg["UFS_FIRE"]:
         earth_component_list = 'ATM FIRE'
-        atm_petlist_bounds = f'0 {atm_end}'
         atm_omp_num_threads_line = \
             f"\nATM_omp_num_threads:            {cfg['OMP_NUM_THREADS_RUN_FCST']}"
         atm_diag_line = ''
@@ -61,7 +62,6 @@ def create_ufs_configure_file(run_dir,cfg):
                    "  @" ]
     else:
         earth_component_list = 'ATM'
-        atm_petlist_bounds = f'0 {atm_end}'
         atm_omp_num_threads_line = \
             f"\nATM_omp_num_threads:            {cfg['OMP_NUM_THREADS_RUN_FCST']}"
         atm_diag_line = '  Diagnostic = 0'
@@ -100,6 +100,7 @@ def create_ufs_configure_file(run_dir,cfg):
       "logKindFlag": logkindflag,
       "EARTH_cl": earth_component_list,
       "ATM_pb": atm_petlist_bounds,
+      "AQM_pb": aqm_petlist_bounds,
       "ATM_omp_num_threads_line": atm_omp_num_threads_line,
       "ATM_diag_line": atm_diag_line,
       "runseq": runseq,
