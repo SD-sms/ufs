@@ -100,15 +100,17 @@ def create_ufs_configure_file(run_dir,cfg):
       "logKindFlag": logkindflag,
       "EARTH_cl": earth_component_list,
       "ATM_pb": atm_petlist_bounds,
-      "AQM_pb": aqm_petlist_bounds,
       "ATM_omp_num_threads_line": atm_omp_num_threads_line,
       "ATM_diag_line": atm_diag_line,
       "runseq": runseq,
+      "AQM_pb": "",
       "FIRE_pb": "",
       "dt_atmos": cfg["DT_ATMOS"],
       "print_esmf": cfg["PRINT_ESMF"],
       "cpl_aqm": cfg["CPL_AQM"]
     }
+    if cfg["CPL_AQM"]:
+        settings["AQM_pb"] = aqm_petlist_bounds
     if cfg["UFS_FIRE"]:
         settings["FIRE_pb"] = fire_petlist_bounds
 
