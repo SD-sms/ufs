@@ -88,10 +88,10 @@ def check_for_intp_rave(intp_dir: str, fcst_dates: Index, rave_to_intp: str) -> 
 
         if file_exists or is_valid_link:
             print(f'RAVE interpolated file available for {file_name}')
-            intp_avail_hours.append(date)
+            intp_avail_hours.append(str(date))
         else:
             print(f'Interpolated file non available, interpolate RAVE for {file_name}')
-            intp_non_avail_hours.append(date)
+            intp_non_avail_hours.append(str(date))
 
     print(f'Available interpolated files for hours: {intp_avail_hours}, Non available interpolated files for hours: {intp_non_avail_hours}')
     
@@ -99,7 +99,7 @@ def check_for_intp_rave(intp_dir: str, fcst_dates: Index, rave_to_intp: str) -> 
 
     return(intp_avail_hours, intp_non_avail_hours, inp_files_2use)
 
-def check_for_raw_rave(RAVE: str, intp_non_avail_hours: List[str], intp_avail_hours: List[str]) -> Tuple[List[str], List[str], List[str], bool]:
+def check_for_raw_rave(RAVE: str, intp_non_avail_hours: List[str], intp_avail_hours: List[str]) -> Tuple[List[List[str]], List[str], List[str], bool]:
     """
     Check if raw RAVE in intp_non_avail_hours list is available for interpolation.
 
@@ -133,15 +133,13 @@ def check_for_raw_rave(RAVE: str, intp_non_avail_hours: List[str], intp_avail_ho
     print(f'FIRST DAY?: {first_day}')
     return(rave_avail, rave_avail_hours, rave_nonavail_hours_test, first_day)
 
-def creates_st_fields(grid_in: str, grid_out: str, intp_dir: str, rave_avail_hours: List[str]) -> Tuple[ESMF.Field, ESMF.Field, DataArray, DataArray, ESMF.Grid, ESMF.Grid, DataArray, DataArray]:
+def creates_st_fields(grid_in: str, grid_out: str) -> Tuple[ESMF.Field, ESMF.Field, DataArray, DataArray, ESMF.Grid, ESMF.Grid, DataArray, DataArray]:
     """
     Create source and target fields for regridding.
 
     Args:
         grid_in: Path to input grid.
         grid_out: Path to output grid.
-        intp_dir: <tdk: unused>
-        rave_avail_hours: <tdk: unused>
 
     Returns:
         A tuple containing the source ESMF field, destination ESMF field, destination latitudes, destination longitudes, source ESMF grid, destination ESMF grid, source latitude, and destination area.

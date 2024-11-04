@@ -38,7 +38,6 @@ def averaging_FRP(ebb_dcycle: int, fcst_dates: Index, cols: int, rows: int, intp
     base_array = np.zeros((cols*rows))
     frp_daily = base_array
     ebb_smoke_total = []
-    ebb_smoke_hr = []
     frp_avg_hr = []
 
     try:
@@ -93,13 +92,11 @@ def averaging_FRP(ebb_dcycle: int, fcst_dates: Index, cols: int, rows: int, intp
             summed_array = np.sum(np.array(ebb_smoke_total), axis=0)
             num_zeros = len(ebb_smoke_total) - np.sum([arr == 0 for arr in ebb_smoke_total], axis=0)
             safe_zero_count = np.where(num_zeros == 0, 1, num_zeros)
-            result_array = [summed_array[i] / 2 if safe_zero_count[i] == 1 else summed_array[i] / safe_zero_count[i] for i in range(len(safe_zero_count))]
-            result_array = np.array(result_array)
+            result_array = np.array([summed_array[i] / 2 if safe_zero_count[i] == 1 else summed_array[i] / safe_zero_count[i] for i in range(len(safe_zero_count))])
             result_array[num_zeros == 0] = summed_array[num_zeros == 0]
             ebb_total = result_array.reshape(cols, rows)
             ebb_total_reshaped = ebb_total / 3600
-            temp_frp = [frp_daily[i] / 2 if safe_zero_count[i] == 1 else frp_daily[i] / safe_zero_count[i] for i in range(len(safe_zero_count))]
-            temp_frp = np.array(temp_frp)
+            temp_frp = np.array([frp_daily[i] / 2 if safe_zero_count[i] == 1 else frp_daily[i] / safe_zero_count[i] for i in range(len(safe_zero_count))])
             temp_frp[num_zeros == 0] = frp_daily[num_zeros == 0]
             frp_avg_reshaped = temp_frp.reshape(cols, rows)
     else:
@@ -112,7 +109,7 @@ def averaging_FRP(ebb_dcycle: int, fcst_dates: Index, cols: int, rows: int, intp
 
     return(frp_avg_reshaped, ebb_total_reshaped)
 
-def estimate_fire_duration(intp_avail_hours: Any, intp_dir: str, fcst_dates: Index, current_day: str, cols: int, rows: int, rave_to_intp: str):
+def estimate_fire_duration(intp_dir: str, fcst_dates: Index, current_day: str, cols: int, rows: int, rave_to_intp: str) -> np.ndarray:
     """
     Estimate fire duration potentially using data from previous cycles.
 
@@ -121,7 +118,6 @@ def estimate_fire_duration(intp_avail_hours: Any, intp_dir: str, fcst_dates: Ind
     #   2) Previous files are present (estimate fire age as the difference between the date of the current cycle and the date whe the fire was last observed within 24 hours).
 
     Args:
-        intp_avail_hours: <tdk: unused>
         intp_dir: Path to interpolated RAVE data.
         fcst_dates: Forecast hours used in the current cycle.
         current_day: The current day hour.
@@ -133,6 +129,7 @@ def estimate_fire_duration(intp_avail_hours: Any, intp_dir: str, fcst_dates: Ind
 
     for date_str in fcst_dates:
         try:
+            assert isinstance(date_str, str)
             date_file = int(date_str[:10])
             print('Date processing for fire duration', date_file)
             file_path = os.path.join(intp_dir, f'{rave_to_intp}{date_str}00_{date_str}59.nc')
@@ -148,20 +145,18 @@ def estimate_fire_duration(intp_avail_hours: Any, intp_dir: str, fcst_dates: Ind
         except Exception as e:
             print(f"Error processing date {date_str}: {e}")
 
-    t_fire_flattened = t_fire.flatten()
-    t_fire_flattened = [int(i) if i != 0 else 0 for i in t_fire_flattened]
+    t_fire_flattened = [int(i) if i != 0 else 0 for i in t_fire.flatten()]
 
     try:
         fcst_t = datetime.strptime(current_day, '%Y%m%d%H')
         hr_ends = [datetime.strptime(str(hr), '%Y%m%d%H') if hr != 0 else 0 for hr in t_fire_flattened]
-        te = [(fcst_t - i).total_seconds() / 3600 if i != 0 else 0 for i in hr_ends]
+        te = np.array([(fcst_t - i).total_seconds() / 3600 if i != 0 else 0 for i in hr_ends])
     except ValueError as e:
         print(f"Error processing forecast time {current_day}: {e}")
         te = np.zeros((rows, cols))
 
     return(te)
 
-@func_typer
 def save_fire_dur(cols: int, rows: int, te: np.ndarray) -> np.ndarray:
     """
     Reshape the fire duration array.

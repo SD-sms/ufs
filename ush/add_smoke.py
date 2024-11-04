@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-from typing import Tuple
 
+from typing import Tuple
 import xarray as xr
 import numpy as np
 import os
 
-def populate_data(data: np.array, target_shape: Tuple) -> np.array:
+def populate_data(data: np.ndarray, target_shape: Tuple) -> np.ndarray:
     """
     Extracted variables need to match the target shape so we first populating it into a zero array.
 
@@ -20,7 +20,7 @@ def populate_data(data: np.array, target_shape: Tuple) -> np.array:
     populated_data[:data.shape[0], :, :] = data
     return populated_data
 
-def main():
+def main() -> None:
     # File paths
     source_file = "fv_tracer.res.tile1.nc"
     target_file = 'gfs_data.tile7.halo0.nc'
