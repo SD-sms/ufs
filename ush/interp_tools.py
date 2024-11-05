@@ -319,8 +319,8 @@ def mask_edges(data: ndarray, mask_width: int=1) -> ndarray:
 
     return(data)
 
-def interpolate_rave(RAVE: str, rave_avail: List[str], rave_avail_hours: List[str], use_dummy_emiss: bool, vars_emis: List[str], regridder: Any,
-                    srcgrid: ESMF.Grid, tgtgrid: ESMF.Grid, rave_to_intp: str, intp_dir: str, src_latt: DataArray, tgt_latt: DataArray, tgt_lont: DataArray, cols: int, rows: int) -> None:
+def interpolate_rave(RAVE: str, rave_avail: List[List[str]], rave_avail_hours: List[str], use_dummy_emiss: bool, vars_emis: List[str], regridder: Any,
+                    srcgrid: ESMF.Grid, tgtgrid: ESMF.Grid, rave_to_intp: str, intp_dir: str, tgt_latt: DataArray, tgt_lont: DataArray, cols: int, rows: int) -> None:
     """
     Process a RAVE file for interpolation.
 
@@ -335,7 +335,6 @@ def interpolate_rave(RAVE: str, rave_avail: List[str], rave_avail_hours: List[st
         tgtgrid: The destination ESMF grid.
         rave_to_intp: The prefix of RAVE files to interpolate.
         intp_dir: The RAVE directory containing interpolated files.
-        src_latt: <tdk: unused>
         tgt_latt: The destination grid latitudes.
         tgt_lont: The destination grid longitudes.
         cols: Number of columns in the destination.

@@ -87,7 +87,7 @@ def generate_emiss_workflow(staticdir: str, ravedir: str, intp_dir: str, predef_
        else:
            i_tools.interpolate_rave(RAVE, rave_avail, rave_avail_hours,
                                     use_dummy_emiss, vars_emis, regridder, srcgrid, tgtgrid, rave_to_intp,
-                                    intp_dir, src_latt, tgt_latt, tgt_lont, cols, rows)
+                                    intp_dir, tgt_latt, tgt_lont, cols, rows)
 
            if ebb_dcycle == 1:
                print('Processing emissions forebb_dcyc 1')
