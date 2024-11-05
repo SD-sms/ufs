@@ -99,7 +99,7 @@ def check_for_intp_rave(intp_dir: str, fcst_dates: Index, rave_to_intp: str) -> 
 
     return(intp_avail_hours, intp_non_avail_hours, inp_files_2use)
 
-def check_for_raw_rave(RAVE: str, intp_non_avail_hours: List[str], intp_avail_hours: List[str]) -> Tuple[List[str], List[str], List[str], bool]:
+def check_for_raw_rave(RAVE: str, intp_non_avail_hours: List[str], intp_avail_hours: List[str]) -> Tuple[List[List[str]], List[str], List[str], bool]:
     """
     Check if raw RAVE in intp_non_avail_hours list is available for interpolation.
 
@@ -124,7 +124,7 @@ def check_for_raw_rave(RAVE: str, intp_non_avail_hours: List[str], intp_avail_ho
             rave_nonavail_hours_test.append(date)
         else:
             print(f'Raw RAVE available for interpolation {matching_files}')
-            rave_avail.extend(matching_files)
+            rave_avail.append(matching_files)
             rave_avail_hours.append(date)
 
     print(f"Raw RAVE available: {rave_avail_hours}, rave_nonavail_hours: {rave_nonavail_hours_test}")
