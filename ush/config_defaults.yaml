@@ -2695,32 +2695,20 @@ fire:
   # OUTPUT_DT_FIRE
   # The fire behavior component’s output timestep
   # 
-  # FIRE_NUM_IGNITIONS
-  # Number of fire ignitions
+  # FIRE_NUM_TASKS
+  # Number of MPI tasks assigned to the FIRE_BEHAVIOR component.
   #
-  # FIRE_IGNITION_ROS1
-  # 
-  #
-  # FIRE_IGNITION_START_LAT1
-  # 
-  #
-  # FIRE_IGNITION_START_LON1
-  # 
-  #
-  # FIRE_IGNITION_END_LAT1
-  # 
-  # 
-  # FIRE_IGNITION_END_LON1
-  # 
-  # 
-  # FIRE_IGNITION_RADIUS1
-  # 
-  # 
-  # FIRE_IGNITION_START_TIME1
-  # 
-  # 
-  # FIRE_IGNITION_END_TIME1
-  #
+
+  UFS_FIRE: False
+  FIRE_INPUT_DIR: ""
+  DT_FIRE: 0.5
+  OUTPUT_DT_FIRE: 300
+  FIRE_NUM_TASKS: 0
+
+
+  # The following options control namelist values in the Community Fire
+  # Behavior Model. See the users guide for more information.
+  # ----------------------------------------------------------------------
   # 
   # FIRE_WIND_HEIGHT
   # Height to interpolate winds to for calculating fire spread rate
@@ -2740,30 +2728,54 @@ fire:
   # FIRE_VISCOSITY
   # Artificial viscosity in level set method. Maximum 1, required for FIRE_UPWINDING=0
   # 
-  # FIRE_UPWINDING = 9
-  # 0=NONE, 1=STANDARD, 2=GODUNOV, 3=ENO, 4=SETHIAN
+  # FIRE_UPWINDING
+  # Upwinding scheme used for calculating the normal spread of the fire front
+  # 0 = Central Difference
+  # 1 = Standard
+  # 2 = Godunov
+  # 3 = ENO1
+  # 4 = Sethian
+  # 5 = 2nd-order Sethian
+  # 6 = WENO3
+  # 7 = WENO5
+  # 8 = Hybrid WENO3/ENO1
+  # 9 = Hybrid WENO5/ENO1
   #
   # FIRE_LSM_ZCOUPLING
-  #
+  # When true, uses FIRE_LSM_ZCOUPLING_REF instead of FIRE_WIND_HEIGHT as a reference height
+  # to calculate the logarithmic surface layer wind profile
   # 
   # FIRE_LSM_ZCOUPLING_REF
+  # Reference height from which the velocity at FIRE_WIND_HEIGHT is calculated using a logarithmic profile
+  #
+  # FIRE_NUM_IGNITIONS
+  # Number of fire ignitions.
+  #
+  # NOTE: If FIRE_NUM_IGNITIONS > 1, the following variables should be lists with one entry for each ignition
+  # FIRE_IGNITION_ROS
   # 
-  # FIRE_NUM_TASKS
-  # Number of MPI tasks assigned to the FIRE_BEHAVIOR component.
+  #
+  # FIRE_IGNITION_START_LAT
+  #
+  #
+  # FIRE_IGNITION_START_LON
+  #
+  #
+  # FIRE_IGNITION_END_LAT
+  #
+  #
+  # FIRE_IGNITION_END_LON
+  #
+  #
+  # FIRE_IGNITION_RADIUS
+  #
+  #
+  # FIRE_IGNITION_START_TIME
+  #
+  #
+  # FIRE_IGNITION_END_TIME
+  #
 
-  UFS_FIRE: False
-  FIRE_INPUT_DIR: ""
-  DT_FIRE: 0.5
-  OUTPUT_DT_FIRE: 300
-  FIRE_NUM_IGNITIONS: 1
-  FIRE_IGNITION_ROS1: 0.05
-  FIRE_IGNITION_START_LAT1: 40.609
-  FIRE_IGNITION_START_LON1: -105.879
-  FIRE_IGNITION_END_LAT1: 40.609
-  FIRE_IGNITION_END_LON1: -105.879
-  FIRE_IGNITION_RADIUS1: 250
-  FIRE_IGNITION_START_TIME1: 6480
-  FIRE_IGNITION_END_TIME1: 7000
   FIRE_WIND_HEIGHT: 5.0
   FIRE_PRINT_MSG: 0
   FIRE_ATM_FEEDBACK: 0.0
@@ -2771,7 +2783,16 @@ fire:
   FIRE_UPWINDING: 9
   FIRE_LSM_ZCOUPLING: False
   FIRE_LSM_ZCOUPLING_REF: 60.0
-  FIRE_NUM_TASKS: 0
+  FIRE_NUM_IGNITIONS: 1
+  FIRE_IGNITION_ROS: 0.05
+  FIRE_IGNITION_START_LAT: 40.609
+  FIRE_IGNITION_START_LON: -105.879
+  FIRE_IGNITION_END_LAT: 40.609
+  FIRE_IGNITION_END_LON: -105.879
+  FIRE_IGNITION_RADIUS: 250
+  FIRE_IGNITION_START_TIME: 6480
+  FIRE_IGNITION_END_TIME: 7000
+
 
 rocoto:
   attrs: ""

@@ -1528,6 +1528,26 @@ def setup(USHdir, user_config_fn="config.yaml", debug: bool = False):
             )
         if fire_conf["FIRE_NUM_TASKS"] < 1:
             raise ValueError("FIRE_NUM_TASKS must be > 0 if UFS_FIRE is True")
+        elif fire_conf["FIRE_NUM_TASKS"] > 1:
+            raise ValueError("FIRE_NUM_TASKS > 1 not yet supported")
+
+        if fire_conf["FIRE_NUM_IGNITIONS"] > 5:
+            raise ValueError(f"Only 5 or fewer fire ignitions supported")
+
+        if fire_conf["FIRE_NUM_IGNITIONS"] > 1:
+            # These settings all need to be lists for multiple fire ignitions
+            each_fire = ["FIRE_IGNITION_ROS", "FIRE_IGNITION_START_LAT", "FIRE_IGNITION_START_LON",
+                         "FIRE_IGNITION_END_LAT", "FIRE_IGNITION_END_LON", "FIRE_IGNITION_RADIUS",
+                         "FIRE_IGNITION_START_TIME", "FIRE_IGNITION_END_TIME"]
+            for setting in each_fire:
+                if not isinstance(setting, list):
+                    logging.critical(f"{fire_conf['FIRE_NUM_IGNITIONS']=}")
+                    logging.critical(f"{fire_conf[setting]=}")
+                    raise ValueError(f"For FIRE_NUM_IGNITIONS > 1, {setting} must be a list of the same length")
+                if len(setting) != fire_conf["FIRE_NUM_IGNITIONS"]:
+                    logging.critical(f"{fire_conf['FIRE_NUM_IGNITIONS']=}")
+                    logging.critical(f"{fire_conf[setting]=}")
+                    raise ValueError(f"For FIRE_NUM_IGNITIONS > 1, {setting} must be a list of the same length")
 
         if fire_conf["FIRE_UPWINDING"] == 0 and fire_conf["FIRE_VISCOSITY"] == 0.0:
             raise ValueError("FIRE_VISCOSITY must be > 0.0 if FIRE_UPWINDING == 0")
@@ -1538,7 +1558,7 @@ def setup(USHdir, user_config_fn="config.yaml", debug: bool = False):
     #
     # -----------------------------------------------------------------------
     #
-    # Generate var_defns.sh file in the EXPTDIR. This file contains all
+    # Generate var_defns.yaml file in the EXPTDIR. This file contains all
     # the user-specified settings from expt_config.
     #
     # -----------------------------------------------------------------------
