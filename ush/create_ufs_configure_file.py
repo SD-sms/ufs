@@ -125,8 +125,8 @@ def create_ufs_configure_file(run_dir,cfg):
     #
     #-----------------------------------------------------------------------
     #
-    # Call uwtools "render" set_template function from workflow_tools to fill in jinja template
-    # from config template and settings variable to create ufs.configure file for this experiment
+    # Call the uwtools "render" function to fill in jinja expressions contained in the UFS Configure file template
+    # with the values from the settings variable to create ufs.configure file for this experiment
     #
     #-----------------------------------------------------------------------
     #

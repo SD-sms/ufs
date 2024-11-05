@@ -6,7 +6,7 @@ Community Fire Behavior Module (UFS FIRE)
 
 The `Community Fire Behavior Model (CFBM) <https://ral.ucar.edu/model/community-fire-behavior-model>`_ is a wildland fire model coupled to the UFS Atmospheric Model. The capability to run this code is now available in the UFS Short-Range Weather App for easy use by the community. The `fire_behavior repository <https://github.com/NCAR/fire_behavior>`_ is a :term:`submodule` of the UFS Weather Model (WM), coupled through the :term:`NUOPC` Layer to provide direct feedback between the simulated atmosphere and the simulated fire. More information about the CFBM can be found in the :fire-ug:`CFBM Users Guide <>`.
 
-The biggest difference between the UFS FIRE capability and other modes of the UFS SRW is that a special build flag is required to build the coupled fire behavior code, as described in the instructions below. Aside from that, additional input files, and some fire-specific config settings, building and running is the same as any other use of SRW.
+The biggest difference between the UFS FIRE capability and other modes of the UFS SRW is that a special build flag is required to build the coupled fire behavior code, as described in the instructions below. Aside from that, the need for additional input files, and some fire-specific config settings, configuring and running an experiment is the same as any other use of SRW.
 
 
 .. note::
@@ -35,7 +35,7 @@ Users must run the ``checkout_externals`` script to collect (or "check out") the
 
    ./manage_externals/checkout_externals
 
-Build the SRW App with Fire Behavior enabled
+Build the SRW App with Fire Behavior Enabled
 --------------------------------------------
 
 To build the SRW with fire behavior code, use the following command:
@@ -51,7 +51,7 @@ If UFS FIRE builds correctly, users should see the standard executables listed i
 Load the |wflow_env| Environment
 --------------------------------------------
 
-Load the python environment for the workflow:
+Load the appropriate modules for the workflow:
 
 .. code-block:: console
 
