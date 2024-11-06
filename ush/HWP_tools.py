@@ -15,8 +15,8 @@ from xarray import DataArray
 def check_restart_files(hourly_hwpdir: str, fcst_dates: Index) -> Tuple[List[str], List[str]]:
     """
     Args:
-        hourly_hwpdir: The input HWP data directory.
-        fcst_dates: A list of forecast dates.
+        hourly_hwpdir: The input HWP data directory
+        fcst_dates: A list of forecast dates
 
     Returns:
         A tuple containing:
@@ -44,15 +44,15 @@ def check_restart_files(hourly_hwpdir: str, fcst_dates: Index) -> Tuple[List[str
 def copy_missing_restart(nwges_dir: str, hwp_non_avail_hours: List[str], hourly_hwpdir: str, len_restart_interval: int) -> Tuple[List[str], List[str]]:
     """
     Args:
-        nwges_dir: Root directory for restart files.
-        hwp_non_avail_hours: List of HWP hours that are not available.
-        hourly_hwpdir: List of available HWP hours.
-        len_restart_interval: The length of the restart interval.
+        nwges_dir: Root directory for restart files
+        hwp_non_avail_hours: List of HWP hours that are not available
+        hourly_hwpdir: List of available HWP hours
+        len_restart_interval: The length of the restart interval
 
     Returns:
         A tuple containing:
-            * ``0``: List of available restart files.
-            * ``1``: List of unavailable restart files.
+            * ``0``: List of available restart files
+            * ``1``: List of unavailable restart files
     """
     restart_avail_hours = []
     restart_nonavail_hours_test = []
@@ -147,12 +147,12 @@ def process_hwp(fcst_dates: Index, hourly_hwpdir: str, cols: int, rows: int, int
     Process HWP files.
 
     Args:
-        fcst_dates: List of forecast dates.
-        hourly_hwpdir: Path to HWP data directory.
-        cols: Number of output columns.
-        rows: Number of output rows.
-        intp_dir: Path to interpolate RAVE file directory.
-        rave_to_intp: File prefix indicating which RAVE files to interpolate.
+        fcst_dates: List of forecast dates
+        hourly_hwpdir: Path to HWP data directory
+        cols: Number of output columns
+        rows: Number of output rows
+        intp_dir: Path to interpolate RAVE file directory
+        rave_to_intp: File prefix indicating which RAVE files to interpolate
 
     Returns:
         A tuple containing:

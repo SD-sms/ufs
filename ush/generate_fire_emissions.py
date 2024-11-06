@@ -22,12 +22,12 @@ def generate_emiss_workflow(staticdir: str, ravedir: str, intp_dir: str, predef_
    Prepares fire-related ICs. This is the main function that handles data movement and interpolation.
 
    Args:
-       staticdir: Path to fix files for the smoke and dust component.
-       ravedir: Path to the directory containing RAVE fire data files (hourly). This is typically the working directory (DATA).
-       intp_dir: Path to interpolated RAVE data files from the previous cycles (DATA_SHARE).
-       predef_grid: If ``RRFS_NA_3km``, use pre-defined grid dimensions.
-       ebb_dcycle_flag: Select the EBB cycle to run. Valid values are ``"1"`` or ``"2"``.
-       restart_interval: Indicates if restart files should be copied. The actual interval values are not used.
+       staticdir: Path to fix files for the smoke and dust component
+       ravedir: Path to the directory containing RAVE fire data files (hourly). This is typically the working directory (DATA)
+       intp_dir: Path to interpolated RAVE data files from the previous cycles (DATA_SHARE)
+       predef_grid: If ``RRFS_NA_3km``, use pre-defined grid dimensions
+       ebb_dcycle_flag: Select the EBB cycle to run. Valid values are ``"1"`` or ``"2"``
+       restart_interval: Indicates if restart files should be copied. The actual interval values are not used
        persistence: If ``TRUE``, use satellite observations from the previous day. Otherwise, use observations from the same day.
    """
 

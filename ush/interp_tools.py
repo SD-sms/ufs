@@ -25,12 +25,12 @@ def date_range(current_day: str, ebb_dcycle: int, persistence: str) -> Index:
     Create date range, this is later used to search for RAVE and HWP from previous 24 hours.
 
     Args:
-        current_day: The current forecast day and hour.
-        ebb_dcycle: Valid options are ``"1"`` and ``"2"``.
-        persistence: If True, use satellite observations from previous day.
+        current_day: The current forecast day and hour
+        ebb_dcycle: Valid options are ``"1"`` and ``"2"``
+        persistence: If ``True``, use satellite observations from previous day
 
     Returns:
-        A string ``Index`` with values matching the forecast day and hour.
+        A string ``Index`` with values matching the forecast day and hour
     """
     print(f'Searching for interpolated RAVE for {current_day}')
     print(f'EBB CYCLE: {ebb_dcycle}')
@@ -62,12 +62,12 @@ def date_range(current_day: str, ebb_dcycle: int, persistence: str) -> Index:
 
 def check_for_intp_rave(intp_dir: str, fcst_dates: Index, rave_to_intp: str) -> Tuple[List[str], List[str], bool] :
     """
-    Check if interpolated RAVE is available for the previous 24 hours.
+    Check if interpolated RAVE is available for the previous 24 hours
 
     Args:
-        intp_dir: Path to directory containing interpolated RAVE files from previous cycles.
-        fcst_dates: Forecast data and hours to search ``intp_dir`` for.
-        rave_to_intp: Filename prefix for the interpolated RAVE files.
+        intp_dir: Path to directory containing interpolated RAVE files from previous cycles
+        fcst_dates: Forecast data and hours to search ``intp_dir`` for
+        rave_to_intp: Filename prefix for the interpolated RAVE files
 
     Returns:
         A tuple containing:
@@ -107,9 +107,9 @@ def check_for_raw_rave(RAVE: str, intp_non_avail_hours: List[str], intp_avail_ho
     Check if raw RAVE in intp_non_avail_hours list is available for interpolation.
 
     Args:
-        RAVE: Directory containing the raw RAVE files.
-        intp_non_avail_hours: RAVE days/hours that are not available.
-        intp_avail_hours: RAVE day/hours that are available.
+        RAVE: Directory containing the raw RAVE files
+        intp_non_avail_hours: RAVE days/hours that are not available
+        intp_avail_hours: RAVE day/hours that are available
 
     Returns:
         A tuple containing:
@@ -145,8 +145,8 @@ def creates_st_fields(grid_in: str, grid_out: str) -> Tuple[ESMF.Field, ESMF.Fie
     Create source and target fields for regridding.
 
     Args:
-        grid_in: Path to input grid.
-        grid_out: Path to output grid.
+        grid_in: Path to input grid
+        grid_out: Path to output grid
 
     Returns:
         A tuple containing:
@@ -180,9 +180,9 @@ def create_emiss_file(fout: Dataset, cols: int, rows: int) -> None:
     Create necessary dimensions for the emission file.
 
     Args:
-        fout: Dataset to update.
-        cols: Number of columns.
-        rows: Number of rows.
+        fout: Dataset to update
+        cols: Number of columns
+        rows: Number of rows
     """
     fout.createDimension('t', None)
     fout.createDimension('lat', cols)
@@ -195,12 +195,12 @@ def Store_latlon_by_Level(fout: Dataset, varname: str, var: DataArray, long_name
     Store a 2D variable (latitude/longitude) in the file.
 
     Args:
-        fout: Dataset to update.
-        varname: Variable name to create.
-        var: Variable data to store.
-        long_name: Variable long name.
-        units: Variable units.
-        fval: Variable fill value.
+        fout: Dataset to update
+        varname: Variable name to create
+        var: Variable data to store
+        long_name: Variable long name
+        units: Variable units
+        fval: Variable fill value
     """
     var_out = fout.createVariable(varname,   'f4', ('lat','lon'))
     var_out.units=units
@@ -215,11 +215,11 @@ def Store_by_Level(fout: Dataset, varname: str, long_name: str, units: str, fval
     Store a 3D variable (time, latitude/longitude) in the file.
 
     Args:
-        fout: Dataset to update.
-        varname: Name of the variable to create.
-        long_name: Long name of the variable to create.
-        units: Units of the variable to create.
-        fval: Fill value of the variable to create.
+        fout: Dataset to update
+        varname: Name of the variable to create
+        long_name: Long name of the variable to create
+        units: Units of the variable to create
+        fval: Fill value of the variable to create
     """
     var_out = fout.createVariable(varname,   'f4', ('t','lat','lon'))
     var_out.units=units
@@ -233,12 +233,12 @@ def create_dummy(intp_dir: str, current_day: str, tgt_latt: DataArray, tgt_lont:
     Create a dummy RAVE interpolated file if first day or regridder fails.
 
     Args:
-        intp_dir: Directory to create the dummy file in.
-        current_day: Current day (and hour?) to create the dummy file for.
-        tgt_latt: Target grid latitudes.
-        tgt_lont: Target grid longitudes.
-        cols: Number of columns.
-        rows: Number of rows.
+        intp_dir: Directory to create the dummy file in
+        current_day: Current day (and hour?) to create the dummy file for
+        tgt_latt: Target grid latitudes
+        tgt_lont: Target grid longitudes
+        cols: Number of columns
+        rows: Number of rows
 
     Returns:
         A string stating the operation was successful.
@@ -269,11 +269,11 @@ def generate_regridder(rave_avail_hours: List[str], srcfield: ESMF.Field, tgtfie
     """
     Generate an ESMF regridder unless we are using dummy emissions.
     Args:
-        rave_avail_hours: The RAVE hours that are available.
-        srcfield: The source ESMF field.
-        tgtfield: The destination ESMF field.
-        weightfile: The ESMF weight field mapping the RAVE grid to the forecast grid.
-        intp_avail_hours: The available interpolated hours.
+        rave_avail_hours: The RAVE hours that are available
+        srcfield: The source ESMF field
+        tgtfield: The destination ESMF field
+        weightfile: The ESMF weight field mapping the RAVE grid to the forecast grid
+        intp_avail_hours: The available interpolated hours
 
     Returns:
         A tuple containing:
@@ -306,16 +306,12 @@ def mask_edges(data: ndarray, mask_width: int=1) -> ndarray:
     """
     Mask edges of domain for interpolation.
 
-    data: numpy array, the data to mask
-    mask_width: int, the width of the mask at each edge
-    return: the masked corners
-
     Args:
-        data: The numpy array to mask.
-        mask_width: The width of the mask at each edge.
+        data: The numpy array to mask
+        mask_width: The width of the mask at each edge
 
     Returns:
-        A numpy array of the masked edges.
+        A numpy array of the masked edges
     """
     original_shape = data.shape
     if mask_width < 1:
@@ -338,20 +334,20 @@ def interpolate_rave(RAVE: str, rave_avail: List[List[str]], rave_avail_hours: L
     Process a RAVE file for interpolation.
 
     Args:
-        RAVE: Path to the raw RAVE files.
-        rave_avail: List of RAVE days/hours that are available.
-        rave_avail_hours: List of RAVE hours that are available.
-        use_dummy_emiss: True if we are using dummy emissions.
-        vars_emis: Names of the emission variables.
+        RAVE: Path to the raw RAVE files
+        rave_avail: List of RAVE days/hours that are available
+        rave_avail_hours: List of RAVE hours that are available
+        use_dummy_emiss: True if we are using dummy emissions
+        vars_emis: Names of the emission variables
         regridder: The ESMF regridder object (i.e. route handle). This is None if we are using dummy emissions.
-        srcgrid: The source ESMF grid.
-        tgtgrid: The destination ESMF grid.
-        rave_to_intp: The prefix of RAVE files to interpolate.
-        intp_dir: The RAVE directory containing interpolated files.
-        tgt_latt: The destination grid latitudes.
-        tgt_lont: The destination grid longitudes.
-        cols: Number of columns in the destination.
-        rows: Number of rows in the destination.
+        srcgrid: The source ESMF grid
+        tgtgrid: The destination ESMF grid
+        rave_to_intp: The prefix of RAVE files to interpolate
+        intp_dir: The RAVE directory containing interpolated files
+        tgt_latt: The destination grid latitudes
+        tgt_lont: The destination grid longitudes
+        cols: Number of columns in the destination
+        rows: Number of rows in the destination
     """
     for index, current_hour in enumerate(rave_avail_hours):
         file_name = rave_avail[index]

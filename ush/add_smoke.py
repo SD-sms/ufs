@@ -10,11 +10,11 @@ def populate_data(data: np.ndarray, target_shape: Tuple) -> np.ndarray:
     Extracted variables need to match the target shape so we first populating it into a zero array.
 
     Args:
-        data: The extracted data to be adjusted.
-        target_shape: The shape of the target data array.
+        data: The extracted data to be adjusted
+        target_shape: The shape of the target data array
 
     Returns:
-        The adjusted data array.
+        The adjusted data array
     """
     populated_data = np.zeros(target_shape)
     populated_data[:data.shape[0], :, :] = data

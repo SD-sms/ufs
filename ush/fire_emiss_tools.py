@@ -18,22 +18,22 @@ def averaging_FRP(ebb_dcycle: int, fcst_dates: Index, cols: int, rows: int, intp
     Compute average FRP from raw RAVE for the previous 24 hours.
 
     Args:
-        ebb_dcycle: Valid values are ``1`` or ``2``.
-        fcst_dates: Forecast hours to use for averaging.
-        cols: Number of columns.
-        rows: Number of rows.
-        intp_dir: Directory containing the interpolated data.
-        rave_to_intp: Prefix of the target RAVE files.
-        veg_map: Path to the vegetation mapping file.
-        tgt_area: Data array containing the target cell areas.
-        beta: Scale factor applied to emissions.
-        fg_to_ug: Unit conversion factor.
-        to_s: Unit conversion factor.
+        ebb_dcycle: Valid values are ``1`` or ``2``
+        fcst_dates: Forecast hours to use for averaging
+        cols: Number of columns
+        rows: Number of rows
+        intp_dir: Directory containing the interpolated data
+        rave_to_intp: Prefix of the target RAVE files
+        veg_map: Path to the vegetation mapping file
+        tgt_area: Data array containing the target cell areas
+        beta: Scale factor applied to emissions
+        fg_to_ug: Unit conversion factor
+        to_s: Unit conversion factor
 
     Returns:
         A typle containing:
-            * ``0``: Average FRP.
-            * ``1``: Total EBB.
+            * ``0``: Average FRP
+            * ``1``: Total EBB
     """
     base_array = np.zeros((cols*rows))
     frp_daily = base_array
@@ -113,17 +113,17 @@ def estimate_fire_duration(intp_dir: str, fcst_dates: Index, current_day: str, c
     """
     Estimate fire duration potentially using data from previous cycles.
 
-    # There are two steps here.
-    #   1) First day simulation no RAVE from previous 24 hours available (fire age is set to zero).
-    #   2) Previous files are present (estimate fire age as the difference between the date of the current cycle and the date whe the fire was last observed within 24 hours).
+    There are two steps here.
+        1) First day simulation no RAVE from previous 24 hours available (fire age is set to zero).
+        2) Previous files are present (estimate fire age as the difference between the date of the current cycle and the date whe the fire was last observed within 24 hours).
 
     Args:
-        intp_dir: Path to interpolated RAVE data.
-        fcst_dates: Forecast hours used in the current cycle.
-        current_day: The current day hour.
-        cols: Number of columns.
-        rows: Number of rows.
-        rave_to_intp: Prefix of the target RAVE files.
+        intp_dir: Path to interpolated RAVE data
+        fcst_dates: Forecast hours used in the current cycle
+        current_day: The current day hour
+        cols: Number of columns
+        rows: Number of rows
+        rave_to_intp: Prefix of the target RAVE files
     """
     t_fire = np.zeros((cols, rows))
 
@@ -162,12 +162,12 @@ def save_fire_dur(cols: int, rows: int, te: np.ndarray) -> np.ndarray:
     Reshape the fire duration array.
 
     Args:
-        cols: Number of columns.
-        rows: Number of rows.
-        te: Target array to reshape.
+        cols: Number of columns
+        rows: Number of rows
+        te: Target array to reshape
 
     Returns:
-        The reshaped fire duration array.
+        The reshaped fire duration array
     """
     fire_dur = np.array(te).reshape(cols, rows)
     return(fire_dur)
@@ -177,14 +177,14 @@ def produce_emiss_24hr_file(frp_reshaped: np.ndarray, intp_dir: str, current_day
     Create a 24-hour emissions file.
 
     Args:
-        frp_reshaped: FRP numpy array.
-        intp_dir: Directory containing interpolated RAVE files.
-        current_day: The current forecast cycle day/hour.
-        tgt_latt: Target grid latitudes.
-        tgt_lont: Target grid longitudes.
-        ebb_smoke_reshaped: EBB smoke array reshaped.
-        cols: Number of columns.
-        rows: Number of rows.
+        frp_reshaped: FRP numpy array
+        intp_dir: Directory containing interpolated RAVE files
+        current_day: The current forecast cycle day/hour
+        tgt_latt: Target grid latitudes
+        tgt_lont: Target grid longitudes
+        ebb_smoke_reshaped: EBB smoke array reshaped
+        cols: Number of columns
+        rows: Number of rows
     """
     file_path = os.path.join(intp_dir, f'SMOKE_RRFS_data_{current_day}00.nc')
     with Dataset(file_path, 'w') as fout:
@@ -202,21 +202,21 @@ def produce_emiss_file(xarr_hwp: DataArray, frp_avg_reshaped: np.ndarray, totprc
     Produce the emissions file.
 
     Args:
-        xarr_hwp: Data array containing HWP.
-        frp_avg_reshaped: Average FRP array.
-        totprcp_ave_arr: Average total precipitation array.
-        xarr_totprcp: Average total precipitation as a data array.
-        intp_dir: Directory containing interpolated RAVE data.
-        current_day: The current forecast day/hour.
-        tgt_latt: The target grid latitude.
-        tgt_lont: The target grid longitudes.
-        ebb_tot_reshaped: Total EBB array.
-        fire_age: Estimated fire age array.
-        cols: Number of columns.
-        rows: Number of rows.
+        xarr_hwp: Data array containing HWP
+        frp_avg_reshaped: Average FRP array
+        totprcp_ave_arr: Average total precipitation array
+        xarr_totprcp: Average total precipitation as a data array
+        intp_dir: Directory containing interpolated RAVE data
+        current_day: The current forecast day/hour
+        tgt_latt: The target grid latitude
+        tgt_lont: The target grid longitudes
+        ebb_tot_reshaped: Total EBB array
+        fire_age: Estimated fire age array
+        cols: Number of columns
+        rows: Number of rows
 
     Returns:
-        A string indicating the file was written as expected.
+        A string indicating the file was written as expected
     """
     # Ensure arrays are not negative or NaN
     frp_avg_reshaped = np.clip(frp_avg_reshaped, 0, None)
