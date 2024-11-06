@@ -70,7 +70,10 @@ def check_for_intp_rave(intp_dir: str, fcst_dates: Index, rave_to_intp: str) -> 
         rave_to_intp: Filename prefix for the interpolated RAVE files.
 
     Returns:
-        A tuple containing the available forecast day/hours, the non-available (missing) forecast day/hours, and a boolean indicating if there are any interpolated RAVE files available.
+        A tuple containing:
+            * ``0``: The available forecast days/hours
+            * ``1``: The unavailable (missing) forecast day/hours
+            * ``2``: A boolean indicating if there are any interpolated RAVE files available
     """
     intp_avail_hours = []
     intp_non_avail_hours = []
@@ -109,7 +112,11 @@ def check_for_raw_rave(RAVE: str, intp_non_avail_hours: List[str], intp_avail_ho
         intp_avail_hours: RAVE day/hours that are available.
 
     Returns:
-        A tuple containing raw RAVE file paths that are available, the days/hours of those available files, the days/hours that are not available, and a boolean indicating if this is the first day of the forecast.
+        A tuple containing:
+            * ``0``: Raw RAVE file paths that are available
+            * ``1``: The days/hours of the available RAVE files
+            * ``2``: The days/hours that are not available
+            * ``3``: A boolean indicating if this is the first day of the forecast
     """
     rave_avail = []
     rave_avail_hours = []
@@ -142,7 +149,15 @@ def creates_st_fields(grid_in: str, grid_out: str) -> Tuple[ESMF.Field, ESMF.Fie
         grid_out: Path to output grid.
 
     Returns:
-        A tuple containing the source ESMF field, destination ESMF field, destination latitudes, destination longitudes, source ESMF grid, destination ESMF grid, source latitude, and destination area.
+        A tuple containing:
+            * ``0``: Source ESMF field
+            * ``1``: Destination ESMF field
+            * ``2``: Destination latitudes
+            * ``3``: Destination longitudes
+            * ``4``: Source ESMF grid
+            * ``5``: Destination ESMF grid
+            * ``6``: Source latitude
+            * ``7``: Destination area
     """
     # Open datasets with context managers
     with xr.open_dataset(grid_in) as ds_in, xr.open_dataset(grid_out) as ds_out:
@@ -175,7 +190,7 @@ def create_emiss_file(fout: Dataset, cols: int, rows: int) -> None:
     setattr(fout, 'PRODUCT_ALGORITHM_VERSION', 'Beta')
     setattr(fout, 'TIME_RANGE', '1 hour')
 
-def Store_latlon_by_Level(fout: Dataset, varname: str, var: DataArray, long_name: str, units: str, dim: str, fval: str, sfactor: str) -> None:
+def Store_latlon_by_Level(fout: Dataset, varname: str, var: DataArray, long_name: str, units: str, fval: str) -> None:
     """
     Store a 2D variable (latitude/longitude) in the file.
 
@@ -185,9 +200,7 @@ def Store_latlon_by_Level(fout: Dataset, varname: str, var: DataArray, long_name
         var: Variable data to store.
         long_name: Variable long name.
         units: Variable units.
-        dim: <tdk: unused>
         fval: Variable fill value.
-        sfactor: <tdk: unused>
     """
     var_out = fout.createVariable(varname,   'f4', ('lat','lon'))
     var_out.units=units
@@ -197,7 +210,7 @@ def Store_latlon_by_Level(fout: Dataset, varname: str, var: DataArray, long_name
     var_out.FillValue=fval
     var_out.coordinates='geolat geolon'
 
-def Store_by_Level(fout: Dataset, varname: str, long_name: str, units: str, dim: str, fval: str, sfactor: str) -> None:
+def Store_by_Level(fout: Dataset, varname: str, long_name: str, units: str, fval: str) -> None:
     """
     Store a 3D variable (time, latitude/longitude) in the file.
 
@@ -206,9 +219,7 @@ def Store_by_Level(fout: Dataset, varname: str, long_name: str, units: str, dim:
         varname: Name of the variable to create.
         long_name: Long name of the variable to create.
         units: Units of the variable to create.
-        dim: <tdk: unused>
         fval: Fill value of the variable to create.
-        sfactor: <tdk: unused>
     """
     var_out = fout.createVariable(varname,   'f4', ('t','lat','lon'))
     var_out.units=units
@@ -237,19 +248,19 @@ def create_dummy(intp_dir: str, current_day: str, tgt_latt: DataArray, tgt_lont:
     with Dataset(file_path, 'w') as fout:
         create_emiss_file(fout, cols, rows)
         # Store latitude and longitude
-        Store_latlon_by_Level(fout, 'geolat', tgt_latt, 'cell center latitude', 'degrees_north', '2D','-9999.f','1.f')
-        Store_latlon_by_Level(fout, 'geolon', tgt_lont, 'cell center longitude', 'degrees_east', '2D','-9999.f','1.f')
+        Store_latlon_by_Level(fout, 'geolat', tgt_latt, 'cell center latitude', 'degrees_north', '-9999.f')
+        Store_latlon_by_Level(fout, 'geolon', tgt_lont, 'cell center longitude', 'degrees_east', '-9999.f')
 
         # Initialize and store each variable
-        Store_by_Level(fout,'frp_davg','Daily mean Fire Radiative Power','MW','3D','0.f','1.f')
+        Store_by_Level(fout,'frp_davg','Daily mean Fire Radiative Power','MW','0.f')
         fout.variables['frp_davg'][0, :, :] = dummy_file 
-        Store_by_Level(fout,'ebb_rate','Total EBB emission','ug m-2 s-1','3D','0.f','1.f')
+        Store_by_Level(fout,'ebb_rate','Total EBB emission','ug m-2 s-1','0.f')
         fout.variables['ebb_rate'][0, :, :] = dummy_file
-        Store_by_Level(fout,'fire_end_hr','Hours since fire was last detected','hrs','3D','0.f','1.f')
+        Store_by_Level(fout,'fire_end_hr','Hours since fire was last detected','hrs','0.f')
         fout.variables['fire_end_hr'][0, :, :] = dummy_file
-        Store_by_Level(fout,'hwp_davg','Daily mean Hourly Wildfire Potential', 'none','3D','0.f','1.f')
+        Store_by_Level(fout,'hwp_davg','Daily mean Hourly Wildfire Potential', 'none','0.f')
         fout.variables['hwp_davg'][0, :, :] = dummy_file
-        Store_by_Level(fout,'totprcp_24hrs','Sum of precipitation', 'm', '3D', '0.f','1.f') 
+        Store_by_Level(fout,'totprcp_24hrs','Sum of precipitation', 'm', '0.f')
         fout.variables['totprcp_24hrs'][0, :, :] = dummy_file
 
     return "Emissions dummy file created successfully"
@@ -265,7 +276,9 @@ def generate_regridder(rave_avail_hours: List[str], srcfield: ESMF.Field, tgtfie
         intp_avail_hours: The available interpolated hours.
 
     Returns:
-        A tuple containing an ESMF regridder or none (if using dummy emissions) and a boolean flag indicating if dummy emissions are being used.
+        A tuple containing:
+            * ``0``: ESMF regridder or none (if using dummy emissions)
+            * ``1``: Boolean flag indicating if dummy emissions are being used
     """
     print('Checking conditions for generating regridder.')
     use_dummy_emiss = len(rave_avail_hours) == 0 and len(intp_avail_hours) == 0
@@ -362,8 +375,8 @@ def interpolate_rave(RAVE: str, rave_avail: List[List[str]], rave_avail_hours: L
                     try:
                         with Dataset(output_file_path, 'w') as fout:
                             create_emiss_file(fout, cols, rows)
-                            Store_latlon_by_Level(fout, 'geolat', tgt_latt, 'cell center latitude', 'degrees_north', '2D', '-9999.f', '1.f')
-                            Store_latlon_by_Level(fout, 'geolon', tgt_lont, 'cell center longitude', 'degrees_east', '2D', '-9999.f', '1.f')
+                            Store_latlon_by_Level(fout, 'geolat', tgt_latt, 'cell center latitude', 'degrees_north', '-9999.f')
+                            Store_latlon_by_Level(fout, 'geolon', tgt_lont, 'cell center longitude', 'degrees_east', '-9999.f')
 
                             for svar in vars_emis:
                                 try:
@@ -376,13 +389,13 @@ def interpolate_rave(RAVE: str, rave_avail: List[List[str]], rave_avail_hours: L
                                     masked_tgt_data = mask_edges(tgtfield.data, mask_width=1)
 
                                     if svar == 'FRP_MEAN':
-                                        Store_by_Level(fout, 'frp_avg_hr', 'Mean Fire Radiative Power', 'MW', '3D', '0.f', '1.f')
+                                        Store_by_Level(fout, 'frp_avg_hr', 'Mean Fire Radiative Power', 'MW', '0.f')
                                         tgt_rate = masked_tgt_data
                                         fout.variables['frp_avg_hr'][0, :, :] = tgt_rate
                                         print('=============after regridding===========' + svar)
                                         print(np.sum(tgt_rate))
                                     elif svar == 'FRE':
-                                        Store_by_Level(fout, 'FRE', 'FRE', 'MJ', '3D', '0.f', '1.f')
+                                        Store_by_Level(fout, 'FRE', 'FRE', 'MJ','0.f')
                                         tgt_rate = masked_tgt_data
                                         fout.variables['FRE'][0, :, :] = tgt_rate
                                 except (ValueError, KeyError) as e:

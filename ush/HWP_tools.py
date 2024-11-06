@@ -19,7 +19,9 @@ def check_restart_files(hourly_hwpdir: str, fcst_dates: Index) -> Tuple[List[str
         fcst_dates: A list of forecast dates.
 
     Returns:
-        A tuple containing a list of available HWP hours and unavailable HWP hours.
+        A tuple containing:
+            * ``0``: A list of available HWP hours
+            * ``1``: A list of unavailable HWP hours
     """
     hwp_avail_hours = []
     hwp_non_avail_hours = []
@@ -42,13 +44,15 @@ def check_restart_files(hourly_hwpdir: str, fcst_dates: Index) -> Tuple[List[str
 def copy_missing_restart(nwges_dir: str, hwp_non_avail_hours: List[str], hourly_hwpdir: str, len_restart_interval: int) -> Tuple[List[str], List[str]]:
     """
     Args:
-        nwges_dir: <tdk: not sure what this directory is>
+        nwges_dir: Root directory for restart files.
         hwp_non_avail_hours: List of HWP hours that are not available.
         hourly_hwpdir: List of available HWP hours.
         len_restart_interval: The length of the restart interval.
 
     Returns:
-        A tuple containing a list of available restart files and unavailable restart files.
+        A tuple containing:
+            * ``0``: List of available restart files.
+            * ``1``: List of unavailable restart files.
     """
     restart_avail_hours = []
     restart_nonavail_hours_test = []
@@ -151,7 +155,11 @@ def process_hwp(fcst_dates: Index, hourly_hwpdir: str, cols: int, rows: int, int
         rave_to_intp: File prefix indicating which RAVE files to interpolate.
 
     Returns:
-        A tuple containing a numpy array of average HWP, an xarray data array version of the average HWP, a numpy array of average total precipitation, and an xarray data array verion of average total precipitation.
+        A tuple containing:
+            * ``0``: A numpy array of average HWP
+            * ``1``: An xarray data array version of the average HWP
+            * ``2``: A numpy array of average total precipitation
+            * ``3``: An xarray data array version of average total precipitation
     """
     hwp_ave = []
     totprcp = np.zeros((cols*rows))

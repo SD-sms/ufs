@@ -167,7 +167,7 @@ def save_fire_dur(cols: int, rows: int, te: np.ndarray) -> np.ndarray:
         te: Target array to reshape.
 
     Returns:
-        The rehshaped fire duration array.
+        The reshaped fire duration array.
     """
     fire_dur = np.array(te).reshape(cols, rows)
     return(fire_dur)
