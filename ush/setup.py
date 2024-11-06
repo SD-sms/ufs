@@ -406,7 +406,14 @@ def setup(USHdir, user_config_fn="config.yaml", debug: bool = False):
 
     # Load build settings as a dictionary; will be used later to make sure the build is consistent with the user settings
     build_config = load_config_file(build_config_fp)
-    logger.debug(f"Build configuration\n{build_config}")
+    logger.debug(f"Read build configuration from {build_config_fp}\n{build_config}")
+
+    # Fail if build machine and config machine are inconsistent
+    if build_config["Machine"].upper() != expt_config["user"]["MACHINE"]:
+        logger.critical("ERROR: Machine in build settings file != machine specified in config file")
+        logger.critical(f"build machine: {build_config['Machine']}")
+        logger.critical(f"config machine: {expt_config['user']['MACHINE']}")
+        raise ValueError("Check config settings for correct value for 'machine'")
 
     # Set up some paths relative to the SRW clone
     expt_config["user"].update(set_srw_paths(USHdir, expt_config))
@@ -1485,8 +1492,8 @@ def setup(USHdir, user_config_fn="config.yaml", debug: bool = False):
 
     if workflow_config["SDF_USES_THOMPSON_MP"]:
     
-        logging.debug(f'Selected CCPP suite ({workflow_config["CCPP_PHYS_SUITE"]}) uses Thompson MP')
-        logging.debug(f'Setting up links for additional fix files')
+        logger.debug(f'Selected CCPP suite ({workflow_config["CCPP_PHYS_SUITE"]}) uses Thompson MP')
+        logger.debug(f'Setting up links for additional fix files')
 
         # If the model ICs or BCs are not from RAP or HRRR, they will not contain aerosol
         # climatology data needed by the Thompson scheme, so we need to provide a separate file
@@ -1502,8 +1509,8 @@ def setup(USHdir, user_config_fn="config.yaml", debug: bool = False):
         for fix_file in fixed_files["THOMPSON_FIX_FILES"]:
             fixed_files["CYCLEDIR_LINKS_TO_FIXam_FILES_MAPPING"].append(f"{fix_file} | {fix_file}")
 
-        logging.debug(f'New fix file list:\n{fixed_files["FIXgsm_FILES_TO_COPY_TO_FIXam"]=}')
-        logging.debug(f'New fix file mapping:\n{fixed_files["CYCLEDIR_LINKS_TO_FIXam_FILES_MAPPING"]=}')
+        logger.debug(f'New fix file list:\n{fixed_files["FIXgsm_FILES_TO_COPY_TO_FIXam"]=}')
+        logger.debug(f'New fix file mapping:\n{fixed_files["CYCLEDIR_LINKS_TO_FIXam_FILES_MAPPING"]=}')
 
 
     # -----------------------------------------------------------------------
@@ -1540,20 +1547,20 @@ def setup(USHdir, user_config_fn="config.yaml", debug: bool = False):
                          "FIRE_IGNITION_END_LAT", "FIRE_IGNITION_END_LON", "FIRE_IGNITION_RADIUS",
                          "FIRE_IGNITION_START_TIME", "FIRE_IGNITION_END_TIME"]
             for setting in each_fire:
-                if not isinstance(setting, list):
-                    logging.critical(f"{fire_conf['FIRE_NUM_IGNITIONS']=}")
-                    logging.critical(f"{fire_conf[setting]=}")
+                if not isinstance(fire_conf[setting], list):
+                    logger.critical(f"{fire_conf['FIRE_NUM_IGNITIONS']=}")
+                    logger.critical(f"{fire_conf[setting]=}")
                     raise ValueError(f"For FIRE_NUM_IGNITIONS > 1, {setting} must be a list of the same length")
-                if len(setting) != fire_conf["FIRE_NUM_IGNITIONS"]:
-                    logging.critical(f"{fire_conf['FIRE_NUM_IGNITIONS']=}")
-                    logging.critical(f"{fire_conf[setting]=}")
+                if len(fire_conf[setting]) != fire_conf["FIRE_NUM_IGNITIONS"]:
+                    logger.critical(f"{fire_conf['FIRE_NUM_IGNITIONS']=}")
+                    logger.critical(f"{fire_conf[setting]=}")
                     raise ValueError(f"For FIRE_NUM_IGNITIONS > 1, {setting} must be a list of the same length")
 
         if fire_conf["FIRE_UPWINDING"] == 0 and fire_conf["FIRE_VISCOSITY"] == 0.0:
             raise ValueError("FIRE_VISCOSITY must be > 0.0 if FIRE_UPWINDING == 0")
     else:
         if fire_conf["FIRE_NUM_TASKS"] < 1:
-            logging.warning("UFS_FIRE is not enabled; setting FIRE_NUM_TASKS = 0")
+            logger.warning("UFS_FIRE is not enabled; setting FIRE_NUM_TASKS = 0")
 
     #
     # -----------------------------------------------------------------------

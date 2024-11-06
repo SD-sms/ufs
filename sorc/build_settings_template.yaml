@@ -5,6 +5,7 @@
 #---------
 SRW_Version:     @SRWA_VERSION@
 SRW_hash:        @GIT_HASH@
+Machine:         @machine@
 Configured_On:   @CONFIG_DATE@
 Host_System:     @host_cpu@-@host_vendor@-@host_os@
 Build_Directory: @abs_top_builddir@

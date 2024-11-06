@@ -101,7 +101,7 @@ SET(host_os "${osrel}")
 SET(abs_top_builddir "${CMAKE_CURRENT_BINARY_DIR}")
 SET(abs_top_srcdir "${CMAKE_CURRENT_SOURCE_DIR}")
 SET(application "${APP}")
-
+SET(machine "${BUILD_MACHINE}")
 
 SET(CC_VERSION "${CMAKE_C_COMPILER}")
 
