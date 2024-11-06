@@ -172,12 +172,11 @@ def save_fire_dur(cols: int, rows: int, te: np.ndarray) -> np.ndarray:
     fire_dur = np.array(te).reshape(cols, rows)
     return(fire_dur)
 
-def produce_emiss_24hr_file(ebb_dcycle: Any, frp_reshaped: np.ndarray, intp_dir: str, current_day: str, tgt_latt: DataArray, tgt_lont: DataArray, ebb_smoke_reshaped: np.ndarray, cols: int, rows: int) -> None:
+def produce_emiss_24hr_file(frp_reshaped: np.ndarray, intp_dir: str, current_day: str, tgt_latt: DataArray, tgt_lont: DataArray, ebb_smoke_reshaped: np.ndarray, cols: int, rows: int) -> None:
     """
     Create a 24-hour emissions file.
 
     Args:
-        ebb_dcycle: <tdk: unused>
         frp_reshaped: FRP numpy array.
         intp_dir: Directory containing interpolated RAVE files.
         current_day: The current forecast cycle day/hour.

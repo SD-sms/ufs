@@ -92,7 +92,7 @@ def generate_emiss_workflow(staticdir: str, ravedir: str, intp_dir: str, predef_
            if ebb_dcycle == 1:
                print('Processing emissions forebb_dcyc 1')
                frp_avg_reshaped, ebb_total_reshaped = femmi_tools.averaging_FRP(ebb_dcycle, fcst_dates, cols, rows, intp_dir, rave_to_intp, veg_map, tgt_area, beta, fg_to_ug, to_s)
-               femmi_tools.produce_emiss_24hr_file(ebb_dcycle, frp_avg_reshaped, nwges_dir, current_day, tgt_latt, tgt_lont, ebb_total_reshaped, cols, rows)
+               femmi_tools.produce_emiss_24hr_file(frp_avg_reshaped, nwges_dir, current_day, tgt_latt, tgt_lont, ebb_total_reshaped, cols, rows)
            elif ebb_dcycle == 2:              
                print('Restart dates to process',fcst_dates)
                hwp_avail_hours, hwp_non_avail_hours = HWP_tools.check_restart_files(hourly_hwpdir, fcst_dates)

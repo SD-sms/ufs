@@ -26,7 +26,7 @@ def date_range(current_day: str, ebb_dcycle: int, persistence: str) -> Index:
 
     Args:
         current_day: The current forecast day and hour.
-        ebb_dcycle: <tdk: Need to know what this option does>
+        ebb_dcycle: Valid options are ``"1"`` and ``"2"``.
         persistence: If True, use satellite observations from previous day.
 
     Returns:
