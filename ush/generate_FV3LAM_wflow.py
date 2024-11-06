@@ -691,6 +691,7 @@ def generate_FV3LAM_wflow(
     #-----------------------------------------------------------------------
     #
     if expt_config['fire'].get('UFS_FIRE'):
+        logging.debug("Setting fire namelist values")
         fire_nml_dict = {}
         fire_nml_dict['atm'] = {}
         fire_nml_dict['time'] = {}
@@ -702,7 +703,8 @@ def generate_FV3LAM_wflow(
 
         # These settings must be handled specially below
         each_ignit = ["FIRE_IGNITION_ROS", "FIRE_IGNITION_START_LAT", "FIRE_IGNITION_START_LON",
-                      "FIRE_IGNITION_RADIUS", "FIRE_IGNITION_START_TIME", "FIRE_IGNITION_END_TIME"]
+                      "FIRE_IGNITION_RADIUS", "FIRE_IGNITION_START_TIME", "FIRE_IGNITION_END_TIME",
+                      "FIRE_IGNITION_END_LAT", "FIRE_IGNITION_END_LON"]
 
         # These settings do not get added to namelist, or are handled elsewhere
         pass_settings = ["UFS_FIRE", "FIRE_INPUT_DIR", "FIRE_NUM_TASKS"]
@@ -722,9 +724,11 @@ def generate_FV3LAM_wflow(
 
         # The variables specific to each ignition need special handling: SRW uses a list, but the
         # fire model has these settings as separate namelist entries
-        for i in range(expt_config['fire']['FIRE_NUM_IGNITIONS'] - 1):
+        for i in range(expt_config['fire']['FIRE_NUM_IGNITIONS']):
             for setting in each_ignit:
-                fire_nml_dict['fire'][f"{setting.lower()}{i+1}"] = expt_config['fire'][setting][i]
+                nmle = f"{setting.lower()}{i+1}"
+                fire_nml_dict['fire'][nmle] = expt_config['fire'][setting][i]
+                print(f"{fire_nml_dict['fire'][nmle]=}")
 
         realize(
             input_config=expt_config['workflow']['FIRE_NML_BASE_FP'],
