@@ -726,6 +726,10 @@ def generate_FV3LAM_wflow(
         # fire model has these settings as separate namelist entries
         for i in range(expt_config['fire']['FIRE_NUM_IGNITIONS']):
             for setting in each_ignit:
+                # If not a list, convert to a 1-element list
+                if not isinstance(expt_config['fire'][setting], list):
+                    expt_config['fire'][setting] = [ expt_config['fire'][setting] ]
+
                 nmle = f"{setting.lower()}{i+1}"
                 fire_nml_dict['fire'][nmle] = expt_config['fire'][setting][i]
                 print(f"{fire_nml_dict['fire'][nmle]=}")
