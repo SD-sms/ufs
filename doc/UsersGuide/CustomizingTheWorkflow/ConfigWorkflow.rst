@@ -1659,12 +1659,15 @@ VX Parameters for Observations
 -------------------------------------
 
 .. note::
+
    The observation types that the SRW App can currently retrieve (if necessary)
    and use in verification are:
+
       * CCPA (Climatology-Calibrated Precipitation Analysis)
       * NOHRSC (National Operational Hydrologic Remote Sensing Center)
       * MRMS (Multi-Radar Multi-Sensor)
       * NDAS (NAM Data Assimilation System)
+
    The script ``ush/get_obs.py`` contains further details on the files and
    directory structure of each obs type.
 
