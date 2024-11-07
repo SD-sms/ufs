@@ -1027,8 +1027,14 @@ FVCOM Parameters
 ``FVCOM_FILE``: (Default: "fvcom.nc")
    Name of the file located in ``FVCOM_DIR`` that has :term:`FVCOM` data interpolated to the FV3-LAM grid. This file will be copied later to a new location, and the name will be changed to ``fvcom.nc`` if a name other than ``fvcom.nc`` is selected.
 
-Vertical Coordinate File Parameter
+Vertical Coordinate Parameters
 ------------------------------------
+
+``LEVP``: (Default: 65)
+   Number of vertical levels in the atmosphere. In order to change this
+   number, the user will additionally need to create a vertical coordinate
+   distribution file; this process is described in :numref:`Section %s <VerticalLevels>`
+   This value should be the same in both ``make_ics`` and ``make_lbcs``.
 
 ``VCOORD_FILE``: (Default: ``"{{ workflow.FIXam }}/global_hyblev.l65.txt"``)
    Full path to the file used to set the vertical coordinates in FV3. This file should be the same in both ``make_ics`` and ``make_lbcs``.
@@ -1047,8 +1053,14 @@ Non-default parameters for the ``make_lbcs`` task are set in the ``task_make_lbc
 ``OMP_STACKSIZE_MAKE_LBCS``: (Default: "1024m")
    Controls the size of the stack for threads created by the OpenMP implementation.
 
-Vertical Coordinate File Parameter
+Vertical Coordinate Parameters
 ------------------------------------
+
+``LEVP``: (Default: 65)
+   Number of vertical levels in the atmosphere. In order to change this
+   number, the user will additionally need to create a vertical coordinate
+   distribution file; this process is described in :numref:`Section %s <VerticalLevels>` 
+   This value should be the same in both ``make_ics`` and ``make_lbcs``.
 
 ``VCOORD_FILE``: (Default: ``"{{ workflow.FIXam }}/global_hyblev.l65.txt"``)
    Full path to the file used to set the vertical coordinates in FV3. This file should be the same in both ``make_ics`` and ``make_lbcs``.
