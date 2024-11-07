@@ -118,12 +118,12 @@ Specifying a fire ignition
 
 The CFBM simulates fires by specifying an "ignition" that will then propogate based on the atmospheric conditions and the specified settings. An ignition can either be a "point ignition" (i.e. a disk of fire some specified radius around a single location), or a straight line linear ignition specified by a start and end location and a specified "radius" (width). The ignition can start at the beginning of your simulation, or at some time later as specified. The CFBM can support up to 5 different fire ignitions at different places and times in a given simulation.
 
-The CFBM settings are controlled by the :term:`namelist` file ``namelist.fire``. The available settings in this file are described in the :fire-ug:`CFBM Users Guide <Configuration.html#namelist-configuration>`, and an example file can be found under ``parm/namelist.fire``. However, there is no need to manually provide or edit this file, as the SRW workflow will create the fire namelist using the user settings in ``config.yaml``.
+The CFBM settings are controlled by the :term:`namelist` file ``namelist.fire``. The available settings in this file are described in the :fire-ug:`CFBM Users Guide <Configuration.html#namelist-configuration>`, and an example file can be found under ``parm/namelist.fire``. However, there is no need to manually provide or edit this file, as the SRW workflow will create the fire namelist using the user settings in ``config.yaml``. The fire-specific options in SRW are documented in :numref:`Section %s <fire-parameters>`.
 
 Example fire configuration
 ---------------------------
 
-Here is one example of settings that can be specified for a UFS FIRE simulation.
+Here is one example of settings that can be specified for a UFS FIRE simulation:
 
 .. code-block:: console
 
@@ -133,22 +133,24 @@ Here is one example of settings that can be specified for a UFS FIRE simulation.
      DT_FIRE: 0.5
      OUTPUT_DT_FIRE: 1800
      FIRE_NUM_IGNITIONS: 1
-     FIRE_IGNITION_ROS1: 0.05
-     FIRE_IGNITION_START_LAT1: 40.609
-     FIRE_IGNITION_START_LON1: -105.879
-     FIRE_IGNITION_END_LAT1: 40.609
-     FIRE_IGNITION_END_LON1: -105.879
-     FIRE_IGNITION_RADIUS1: 250
-     FIRE_IGNITION_START_TIME1: 6480
-     FIRE_IGNITION_END_TIME1: 7000
+     FIRE_IGNITION_ROS: 0.05
+     FIRE_IGNITION_START_LAT: 40.609
+     FIRE_IGNITION_START_LON: -105.879
+     FIRE_IGNITION_END_LAT: 40.609
+     FIRE_IGNITION_END_LON: -105.879
+     FIRE_IGNITION_RADIUS: 250
+     FIRE_IGNITION_START_TIME: 6480
+     FIRE_IGNITION_END_TIME: 7000
 
-In this case, a single fire (``FIRE_NUM_IGNITIONS: 1``) of radius 250 meters (``FIRE_IGNITION_RADIUS1: 250``) is ignited at latitude 40.609˚N (``FIRE_IGNITION_START_LAT1: 40.609``), 105.879˚W (``FIRE_IGNITION_START_LON1: -105.879``) 6480 seconds after the start of the simulation (``FIRE_IGNITION_START_TIME1: 6480``) with a rate of spread specified as 0.05 m/s (``FIRE_IGNITION_ROS1: 0.05``). This "ignition" ends 7000 seconds after the start of the simulation (``FIRE_IGNITION_END_TIME1: 7000``), after which the fire behavior is completely governed by the physics of the fire behavior model (integrated every 0.5 seconds as specified by ``OUTPUT_DT_FIRE``), the input fuel conditions, and the simulated atmospheric conditions.
+In this case, a single fire (``FIRE_NUM_IGNITIONS: 1``) of radius 250 meters (``FIRE_IGNITION_RADIUS: 250``) is ignited at latitude 40.609˚N (``FIRE_IGNITION_START_LAT: 40.609``), 105.879˚W (``FIRE_IGNITION_START_LON: -105.879``) 6480 seconds after the start of the simulation (``FIRE_IGNITION_START_TIME: 6480``) with a rate of spread specified as 0.05 m/s (``FIRE_IGNITION_ROS: 0.05``). This "ignition" ends 7000 seconds after the start of the simulation (``FIRE_IGNITION_END_TIME: 7000``), after which the fire behavior is completely governed by the physics of the fire behavior model (integrated every 0.5 seconds as specified by ``OUTPUT_DT_FIRE``), the input fuel conditions, and the simulated atmospheric conditions.
 
 The CFBM creates output files in :term:`netCDF` format, with the naming scheme ``fire_output_YYYY-MM-DD_hh:mm:ss.nc``. In this case the output files are written every 30 minutes (``OUTPUT_DT_FIRE: 1800``).
 
 .. note::
 
   Any of the settings under :fire-ug:`the ``&fire`` section of the namelist <Configuration.html#fire>` can be specified in the SRW App ``config.yaml`` file under the ``fire:`` section, not just the settings described above. However, any additional settings from ``namelist.fire`` will need to be added to ``config_defaults.yaml`` first; otherwise the check for valid SRW options will fail.
+
+To specify multiple fire ignitions (``FIRE_NUM_IGNITIONS > 1``), the above settings will need to be specified as a list, with one entry per ignition. See :numref:`Section %s <fire-parameters>` for more details. 
 
 
 Generate the Workflow
