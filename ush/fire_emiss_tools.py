@@ -189,12 +189,12 @@ def produce_emiss_24hr_file(frp_reshaped: np.ndarray, intp_dir: str, current_day
     file_path = os.path.join(intp_dir, f'SMOKE_RRFS_data_{current_day}00.nc')
     with Dataset(file_path, 'w') as fout:
         i_tools.create_emiss_file(fout, cols, rows)
-        i_tools.Store_latlon_by_Level(fout, 'geolat', tgt_latt, 'cell center latitude', 'degrees_north', '2D', '-9999.f', '1.f')
-        i_tools.Store_latlon_by_Level(fout, 'geolon', tgt_lont, 'cell center longitude', 'degrees_east', '2D', '-9999.f', '1.f')
+        i_tools.Store_latlon_by_Level(fout, 'geolat', tgt_latt, 'cell center latitude', 'degrees_north', '-9999.f')
+        i_tools.Store_latlon_by_Level(fout, 'geolon', tgt_lont, 'cell center longitude', 'degrees_east', '-9999.f')
 
-        i_tools.Store_by_Level(fout,'frp_avg_hr','mean Fire Radiative Power','MW','3D','0.f','1.f')
+        i_tools.Store_by_Level(fout,'frp_avg_hr','mean Fire Radiative Power','MW','0.f')
         fout.variables['frp_avg_hr'][:, :, :] = frp_reshaped
-        i_tools.Store_by_Level(fout,'ebb_smoke_hr','EBB emissions','ug m-2 s-1','3D','0.f','1.f')
+        i_tools.Store_by_Level(fout,'ebb_smoke_hr','EBB emissions','ug m-2 s-1','0.f')
         fout.variables['ebb_smoke_hr'][:, :, :] = ebb_smoke_reshaped
 
 def produce_emiss_file(xarr_hwp: DataArray, frp_avg_reshaped: np.ndarray, totprcp_ave_arr: Any, xarr_totprcp: DataArray, intp_dir: str, current_day: str, tgt_latt: DataArray, tgt_lont: DataArray, ebb_tot_reshaped: np.ndarray, fire_age: np.ndarray, cols: int, rows: int) -> str:
@@ -248,19 +248,19 @@ def produce_emiss_file(xarr_hwp: DataArray, frp_avg_reshaped: np.ndarray, totprc
     try:
         with Dataset(file_path, 'w') as fout:
             i_tools.create_emiss_file(fout, cols, rows)
-            i_tools.Store_latlon_by_Level(fout, 'geolat', tgt_latt, 'cell center latitude', 'degrees_north', '2D', '-9999.f', '1.f')
-            i_tools.Store_latlon_by_Level(fout, 'geolon', tgt_lont, 'cell center longitude', 'degrees_east', '2D', '-9999.f', '1.f')
+            i_tools.Store_latlon_by_Level(fout, 'geolat', tgt_latt, 'cell center latitude', 'degrees_north', '-9999.f')
+            i_tools.Store_latlon_by_Level(fout, 'geolon', tgt_lont, 'cell center longitude', 'degrees_east', '-9999.f')
 
             print('Storing different variables')
-            i_tools.Store_by_Level(fout, 'frp_davg', 'Daily mean Fire Radiative Power', 'MW', '3D', '0.f', '1.f')
+            i_tools.Store_by_Level(fout, 'frp_davg', 'Daily mean Fire Radiative Power', 'MW', '0.f')
             fout.variables['frp_davg'][0, :, :] = frp_avg_reshaped
-            i_tools.Store_by_Level(fout, 'ebb_rate', 'Total EBB emission', 'ug m-2 s-1', '3D', '0.f', '1.f')
+            i_tools.Store_by_Level(fout, 'ebb_rate', 'Total EBB emission', 'ug m-2 s-1', '0.f')
             fout.variables['ebb_rate'][0, :, :] = ebb_tot_reshaped
-            i_tools.Store_by_Level(fout, 'fire_end_hr', 'Hours since fire was last detected', 'hrs', '3D', '0.f', '1.f')
+            i_tools.Store_by_Level(fout, 'fire_end_hr', 'Hours since fire was last detected', 'hrs', '0.f')
             fout.variables['fire_end_hr'][0, :, :] = fire_age
-            i_tools.Store_by_Level(fout, 'hwp_davg', 'Daily mean Hourly Wildfire Potential', 'none', '3D', '0.f', '1.f')
+            i_tools.Store_by_Level(fout, 'hwp_davg', 'Daily mean Hourly Wildfire Potential', 'none', '0.f')
             fout.variables['hwp_davg'][0, :, :] = filtered_hwp
-            i_tools.Store_by_Level(fout, 'totprcp_24hrs', 'Sum of precipitation', 'm', '3D', '0.f', '1.f')
+            i_tools.Store_by_Level(fout, 'totprcp_24hrs', 'Sum of precipitation', 'm', '0.f')
             fout.variables['totprcp_24hrs'][0, :, :] = filtered_prcp
 
         print("Emissions file created successfully")
