@@ -1,6 +1,6 @@
 metadata:
   description: >-
-    Tests the UFS_FIRE capability for a single fire with one-way (ATM-->FIRE) coupling
+    Tests the UFS_FIRE capability for multiple fire ignitions with one-way (ATM-->FIRE) coupling
 user:
   RUN_ENVIR: community
 workflow:

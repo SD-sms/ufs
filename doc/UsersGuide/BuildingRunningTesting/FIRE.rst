@@ -231,7 +231,7 @@ These files contain output directly from the fire model (hence why they are at a
 .. _FIRE-WE2E:
 
 
-WE2E Test for FIRE
+WE2E Tests for FIRE
 =======================
 
 Build the app for FIRE:
@@ -241,10 +241,17 @@ Build the app for FIRE:
   ./devbuild.sh -p=hera -a=ATMF
 
 
-Run the WE2E test:
+Run the WE2E tests:
 
 .. code-block:: console
 
    $ cd /path/to/ufs-srweather-app/tests/WE2E
-   $ ./run_WE2E_tests.py -t my_tests.txt -m hera -a gsd-fv3 -q -t UFS_FIRE
+   $ ./run_WE2E_tests.py -t my_tests.txt -m hera -a gsd-fv3 -q -t fire
+
+You can also run each test individually if needed:
+
+   $ ./run_WE2E_tests.py -t my_tests.txt -m hera -a gsd-fv3 -q -t UFS_FIRE_one-way-coupled
+   $ ./run_WE2E_tests.py -t my_tests.txt -m hera -a gsd-fv3 -q -t UFS_FIRE_multifire_one-way-coupled 
+
+
 
