@@ -1,26 +1,26 @@
 #!/usr/bin/env python3
 
+from typing import Tuple
 import xarray as xr
 import numpy as np
 import os
 
-def populate_data(data, target_shape):
+def populate_data(data: np.ndarray, target_shape: Tuple) -> np.ndarray:
     """
     Extracted variables need to match the target shape so we first populating it into a zero array.
 
-    Parameters:
-    data (np.ndarray): The extracted data to be adjusted.
-    target_shape (tuple): The shape of the target data array.
+    Args:
+        data: The extracted data to be adjusted
+        target_shape: The shape of the target data array
 
     Returns:
-    np.ndarray: The adjusted data array.
+        The adjusted data array
     """
-    target_lev, target_lat, target_lon = target_shape
     populated_data = np.zeros(target_shape)
     populated_data[:data.shape[0], :, :] = data
     return populated_data
 
-def main():
+def main() -> None:
     # File paths
     source_file = "fv_tracer.res.tile1.nc"
     target_file = 'gfs_data.tile7.halo0.nc'
