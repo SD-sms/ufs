@@ -1,18 +1,33 @@
 #!/usr/bin/env python3
+from typing import List, Tuple
 
 import numpy as np
 import os
 import datetime as dt
-import shutil
 from datetime import timedelta
 import xarray as xr
 import fnmatch
 
-def check_restart_files(hourly_hwpdir, fcst_dates):
+from pandas import Index
+from xarray import DataArray
+
+
+def check_restart_files(hourly_hwpdir: str, fcst_dates: Index) -> Tuple[List[str], List[str]]:
+    """
+    Args:
+        hourly_hwpdir: The input HWP data directory
+        fcst_dates: A list of forecast dates
+
+    Returns:
+        A tuple containing:
+            * ``0``: A list of available HWP hours
+            * ``1``: A list of unavailable HWP hours
+    """
     hwp_avail_hours = []
     hwp_non_avail_hours = []
 
     for cycle in fcst_dates:
+        assert isinstance(cycle, str)
         restart_file = f"{cycle[:8]}.{cycle[8:10]}0000.phy_data.nc"
         file_path = os.path.join(hourly_hwpdir, restart_file)
 
@@ -26,7 +41,19 @@ def check_restart_files(hourly_hwpdir, fcst_dates):
     print(f'Available restart at: {hwp_avail_hours}, Non-available restart files at: {hwp_non_avail_hours}')
     return(hwp_avail_hours, hwp_non_avail_hours)
 
-def copy_missing_restart(nwges_dir, hwp_non_avail_hours, hourly_hwpdir, len_restart_interval):
+def copy_missing_restart(nwges_dir: str, hwp_non_avail_hours: List[str], hourly_hwpdir: str, len_restart_interval: int) -> Tuple[List[str], List[str]]:
+    """
+    Args:
+        nwges_dir: Root directory for restart files
+        hwp_non_avail_hours: List of HWP hours that are not available
+        hourly_hwpdir: List of available HWP hours
+        len_restart_interval: The length of the restart interval
+
+    Returns:
+        A tuple containing:
+            * ``0``: List of available restart files
+            * ``1``: List of unavailable restart files
+    """
     restart_avail_hours = []
     restart_nonavail_hours_test = []
 
@@ -115,12 +142,31 @@ def copy_missing_restart(nwges_dir, hwp_non_avail_hours, hourly_hwpdir, len_rest
 
     return(restart_avail_hours, restart_nonavail_hours_test)
 
-def process_hwp(fcst_dates, hourly_hwpdir, cols, rows, intp_dir, rave_to_intp):
-    hwp_ave = [] 
+def process_hwp(fcst_dates: Index, hourly_hwpdir: str, cols: int, rows: int, intp_dir: str, rave_to_intp: str) -> Tuple[np.ndarray, DataArray, np.ndarray, DataArray]:
+    """
+    Process HWP files.
+
+    Args:
+        fcst_dates: List of forecast dates
+        hourly_hwpdir: Path to HWP data directory
+        cols: Number of output columns
+        rows: Number of output rows
+        intp_dir: Path to interpolate RAVE file directory
+        rave_to_intp: File prefix indicating which RAVE files to interpolate
+
+    Returns:
+        A tuple containing:
+            * ``0``: A numpy array of average HWP
+            * ``1``: An xarray data array version of the average HWP
+            * ``2``: A numpy array of average total precipitation
+            * ``3``: An xarray data array version of average total precipitation
+    """
+    hwp_ave = []
     totprcp = np.zeros((cols*rows))
     var1, var2 = 'rrfs_hwp_ave', 'totprcp_ave' 
 
     for cycle in fcst_dates:
+        assert isinstance(cycle, str)
         try:
             print(f'Processing restart file for date: {cycle}')
             file_path = os.path.join(hourly_hwpdir, f"{cycle[:8]}.{cycle[8:10]}0000.phy_data.nc")
@@ -156,4 +202,3 @@ def process_hwp(fcst_dates, hourly_hwpdir, cols, rows, intp_dir, rave_to_intp):
     xarr_totprcp = xr.DataArray(totprcp_ave_arr)
     
     return(hwp_ave_arr, xarr_hwp, totprcp_ave_arr, xarr_totprcp)
-
