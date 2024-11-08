@@ -732,7 +732,6 @@ def generate_FV3LAM_wflow(
 
                 nmle = f"{setting.lower()}{i+1}"
                 fire_nml_dict['fire'][nmle] = expt_config['fire'][setting][i]
-                print(f"{fire_nml_dict['fire'][nmle]=}")
 
         realize(
             input_config=expt_config['workflow']['FIRE_NML_BASE_FP'],

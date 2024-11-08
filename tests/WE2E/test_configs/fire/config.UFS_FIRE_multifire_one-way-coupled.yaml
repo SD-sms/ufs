@@ -8,7 +8,7 @@ workflow:
   PREDEF_GRID_NAME: SUBCONUS_CO_3km
   DATE_FIRST_CYCL: '2020081318'
   DATE_LAST_CYCL: '2020081318'
-  FCST_LEN_HRS: 6 # 27 hours of LBCs staged on Derecho
+  FCST_LEN_HRS: 3 # 27 hours of LBCs staged on Derecho
   PREEXISTING_DIR_METHOD: rename
 task_get_extrn_ics:
   USE_USER_STAGED_EXTRN_FILES: true
@@ -33,7 +33,7 @@ task_plot_allvars:
 fire:
   UFS_FIRE: True
   FIRE_NUM_TASKS: 1
-  FIRE_INPUT_DIR: /glade/derecho/scratch/kavulich/FIRE/2024/test_data
+  FIRE_INPUT_DIR: '{{ platform.WE2E_TEST_DATA }}/UFS_FIRE/{{ workflow.DATE_FIRST_CYCL }}'
   DT_FIRE: 0.5
   OUTPUT_DT_FIRE: 300
   FIRE_NUM_IGNITIONS: 2
