@@ -10,7 +10,7 @@ from netCDF4 import Dataset
 from pandas import Index
 from xarray import DataArray
 
-import interp_tools as i_tools
+import smoke_dust_interp_tools as i_tools
 
 
 def averaging_FRP(

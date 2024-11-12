@@ -10,9 +10,9 @@
 
 import sys
 import os
-import fire_emiss_tools as femmi_tools
-import hwp_tools
-import interp_tools as i_tools
+import smoke_dust_fire_emiss_tools as femmi_tools
+import smoke_dust_hwp_tools as hwp_tools
+import smoke_dust_interp_tools as i_tools
 
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
