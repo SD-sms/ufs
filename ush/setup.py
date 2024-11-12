@@ -399,12 +399,12 @@ def setup(USHdir, user_config_fn="config.yaml", debug: bool = False):
 
     # Create a dictionary of config options from defaults, machine, and
     # user config files.
-    build_config_fp = os.path.join(USHdir, os.pardir, "exec", "build_settings.yaml")
     default_config_fp = os.path.join(USHdir, "config_defaults.yaml")
     user_config_fp = os.path.join(USHdir, user_config_fn)
     expt_config = load_config_for_setup(USHdir, default_config_fp, user_config_fp)
 
     # Load build settings as a dictionary; will be used later to make sure the build is consistent with the user settings
+    build_config_fp = os.path.join(expt_config["user"].get("EXECdir"), "build_settings.yaml")
     build_config = load_config_file(build_config_fp)
     logger.debug(f"Read build configuration from {build_config_fp}\n{build_config}")
 
