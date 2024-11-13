@@ -1066,7 +1066,7 @@ the taskgroup file that must be included in the user's ``config.yaml`` file unde
 in order for that (meta)task to be considered for inclusion in the workflow (see :numref:`Section %s <DefineWorkflow>`
 for details). As described in  :numref:`Section %s <defining_metatasks>`, metatasks define a set of tasks in the
 workflow based on multiple values of one or more parameters such as the ensemble member index, the accumulation
-interval (for cumulative fields such as accumulated precipitation), and the name of the verificaiton field group
+interval (for cumulative fields such as accumulated precipitation), and the name of the verification field group
 (see description of ``VX_FIELD_GROUPS`` in :numref:`Section %s <GeneralVXParams>`).
 
 .. _VXWorkflowTasksTable:
