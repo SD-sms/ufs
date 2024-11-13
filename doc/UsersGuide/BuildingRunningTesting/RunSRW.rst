@@ -736,7 +736,7 @@ ensemble VX for an ensemble forecast as well as deterministic VX for each member
 
 If deterministic VX of each ensemble member is not desired, ``verify_det.yaml`` must be left out of the
 above.  Note that, as in the previous example, this setting of  ``rocoto: tasks: taskgroups:`` will cause
-the workflow to run the weather model to generate forecast output because ``prep.yaml``, ``coldstart.yaml``,
+the workflow to run the UFS Weather Model to generate forecast output because ``prep.yaml``, ``coldstart.yaml``,
 and ``post.yaml`` are again included, but in this case, ``DO_ENSEMBLE`` **must be** set to ``True`` (and
 ``NUM_ENS_MEMBERS`` set appropriately) in ``config.yaml`` because inclusion of ``verify_ens.yaml`` requires
 that the forecast be an ensemble one.
