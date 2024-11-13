@@ -1266,7 +1266,7 @@ interval (for cumulative fields such as accumulated precipitation), and the name
      - Set of tasks that run grid-to-grid verification of the ensemble mean of surface fields (represented by the
        verification field group ``SFC``) and upper-air fields (represented by the verification field group ``UPA``)
        as well as grid-to-grid probabilistic verification of the ensemble of the surface and upper-air field
-       forecasts as a whole.  In rocoto, the tasks under this metatask for ensemble mean verification are named
+       forecasts as a whole. In Rocoto, the tasks under this metatask for ensemble mean verification are named
        ``run_MET_PointStat_vx_{field_group}_ensmean``, and the ones for ensemble probabilistic verification are
        named ``run_MET_PointStat_vx_{field_group}_ensprob``, where ``{field_group}`` is the field group (in this
        case either ``SFC`` or ``UPA``) on which the task is being run.  The tasks for ``SFC`` are included in the
