@@ -1207,10 +1207,10 @@ interval (for cumulative fields such as accumulated precipitation), and the name
 
    * - :bolditalic:`metatask_GenEnsProd_EnsembleStat_ASNOW_all_accums` (``verify_ens.yaml``)
      - Set of tasks that run :term:`MET`'s ``GenEnsProd`` and ``EnsembleStat`` tools on ASNOW for the intervals
-       specified in ``VX_ASNOW_ACCUMS_HRS``.  In rocoto, the tasks under this metatask that run ``GenEnsProd``
-       are named ``run_MET_GenEnsProd_vx_ASNOW{accum_intvl}h`` and the ones that run `EnsembleStat`` are
+       specified in ``VX_ASNOW_ACCUMS_HRS``. In Rocoto, the tasks under this metatask that run ``GenEnsProd``
+       are named ``run_MET_GenEnsProd_vx_ASNOW{accum_intvl}h`` and the ones that run ``EnsembleStat`` are
        named ``run_MET_EnsembleStat_vx_ASNOW{accum_intvl}h``, where ``{accum_intvl}`` is the accumulation
-       interval (in hours, e.g. ``06``, ``24``, etc) for which the tasks are being run.  This metatask will be
+       interval in hours (e.g., ``06``, ``24``, etc.) for which the tasks are being run. This metatask will be
        included in the workflow only if ``DO_ENSEMBLE`` is set to ``True`` in ``config.yaml`` and ``'ASNOW'``
        is included in ``VX_FIELD_GROUPS``.
 
