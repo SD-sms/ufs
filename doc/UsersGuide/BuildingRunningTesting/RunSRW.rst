@@ -1170,9 +1170,9 @@ interval (for cumulative fields such as accumulated precipitation), and the name
 
    * - :bolditalic:`metatask_GridStat_ASNOW_all_accums_all_mems` (``verify_det.yaml``)
      - Set of tasks that run grid-to-grid verification of accumulated snowfall (represented by the verification
-       field group ``ASNOW``) for the intervals specified in ``VX_ASNOW_ACCUMS_HRS``.  In rocoto, the tasks under
+       field group ``ASNOW``) for the intervals specified in ``VX_ASNOW_ACCUMS_HRS``.  In Rocoto, the tasks under
        this metatask are named ``run_MET_GridStat_vx_ASNOW{accum_intvl}h_mem{mem_indx}``, where ``{accum_intvl}``
-       and ``{mem_indx}`` are the accumulation interval (in hours, e.g. ``06``, ``24``, etc) and the ensemble
+       and ``{mem_indx}`` are the accumulation interval in hours (e.g., ``06``, ``24``, etc.) and the ensemble
        forecast member index (or just ``000`` for a single deterministic forecast) for which the task is being
        run.  This metatask is included in the workflow only if ``'ASNOW'`` is included in ``VX_FIELD_GROUPS``.
 
