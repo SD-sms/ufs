@@ -1256,7 +1256,7 @@ interval (for cumulative fields such as accumulated precipitation), and the name
      - Set of tasks that run grid-to-grid probabilistic verification of the ensemble of :term:`composite reflectivity`
        (represented by the verification field group ``REFC``) and :term:`echo top` (represented by the field group
        ``RETOP``).  (Note that there is no grid-to-grid verification of the ensemble mean of these quantities.)
-       In rocoto, the tasks under this metatask are named ``run_MET_GridStat_vx_{field_group}_ensprob``, where
+       In Rocoto, the tasks under this metatask are named ``run_MET_GridStat_vx_{field_group}_ensprob``, where
        ``{field_group}`` is the field group (in this case either ``REFC`` or ``RETOP``) for which the task is
        being run.  The task for ``REFC`` is included in the workflow only if ``DO_ENSEMBLE`` is set to ``True``
        in ``config.yaml`` and ``'REFC'`` is included in ``VX_FIELD_GROUPS``, and the one for ``RETOP`` is included 
