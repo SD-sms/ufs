@@ -148,7 +148,7 @@ The CFBM creates output files in :term:`netCDF` format, with the naming scheme `
 
 .. note::
 
-  Any of the settings under :fire-ug:`the ``&fire`` section of the namelist <Configuration.html#fire>` can be specified in the SRW App ``config.yaml`` file under the ``fire:`` section, not just the settings described above. However, any additional settings from ``namelist.fire`` will need to be added to ``config_defaults.yaml`` first; otherwise the check for valid SRW options will fail.
+  Any of the settings under :fire-ug:`the &fire section of the namelist <Configuration.html#fire>` can be specified in the SRW App ``config.yaml`` file under the ``fire:`` section, not just the settings described above. However, any additional settings from ``namelist.fire`` will need to be added to ``config_defaults.yaml`` first; otherwise the check for valid SRW options will fail.
 
 To specify multiple fire ignitions (``FIRE_NUM_IGNITIONS > 1``), the above settings will need to be specified as a list, with one entry per ignition. See :numref:`Section %s <fire-parameters>` for more details. 
 
