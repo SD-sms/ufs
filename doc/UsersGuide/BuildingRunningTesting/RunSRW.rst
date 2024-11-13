@@ -1137,13 +1137,13 @@ interval (for cumulative fields such as accumulated precipitation), and the name
      - Set of tasks that generate NetCDF files containing forecast APCP for the accumulation intervals
        specified in ``VX_APCP_ACCUMS_HRS``.  Files for accumulation intervals larger than the one
        provided in the forecasts are obtained by adding APCP values over multiple forecast accumulation
-       intervals, e.g. if the forecasts contain 1-hour accumulations and 3-hr accumulation is specified
+       intervals. For example, if the forecasts contain 1-hour accumulations, but 3-hr accumulation is specified
        in ``VX_APCP_ACCUMS_HRS``, then groups of 3 successive 1-hour APCP values in the forecasts are
-       added to obtain the 3-hour values.  In rocoto, the tasks under this metatask are named
+       added to obtain the 3-hour values. In Rocoto, the tasks under this metatask are named
        ``run_MET_PcpCombine_APCP{accum_intvl}h_fcst_mem{mem_indx}``, where ``{accum_intvl}`` and
-       ``{mem_indx}`` are the accumulation interval (in hours, e.g. ``01``, ``03``, ``06``, etc) and
+       ``{mem_indx}`` are the accumulation interval (in hours, e.g., ``01``, ``03``, ``06``, etc.) and
        the ensemble forecast member index (or just ``000`` for a single deterministic forecast) for
-       which the task is being run.  This metatask is included in the workflow only if ``'APCP'`` is
+       which the task is being run. This metatask is included in the workflow only if ``'APCP'`` is
        included in ``VX_FIELD_GROUPS``.
 
    * - :bolditalic:`metatask_PcpCombine_ASNOW_all_accums_all_mems` (``verify_pre.yaml``)
