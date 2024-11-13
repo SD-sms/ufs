@@ -719,7 +719,7 @@ For example, to enable deterministic VX, ``rocoto: tasks: taskgroups:`` may be s
 
 This setting can apply to either a deterministic or an ensemble forecast.  In the latter case, it will
 cause deterministic VX will be performed on each member of the ensemble (but not on the ensemble as a
-whole).  Note that with this setting, the weather model will be run as part of the workflow to generate
+whole).  Note that with this setting, the UFS Weather Model will be run as part of the workflow to generate
 forecast output because ``prep.yaml``, ``coldstart.yaml``, and ``post.yaml`` are also included in
 ``rocoto: tasks: taskgroups:``.  Whether these forecasts are deterministic or ensemble depends on
 whether ``DO_ENSEMBLE`` in ``config.yaml`` is set to ``False`` or ``True``, respectively (and, if
