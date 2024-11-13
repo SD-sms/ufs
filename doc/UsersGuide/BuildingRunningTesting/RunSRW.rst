@@ -1161,10 +1161,10 @@ interval (for cumulative fields such as accumulated precipitation), and the name
 
    * - :bolditalic:`metatask_GridStat_APCP_all_accums_all_mems` (``verify_det.yaml``)
      - Set of tasks that run grid-to-grid verification of accumulated precipitation (represented by the
-       verification field group ``APCP``) for the intervals specified in ``VX_APCP_ACCUMS_HRS``.  In rocoto,
+       verification field group ``APCP``) for the intervals specified in ``VX_APCP_ACCUMS_HRS``.  In Rocoto,
        the tasks under this metatask are named ``run_MET_GridStat_vx_APCP{accum_intvl}h_mem{mem_indx}``,
-       where ``{accum_intvl}`` and ``{mem_indx}`` are the accumulation interval (in hours, e.g. ``01``,
-       ``03``, ``06``, etc) and the ensemble forecast member index (or just ``000`` for a single deterministic
+       where ``{accum_intvl}`` and ``{mem_indx}`` are the accumulation interval in hours (e.g., ``01``,
+       ``03``, ``06``, etc.) and the ensemble forecast member index (or just ``000`` for a single deterministic
        forecast) for which the task is being run.  This metatask is included in the workflow only if ``'APCP'``
        is included in ``VX_FIELD_GROUPS``.
 
