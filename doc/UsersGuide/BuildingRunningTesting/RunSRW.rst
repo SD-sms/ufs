@@ -1216,8 +1216,8 @@ interval (for cumulative fields such as accumulated precipitation), and the name
 
    * - :bolditalic:`metatask_GenEnsProd_EnsembleStat_REFC_RETOP` (``verify_ens.yaml``)
      - Set of tasks that run :term:`MET`'s ``GenEnsProd`` and ``EnsembleStat`` tools on REFC (:term:`composite
-       reflectivity`) and RETOP (:term:`echo top`).  In rocoto, the tasks under this metatask that run
-       ``GenEnsProd`` are named ``run_MET_GenEnsProd_vx_{field_group}``, and the ones that run `EnsembleStat``
+       reflectivity`) and RETOP (:term:`echo top`). In Rocoto, the tasks under this metatask that run
+       ``GenEnsProd`` are named ``run_MET_GenEnsProd_vx_{field_group}``, and the ones that run ``EnsembleStat``
        are named ``run_MET_EnsembleStat_vx_{field_group}``, where ``{field_group}`` is the field group (in
        this case either ``REFC`` or ``RETOP``) for which the tasks are being run.  The tasks for ``REFC`` are
        included in the workflow only if ``DO_ENSEMBLE`` is set to ``True`` in ``config.yaml`` and ``'REFC'``
