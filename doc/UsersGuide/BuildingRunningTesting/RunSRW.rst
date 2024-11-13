@@ -1108,8 +1108,8 @@ interval (for cumulative fields such as accumulated precipitation), and the name
    * - :bolditalic:`metatask_PcpCombine_APCP_all_accums_obs_CCPA` (``verify_pre.yaml``)
      - Set of tasks that generate NetCDF files containing observed APCP for the accumulation intervals
        specified in ``VX_APCP_ACCUMS_HRS``.  Files for accumulation intervals larger than the one
-       provided in the obs are obtained by adding APCP values over multiple obs accumulation intervals,
-       e.g. if the obs contain 1-hour accumulations and 3-hr accumulation is specified in ``VX_APCP_ACCUMS_HRS``,
+       provided in the obs are obtained by adding APCP values over multiple obs accumulation intervals.
+       For example, if the obs contain 1-hour accumulations and 3-hr accumulation is specified in ``VX_APCP_ACCUMS_HRS``,
        then groups of 3 successive 1-hour APCP values in the obs are added to obtain the 3-hour values.
        In Rocoto, the tasks under this metatask are named ``run_MET_PcpCombine_APCP{accum_intvl}h_obs_CCPA``,
        where ``{accum_intvl}`` is the accumulation interval in hours (e.g., ``01``, ``03``, ``06``, etc.)
