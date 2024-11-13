@@ -1245,10 +1245,10 @@ interval (for cumulative fields such as accumulated precipitation), and the name
 
    * - :bolditalic:`metatask_GridStat_ASNOW_all_accums_ensmeanprob` (``verify_ens.yaml``)
      - Set of tasks that run grid-to-grid verification of the ensemble mean of ASNOW and grid-to-grid probabilistic
-       verification of the ensemble of ASNOW forecasts as a whole.  In rocoto, the tasks under this metatask for
+       verification of the ensemble of ASNOW forecasts as a whole. In Rocoto, the tasks under this metatask for
        ensemble mean verification are named ``run_MET_GridStat_vx_ASNOW{accum_intvl}h_ensmean``, and the ones for
        ensemble probabilistic verification are named ``run_MET_GridStat_vx_ASNOW{accum_intvl}h_ensprob``, where
-       ``{accum_intvl}`` is the accumulation interval (in hours, e.g. ``01``, ``03``, ``06``, etc) for which the
+       ``{accum_intvl}`` is the accumulation interval in hours (e.g., ``01``, ``03``, ``06``, etc.) for which the
        tasks are being run.  These tasks will be included in the workflow only if ``DO_ENSEMBLE`` is set to ``True``
        in ``config.yaml`` and ``'ASNOW'`` is included in ``VX_FIELD_GROUPS``.
 
