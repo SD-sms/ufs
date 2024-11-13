@@ -837,7 +837,7 @@ given by
 
    {*_OBS_DIR}/{OBS_*_FN_TEMPLATES[1,3,...]}
 
-If the obs files exist at the locations specified by these variables, then the ``get_obs_*`` tasks will
+If the obs files exist at the locations specified by ``{*_OBS_DIR}/{OBS_*_FN_TEMPLATES[1,3,...]}``, then the ``get_obs_*`` tasks will
 succeed and the workflow will move on to subsequent tasks.  If one or more obs files do not exist, the
 ``get_obs_*`` tasks will attempt to retrieve the required files from a data store such as NOAA HPSS and
 place them in the locations specified by ``*_OBS_DIR`` and ``OBS_*_FN_TEMPLATES[1,3,...]``.  Assuming
