@@ -1100,7 +1100,7 @@ interval (for cumulative fields such as accumulated precipitation), and the name
      - Checks for existence of staged :term:`NDAS` obs files at locations specified by ``NDAS_OBS_DIR``
        and ``OBS_NDAS_FN_TEMPLATES``.  If any files do not exist, it attempts to retrieve all the files
        from a data store (e.g. NOAA :term:`HPSS`) and place them in those locations.  This task is included
-       in the workflow only if `'SFC'`` and/or ``'UPA'`` are included in ``VX_FIELD_GROUPS``.
+       in the workflow only if ``'SFC'`` and/or ``'UPA'`` are included in ``VX_FIELD_GROUPS``.
 
    * - :bolditalic:`task_run_MET_Pb2nc_obs_NDAS` (``verify_pre.yaml``)
      - Converts NDAS obs prepbufr files to NetCDF format.
