@@ -758,7 +758,7 @@ The VX (meta)tasks in the ``verify_*.yaml`` taskgroup files are described in det
 <VXWorkflowTasksTable>`.  They are organized as follows.
 
 The (meta)tasks in ``verify_pre.yaml`` each
-operate on a single obs type (except for ``metatask_check_post_output_all_mems``, which operates on the
+operate on a single observation (obs) type (except for ``metatask_check_post_output_all_mems``, which operates on the
 forecast(s) and checks for the presence of all necessary forecast files), while the ones in ``verify_det.yaml``
 and ``verify_ens.yaml`` operate on one or more verification field groups.  A verification field group
 represents one or more meteorologial fields that are operated on (e.g. verified) together in a single
