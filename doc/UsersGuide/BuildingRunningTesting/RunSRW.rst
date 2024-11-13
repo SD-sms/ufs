@@ -1179,7 +1179,7 @@ interval (for cumulative fields such as accumulated precipitation), and the name
    * - :bolditalic:`metatask_GridStat_REFC_RETOP_all_mems` (``verify_det.yaml``)
      - Set of tasks that run grid-to-grid verification of :term:`composite reflectivity` (represented by
        the verification field group ``REFC``) and :term:`echo top` (represented by the verification field
-       group ``RETOP``).  In rocoto, the tasks under this metatask are named ``run_MET_GridStat_vx_{field_group}_mem{mem_indx}``,
+       group ``RETOP``). In Rocoto, the tasks under this metatask are named ``run_MET_GridStat_vx_{field_group}_mem{mem_indx}``,
        where ``field_group`` and ``{mem_indx}`` are the field group (in this case either ``REFC`` or ``RETOP``)
        and the ensemble forecast member index (or just ``000`` for a single deterministic forecast) for which
        the task is being run.  The tasks for ``REFC`` are included in the workflow only if ``'REFC'`` is
