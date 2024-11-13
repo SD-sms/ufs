@@ -1128,7 +1128,7 @@ interval (for cumulative fields such as accumulated precipitation), and the name
    * - :bolditalic:`metatask_check_post_output_all_mems` (``verify_pre.yaml``)
      - Set of tasks that ensure that the post-processed forecast files required for verification exist in
        the locations specified by ``VX_FCST_INPUT_BASEDIR``, ``FCST_SUBDIR_TEMPLATE``, and ``FCST_FN_TEMPLATE``.
-       In rocoto, the tasks under this metatask are named ``check_post_output_mem{mem_indx}``, where ``{mem_indx}``
+       In Rocoto, the tasks under this metatask are named ``check_post_output_mem{mem_indx}``, where ``{mem_indx}``
        is the index of the ensemble forecast member.  This takes on the values ``001``, ``002``, ... for an
        ensemble of forecasts or just ``000`` for a single deterministic forecast.  This metatask is included
        in the workflow if at least one other verification task or metatask is included.
