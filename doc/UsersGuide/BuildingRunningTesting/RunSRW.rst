@@ -1119,11 +1119,11 @@ interval (for cumulative fields such as accumulated precipitation), and the name
    * - :bolditalic:`metatask_PcpCombine_ASNOW_all_accums_obs_NOHRSC` (``verify_pre.yaml``)
      - Set of tasks that generate NetCDF files containing observed ASNOW for the accumulation intervals
        specified in ``VX_ASNOW_ACCUMS_HRS``.  Files for accumulation intervals larger than the one
-       provided in the obs are obtained by adding ASNOW values over multiple obs accumulation intervals,
-       e.g. if the obs contain 6-hour accumulations and 24-hr accumulation is specified in ``VX_ASNOW_ACCUMS_HRS``,
+       provided in the obs are obtained by adding ASNOW values over multiple obs accumulation intervals.
+       For example, if the obs contain 6-hour accumulations and 24-hr accumulation is specified in ``VX_ASNOW_ACCUMS_HRS``,
        then groups of 4 successive 6-hour ASNOW values in the obs are added to obtain the 24-hour values.
-       In rocoto, the tasks under this metatask are named ``run_MET_PcpCombine_ASNOW{accum_intvl}h_obs_NOHRSC``,
-       where ``{accum_intvl}`` is the accumulation interval in hours (e.g. ``06``, ``24``, etc) for which
+       In Rocoto, the tasks under this metatask are named ``run_MET_PcpCombine_ASNOW{accum_intvl}h_obs_NOHRSC``,
+       where ``{accum_intvl}`` is the accumulation interval in hours (e.g., ``06``, ``24``, etc.) for which
        the task is being run.  This metatask is included in the workflow only if ``'ASNOW'`` is included in
        ``VX_FIELD_GROUPS``.
 
