@@ -1150,11 +1150,11 @@ interval (for cumulative fields such as accumulated precipitation), and the name
      - Set of tasks that generate NetCDF files containing forecast ASNOW for the accumulation intervals
        specified in ``VX_ASNOW_ACCUMS_HRS``.  Files for accumulation intervals larger than the one
        provided in the forecasts are obtained by adding ASNOW values over multiple forecast accumulation
-       intervals, e.g. if the forecasts contain 1-hour accumulations and 6-hr accumulation is specified
+       intervals. For example, if the forecasts contain 1-hour accumulations, but 6-hr accumulation is specified
        in ``VX_ASNOW_ACCUMS_HRS``, then groups of 6 successive 1-hour ASNOW values in the forecasts are
-       added to obtain 6-hour values.  In rocoto, the tasks under this metatask are named
+       added to obtain 6-hour values. In Rocoto, the tasks under this metatask are named
        ``run_MET_PcpCombine_ASNOW{accum_intvl}h_fcst_mem{mem_indx}``, where ``{accum_intvl}`` and
-       ``{mem_indx}`` are the accumulation interval (in hours, e.g. ``06``, ``24``, etc) and the ensemble
+       ``{mem_indx}`` are the accumulation interval (in hours, e.g., ``06``, ``24``, etc.) and the ensemble
        forecast member index (or just ``000`` for a single deterministic forecast) for which the task is
        being run.  This metatask is included in the workflow only if ``'ASNOW'`` is included in
        ``VX_FIELD_GROUPS``.
