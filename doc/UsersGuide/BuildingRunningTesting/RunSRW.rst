@@ -854,9 +854,9 @@ that attempt is successful, the workflow will move on to subsequent tasks.  Thus
    
    * Users who have access to a data store that hosts the necessary files (e.g. NOAA HPSS) do not need to
      manually stage the obs data because the ``get_obs_*`` tasks will retrieve the necessary obs and place
-     them in the locations specified by ``*_OBS_DIR`` and ``OBS_*_FN_TEMPLATES[1,3,...]``.  The default
-     values of these variables are such that the files are placed under the experiment directory, but
-     users may change these if they want the retrieved files to be placed elsewhere.
+     them in the locations specified by ``*_OBS_DIR`` and ``OBS_*_FN_TEMPLATES[1,3,...]``.  By default,
+     the files will be placed under the experiment directory, but
+     users may change the values of these variables if they want the retrieved files to be placed elsewhere.
 
 
 As an example, consider a case in which all four types of obs are needed for verification.  Then ``*_OBS_DIR``
