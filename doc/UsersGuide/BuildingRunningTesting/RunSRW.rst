@@ -1111,8 +1111,8 @@ interval (for cumulative fields such as accumulated precipitation), and the name
        provided in the obs are obtained by adding APCP values over multiple obs accumulation intervals,
        e.g. if the obs contain 1-hour accumulations and 3-hr accumulation is specified in ``VX_APCP_ACCUMS_HRS``,
        then groups of 3 successive 1-hour APCP values in the obs are added to obtain the 3-hour values.
-       In rocoto, the tasks under this metatask are named ``run_MET_PcpCombine_APCP{accum_intvl}h_obs_CCPA``,
-       where ``{accum_intvl}`` is the accumulation interval in hours (e.g. ``01``, ``03``, ``06``, etc)
+       In Rocoto, the tasks under this metatask are named ``run_MET_PcpCombine_APCP{accum_intvl}h_obs_CCPA``,
+       where ``{accum_intvl}`` is the accumulation interval in hours (e.g., ``01``, ``03``, ``06``, etc.)
        for which the task is being run.  This metatask is included in the workflow only if ``'APCP'`` is
        included in ``VX_FIELD_GROUPS``.
 
