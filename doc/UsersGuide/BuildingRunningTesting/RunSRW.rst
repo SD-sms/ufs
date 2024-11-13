@@ -795,14 +795,12 @@ fields they include are given in :numref:`Table %s <VXFieldGroupDescsTable>`.
      - NDAS
      - Various upper-air fields (e.g. at 800 mb, 500 mb, etc)
 
-The list ``VX_FIELD_GROUPS`` in the ``verification:`` section of ``config.yaml`` specifies the VX field
-groups for which to run verification.  Thus, inclusion of a ``verify_*.yaml`` taskgroup file under the
+The ``VX_FIELD_GROUPS`` list in the ``verification:`` section of ``config.yaml`` specifies the VX field
+groups for which to run verification. In order to avoid unwanted computation, the Rocoto XML will include 
+only those (meta)tasks that operate on field groups or obs types associated with field groups in ``VX_FIELD_GROUPS``. 
+Thus, inclusion of a ``verify_*.yaml`` taskgroup file under the
 ``rocoto: tasks: taskgroups:`` section of ``config.yaml`` does not mean that all the (meta)tasks in that
-file will necessarily be included in the workflow.  This is because, in order to avoid unwanted computation,
-only those (meta)tasks in ``verify_det.yaml`` and/or ``verify_ens.yaml`` that operate on field groups
-included in ``VX_FIELD_GROUPS`` will appear in the Rocoto XML, and only those (meta)tasks in ``verify_pre.yaml``
-that operate on obs types associated with one of the field groups in ``VX_FIELD_GROUPS`` will appear in 
-the Rocoto XML.  Thus, for example, setting
+file will be included in the workflow. For example, setting:
 
 .. code-block:: console
 
