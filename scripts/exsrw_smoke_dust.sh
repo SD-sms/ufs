@@ -110,7 +110,7 @@ else
   #
   #-----------------------------------------------------------------------
   #
-  ${USHsrw}/generate_fire_emissions.py \
+  ${USHsrw}/smoke_dust_generate_fire_emissions.py \
     "${FIXsmoke}/${PREDEF_GRID_NAME}" \
     "${DATA}" \
     "${DATA_SHARE}" \
