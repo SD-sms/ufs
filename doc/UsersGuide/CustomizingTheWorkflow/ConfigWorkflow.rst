@@ -15,7 +15,7 @@ The following is a list of the parameters in the ``config_defaults.yaml`` file. 
 .. _user:
 
 USER-related Configuration Parameters
-=================================
+======================================
 
 If non-default parameters are selected for the variables in this section, they should be added to the ``user:`` section of the ``config.yaml`` file. 
 
