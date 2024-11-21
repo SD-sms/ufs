@@ -14,7 +14,7 @@ The following is a list of the parameters in the ``config_defaults.yaml`` file. 
 
 .. _user:
 
-USER Configuration Parameters
+USER-related Configuration Parameters
 =================================
 
 If non-default parameters are selected for the variables in this section, they should be added to the ``user:`` section of the ``config.yaml`` file. 
@@ -360,6 +360,9 @@ Set File Name Parameters
 ``AQM_RC_TMPL_FN``: (Default: "aqm.rc")
    Template file name of resource file for NOAA Air Quality Model (AQM). 
 
+``FIRE_NML_FN_``: (Default: "namelist.fire")
+   Name of namelist file for UFS_FIRE capability. 
+
 Set File Path Parameters
 ----------------------------
 
@@ -390,6 +393,8 @@ Set File Path Parameters
 ``AQM_RC_TMPL_FP``: (Default: ``'{{ [user.PARMdir, AQM_RC_TMPL_FN]|path_join }}'``) 
    Path to the ``AQM_RC_TMPL_FN`` file. 
 
+``FIRE_NML_BASE_FP``: (Default: ``'{{ [user.PARMdir, FIRE_NML_FN]|path_join }}'``)
+   Path to the ``FIRE_NML_BASE_FP`` file.
 
 *Experiment Directory* Files and Paths
 ------------------------------------------
@@ -410,6 +415,9 @@ This section contains files and paths to files that are staged in the experiment
 
 ``FV3_NML_STOCH_FP``: (Default: ``'{{ [EXPTDIR, [FV3_NML_FN, "_stoch"]|join ]|path_join }}'``)
    Path to a namelist file that includes stochastic physics namelist parameters. 
+
+``FIRE_NML_FP``: (Default: ``'{{ [EXPTDIR, FIRE_NML_FN]|path_join }}'``)
+   Path to the ``FIRE_NML_FP`` in the experiment directory.
 
 ``FCST_MODEL``: (Default: "ufs-weather-model")
    Name of forecast model. Valid values: ``"ufs-weather-model"`` | ``"fv3gfs_aqm"``
@@ -1134,7 +1142,7 @@ Write-Component (Quilting) Parameters
 ``PRINT_ESMF``: (Default: false)
    Flag that determines whether to output extra (debugging) information from :term:`ESMF` routines. Note that the write component uses ESMF library routines to interpolate from the native forecast model grid to the user-specified output grid (which is defined in the model configuration file ``model_configure`` in the forecast run directory). Valid values: ``True`` | ``False``
 
-``PE_MEMBER01``: (Default: ``'{{ OMP_NUM_THREADS_RUN_FCST * (LAYOUT_Y * LAYOUT_X + WRTCMP_write_groups * WRTCMP_write_tasks_per_group) if QUILTING else OMP_NUM_THREADS_RUN_FCST * (LAYOUT_Y * LAYOUT_X)}}'``)
+``PE_MEMBER01``: (Default: ``'{{ OMP_NUM_THREADS_RUN_FCST * (LAYOUT_Y * LAYOUT_X + WRTCMP_write_groups * WRTCMP_write_tasks_per_group) + fire.FIRE_NUM_TASKS if QUILTING else OMP_NUM_THREADS_RUN_FCST * (LAYOUT_Y * LAYOUT_X) + fire.FIRE_NUM_TASKS}}'``)
    The number of MPI processes required by the forecast. When QUILTING is true, it is calculated as: 
    
    .. math::
