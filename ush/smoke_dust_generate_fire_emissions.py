@@ -25,7 +25,7 @@ def generate_emiss_workflow(
     predef_grid: str,
     ebb_dcycle_flag: str,
     restart_interval: str,
-    persistence: str,
+    persistence_flag: str,
 ) -> None:
     """
     Prepares fire-related ICs. This is the main function that handles data movement and interpolation.
@@ -37,7 +37,7 @@ def generate_emiss_workflow(
         predef_grid: If ``RRFS_NA_3km``, use pre-defined grid dimensions
         ebb_dcycle_flag: Select the EBB cycle to run. Valid values are ``"1"`` or ``"2"``
         restart_interval: Indicates if restart files should be copied. The actual interval values are not used
-        persistence: If ``TRUE``, use satellite observations from the previous day. Otherwise, use observations from the same day.
+        persistence_flag: If ``TRUE``, use satellite observations from the previous day. Otherwise, use observations from the same day.
     """
 
     # ----------------------------------------------------------------------
@@ -56,15 +56,16 @@ def generate_emiss_workflow(
     vars_emis = ["FRP_MEAN", "FRE"]
     cols, rows = (2700, 3950) if predef_grid == "RRFS_NA_3km" else (1092, 1820)
     print("PREDEF GRID", predef_grid, "cols,rows", cols, rows)
-    # used later when working with ebb_dcyle 1 or 2
-    ebb_dcycle = int(ebb_dcycle_flag)
+    persistence = convert_string_flag_to_boolean(persistence_flag)
     print(
         "WARNING, EBB_DCYCLE set to",
-        ebb_dcycle,
+        ebb_dcycle_flag,
         "and persistence=",
         persistence,
-        "if persistence is false, emissions comes from same day satellite obs",
+        "if persistence is False, emissions comes from same day satellite obs",
     )
+    # used later when working with ebb_dcyle 1 or 2
+    ebb_dcycle = int(ebb_dcycle_flag)
 
     print("CDATE:", current_day)
     print("DATA:", nwges_dir)
@@ -206,6 +207,18 @@ def generate_emiss_workflow(
     else:
         print("First day true, no RAVE files available. Use dummy emissions file")
         i_tools.create_dummy(intp_dir, current_day, tgt_latt, tgt_lont, cols, rows)
+
+
+def convert_string_flag_to_boolean(flag: str) -> bool:
+    lowered = flag.lower()
+    if lowered == "true":
+        return True
+    elif lowered == "false":
+        return False
+    else:
+        raise ValueError(
+            "Boolean flag not recognized. Acceptable values are true, TRUE, false, or FALSE"
+        )
 
 
 if __name__ == "__main__":

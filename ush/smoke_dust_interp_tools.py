@@ -20,7 +20,7 @@ except ImportError:
     import ESMF
 
 
-def date_range(current_day: str, ebb_dcycle: int, persistence: str) -> Index:
+def date_range(current_day: str, ebb_dcycle: int, persistence: bool) -> Index:
     """
     Create date range, this is later used to search for RAVE and HWP from previous 24 hours.
 
@@ -41,7 +41,7 @@ def date_range(current_day: str, ebb_dcycle: int, persistence: str) -> Index:
 
     if ebb_dcycle == 1:
         print("Find  RAVE for ebb_dcyc 1")
-        if persistence == True:
+        if persistence:
             # Start date range from one day prior if persistence is True
             print(
                 "Creating emissions for persistence method where satellite FRP persist from previous day"
