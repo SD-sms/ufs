@@ -107,11 +107,15 @@ if [ -e "${DCOMINfire}/${aqm_fire_file_fn}" ]; then
     FILE_13km=$(find_latest_file "${DCOMINfire}/${yyyymmdd_dn}/rave" "${FILE_13km_pattern}")
     FILE_13km_md1=$(find_latest_file "${DCOMINfire}/${yyyymmdd_dn_md1}/rave" "${FILE_13km_md1_pattern}")
 
-    if [ -n "${FILE_13km}" ] && [ $(stat -c %s ${FILE_13km}) -gt 4000000 ]; then
-      cpreq "${FILE_13km}" "${FILE_curr}"
-    elif [ -n "${FILE_13km_md1}" ] && [ $(stat -c %s ${FILE_13km_md1}) -gt 4000000 ]; then
-      echo "WARNING: ${FILE_13km} does not exist or is broken. Replacing with the file from the previous date..."
-      cpreq "${FILE_13km_md1}" "${FILE_curr}"
+    if ls ${FILE_13km} 1> /dev/null 2>&1; then
+       if [ $(stat -c %s ${FILE_13km}) -gt 4000000 ]; then
+           cpreq ${FILE_13km} ${FILE_curr}
+       fi
+    elif ls ${FILE_13km_md1} 1> /dev/null 2>&1; then
+       if [ $(stat -c %s ${FILE_13km_md1}) -gt 4000000 ]; then
+           echo "WARNING: ${FILE_13km} does not exist or is broken. Replacing with the file from the previous date..."
+           cpreq ${FILE_13km_md1} ${FILE_curr}
+       fi
     else
       message_txt="WARNING Fire Emission RAW data does not exist or is broken:
   FILE_13km_md1 = \"${FILE_13km_md1}\"
