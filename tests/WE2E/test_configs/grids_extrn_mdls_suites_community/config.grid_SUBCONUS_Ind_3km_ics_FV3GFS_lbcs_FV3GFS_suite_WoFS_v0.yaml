@@ -20,10 +20,6 @@ rocoto:
     metatask_run_ensemble:
       task_run_fcst_mem#mem#:
         walltime: 02:00:00
-    metatask_run_ens_post:
-      metatask_run_post_mem#mem#_all_fhrs:
-        task_run_post_mem#mem#_f#fhr#:
-          walltime: 00:30:00
 task_get_extrn_ics:
   EXTRN_MDL_NAME_ICS: FV3GFS
   FV3GFS_FILE_FMT_ICS: grib2
