@@ -417,7 +417,7 @@ This section contains files and paths to files that are staged in the experiment
    Path to a namelist file that includes stochastic physics namelist parameters. 
 
 ``FIRE_NML_FP``: (Default: ``'{{ [EXPTDIR, FIRE_NML_FN]|path_join }}'``)
-   Path to the ``FIRE_NML_FP`` in the experiment directory.
+   Path to the ``FIRE_NML_FN`` file in the experiment directory.
 
 ``FCST_MODEL``: (Default: "ufs-weather-model")
    Name of forecast model. Valid values: ``"ufs-weather-model"`` | ``"fv3gfs_aqm"``
