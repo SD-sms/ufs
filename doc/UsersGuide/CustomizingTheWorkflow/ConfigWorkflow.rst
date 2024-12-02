@@ -75,7 +75,7 @@ Application Directories
    The path to the user's NEXUS directory. By default, NEXUS source code resides in ``ufs-srweather-app/sorc/arl_nexus``.
 
 ``FIXUPPdir``: (Default: ``'{{ [HOMEdir, "fix", "upp"]|path_join }}'``)
-   The path to the user's UPP fixed file directory. By default, the UPP fixed files reside in ``UPP/fix``.
+   The path to the user's UPP fixed file directory. By default, the UPP fixed files reside in ``ufs-srweather-app/sorc/UPP/fix``.
 
 .. _PlatformConfig:
 

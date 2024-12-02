@@ -84,7 +84,8 @@ user:
   # code resides in ufs-srweather-app/sorc/arl_nexus
   # 
   # FIXUPPdir:
-  # The path to the UPP fixed file directory
+  # The path to the UPP fixed file directory. By default, the UPP fixed 
+  # files reside in ufs-srweather-app/sorc/UPP/fix
   #-----------------------------------------------------------------------
   MACHINE: "BIG_COMPUTER"
   ACCOUNT: ""
