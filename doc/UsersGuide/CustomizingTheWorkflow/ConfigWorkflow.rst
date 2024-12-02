@@ -360,7 +360,7 @@ Set File Name Parameters
 ``AQM_RC_TMPL_FN``: (Default: "aqm.rc")
    Template file name of resource file for NOAA Air Quality Model (AQM). 
 
-``FIRE_NML_FN_``: (Default: "namelist.fire")
+``FIRE_NML_FN``: (Default: "namelist.fire")
    Name of namelist file for UFS_FIRE capability. 
 
 Set File Path Parameters
