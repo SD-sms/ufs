@@ -394,7 +394,7 @@ Set File Path Parameters
    Path to the ``AQM_RC_TMPL_FN`` file. 
 
 ``FIRE_NML_BASE_FP``: (Default: ``'{{ [user.PARMdir, FIRE_NML_FN]|path_join }}'``)
-   Path to the ``FIRE_NML_BASE_FP`` file.
+   Path to the ``FIRE_NML_FN`` file in the ``parm`` directory.
 
 *Experiment Directory* Files and Paths
 ------------------------------------------
