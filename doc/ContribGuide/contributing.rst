@@ -228,7 +228,8 @@ Here is the template that is provided when developers click "Create pull request
    <!-- Add an X to check off a box. -->
 
    - [ ] derecho.intel
-   - [ ] gaea.intel
+   - [ ] gaea-c5.intel
+   - [ ] gaea-c6.intel
    - [ ] hera.gnu
    - [ ] hera.intel
    - [ ] hercules.intel
