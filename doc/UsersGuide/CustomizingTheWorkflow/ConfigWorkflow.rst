@@ -2172,7 +2172,7 @@ Non-default parameters for the Community Fire Behavior Model (CFBM) in SRW are s
 ``FIRE_IGNITION_START_TIME`` (Default: 6480)
    Start time of ignition(s) in seconds (counting from the beginning of the simulation)
 
-``FIRE_IGNITION_START_TIME`` (Default: 7000)
+``FIRE_IGNITION_END_TIME`` (Default: 7000)
    End time of ignition(s) in seconds (counting from the beginning of the simulation)
 
 
