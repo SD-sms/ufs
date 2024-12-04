@@ -48,8 +48,6 @@ Additionally, users can potentially access the directories where the Jenkins tes
      - Location of Jenkins experiment directories
    * - Derecho
      - /glade/derecho/scratch/epicufsrt/jenkins/workspace
-   * - Gaea
-     - /lustre/f2/dev/wpo/role.epic/jenkins/workspace/fs-srweather-app_pipeline_PR-#/gaea
    * - Gaea C5
      - /lustre/f2/dev/wpo/role.epic/jenkins/workspace/fs-srweather-app_pipeline_PR-#/gaea-c5
    * - Hera (Intel)
