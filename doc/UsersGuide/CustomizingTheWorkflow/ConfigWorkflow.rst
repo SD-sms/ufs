@@ -252,7 +252,7 @@ WORKFLOW Configuration Parameters
 
 If non-default parameters are selected for the variables in this section, they should be added to the ``workflow:`` section of the ``config.yaml`` file. 
 
-``WORKFLOW_ID``: (Default: ``''``)
+``WORKFLOW_ID``: (Default: "")
    Unique ID for the workflow run that will be set in ``setup.py``.
 
 ``RELATIVE_LINK_FLAG``: (Default: "--relative")
@@ -1002,7 +1002,7 @@ Vertical Coordinate Parameters
 ``LEVP``: (Default: 65)
    Number of vertical levels in the atmosphere. In order to change this
    number, the user will additionally need to create a vertical coordinate
-   distribution file; this process is described in :numref:`Section %s <VerticalLevels>`
+   distribution file; this process is described in :numref:`Section %s <VerticalLevels>`.
    This value should be the same in both ``make_ics`` and ``make_lbcs``.
 
 ``VCOORD_FILE``: (Default: ``"{{ workflow.FIXam }}/global_hyblev.l65.txt"``)
