@@ -2151,7 +2151,7 @@ Non-default parameters for the Community Fire Behavior Model (CFBM) in SRW are s
 .. note::
    If ``FIRE_NUM_IGNITIONS > 1``, the following variables should be lists with one entry for each ignition
 
-``FIRE_IGNITION_ROS`` (Default: 0.0)
+``FIRE_IGNITION_ROS`` (Default: 0.5)
    Ignition rate of spread (Rothermel parameterization)
 
 ``FIRE_IGNITION_START_LAT`` (Default: 40.609)
