@@ -82,10 +82,6 @@ user:
   # ARL_NEXUS_DIR: 
   # The path to the user's NEXUS directory. By default, NEXUS source 
   # code resides in ufs-srweather-app/sorc/arl_nexus
-  # 
-  # FIXUPPdir:
-  # The path to the UPP fixed file directory. By default, the UPP fixed 
-  # files reside in ufs-srweather-app/sorc/UPP/fix
   #-----------------------------------------------------------------------
   MACHINE: "BIG_COMPUTER"
   ACCOUNT: ""
@@ -101,7 +97,6 @@ user:
   METPLUS_CONF: '{{ [PARMdir, "metplus"]|path_join }}'
   UFS_WTHR_MDL_DIR: '{{ user.UFS_WTHR_MDL_DIR }}'
   ARL_NEXUS_DIR: '{{ [SORCdir, "arl_nexus"]|path_join }}'
-  FIXUPPdir: '{{ [HOMEdir, "fix", "upp"]|path_join }}'
 
 #----------------------------
 # PLATFORM config parameters
