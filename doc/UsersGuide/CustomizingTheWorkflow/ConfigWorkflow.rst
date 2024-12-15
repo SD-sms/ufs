@@ -1,8 +1,5 @@
-.. _ConfigWorkflow:
-
-================================================================================================
 Workflow Parameters: Configuring the Workflow in ``config.yaml`` and ``config_defaults.yaml``		
-================================================================================================
+
 To create the experiment directory and workflow when running the SRW Application, the user must create an experiment configuration file (named ``config.yaml`` by default). This file contains experiment-specific information, such as forecast dates, grid and physics suite choices, data directories, and other relevant settings. To help the user, two sample configuration files have been included in the ``ush`` directory: ``config.community.yaml`` and ``config.nco.yaml``. The first is for running experiments in *community* mode (``RUN_ENVIR`` set to "community"), and the second is for running experiments in *nco* mode (``RUN_ENVIR`` set to "nco"). The content of these files can be copied into ``config.yaml`` and used as the starting point from which to generate a variety of experiment configurations for the SRW App. Note that for public releases, only *community* mode is supported. 
 
 There is an extensive list of experiment parameters that a user can set when configuring the experiment. Not all of these parameters need to be set explicitly by the user in ``config.yaml``. If a user does not define a variable in the ``config.yaml`` script, its value in ``config_defaults.yaml`` will be used, or the value will be reset depending on other parameters, such as the platform (``MACHINE``) selected for the experiment. 
@@ -12,10 +9,10 @@ There is an extensive list of experiment parameters that a user can set when con
 
 The following is a list of the parameters in the ``config_defaults.yaml`` file. For each parameter, the default value and a brief description are provided. 
 
-.. _user:
+._user:
 
 USER Configuration Parameters
-=================================
+
 
 If non-default parameters are selected for the variables in this section, they should be added to the ``user:`` section of the ``config.yaml`` file. 
 
@@ -30,7 +27,11 @@ If non-default parameters are selected for the variables in this section, they s
    Setting ``RUN_ENVIR`` to "community" is recommended in most cases for users who are not running in NCO's production environment. Valid values: ``"nco"`` | ``"community"``
 
 ``MACHINE``: (Default: "BIG_COMPUTER")
+
    The machine (a.k.a. platform or system) on which the workflow will run. Currently supported platforms are listed on the :srw-wiki:`SRW App Wiki page <Supported-Platforms-and-Compilers>`. When running the SRW App on any ParallelWorks/NOAA Cloud system, use "NOAACLOUD" regardless of the underlying system (AWS, GCP, or Azure). Valid values: ``"HERA"`` | ``"ORION"`` | ``"HERCULES"`` | ``"JET"`` | ``"CHEYENNE"`` | ``"DERECHO"`` | ``"GAEA"`` |  ``"NOAACLOUD"`` | ``"STAMPEDE"`` | ``"ODIN"`` | ``"MACOS"`` | ``"LINUX"`` | ``"SINGULARITY"`` | ``"WCOSS2"`` (Check ``ufs-srweather-app/ush/valid_param_vals.yaml`` for the most up-to-date list of supported platforms.)
+
+   The machine (a.k.a. platform or system) on which the workflow will run. Currently supported platforms are listed on the `SRW App Wiki page <https://github.com/ufs-community/ufs-srweather-app/wiki/Supported-Platforms-and-Compilers>`__. When running the SRW App on any ParallelWorks/NOAA Cloud system, use "NOAACLOUD" regardless of the underlying system (AWS, GCP, or Azure). Valid values: ``"HERA"`` | ``"ORION"`` | ``"HERCULES"`` | ``"JET"`` | ``"CHEYENNE"`` | ``"DERECHO"`` | ``"GAEA"`` | ``"GAEA-C5"`` | ``"NOAACLOUD"`` | ``"STAMPEDE"`` | ``"ODIN"`` | ``"MACOS"`` | ``"LINUX"`` | ``"SINGULARITY"`` | ``"WCOSS2"`` (Check ``ufs-srweather-app/ush/valid_param_vals.yaml`` for the most up-to-date list of supported platforms.)
+
 
    .. hint::
       Users who are NOT on a named, supported Level 1 or 2 platform will need to set the ``MACHINE`` variable to ``LINUX`` or ``MACOS``. To combine use of a Linux or MacOS platform with the Rocoto workflow manager, users will also need to set ``WORKFLOW_MANAGER: "rocoto"`` in the ``platform:`` section of ``config.yaml``. This combination will assume a Slurm batch manager when generating the XML. 
@@ -77,12 +78,12 @@ Application Directories
 .. _PlatformConfig:
 
 PLATFORM Configuration Parameters
-=====================================
+
 
 If non-default parameters are selected for the variables in this section, they should be added to the ``platform:`` section of the ``config.yaml`` file. 
 
 ``WORKFLOW_MANAGER``: (Default: "none")
-   The workflow manager to use (e.g., "rocoto"). This is set to "none" by default, but if the machine name is set to a platform that supports Rocoto, this will be overwritten and set to "rocoto." If set explicitly to "rocoto" along with the use of the ``MACHINE: "LINUX"`` target, the configuration layer assumes a Slurm batch manager when generating the XML. Valid values: ``"rocoto"`` | ``"none"``
+   The workflow manager to use (e.g., "rocoto"). This is set to "none" by default, but if the machine name is set to a platform that supports Rocoto, this will be overwritten and set to "rocoto." If set explicitly to "rocoto" along with the use of the ``MACHINE: "LINUX"`` target, the configuration layer assumes a Slurm batch manager when generating the XML. Valid values: ``"rocoto"`` | ``"ecflow"`` | ``"none"``
 
    .. note:: 
 
@@ -248,7 +249,7 @@ These parameters are associated with the fixed (i.e., static) files. On :srw-wik
 .. _workflow:
 
 WORKFLOW Configuration Parameters
-=====================================
+
 
 If non-default parameters are selected for the variables in this section, they should be added to the ``workflow:`` section of the ``config.yaml`` file. 
 
@@ -334,7 +335,11 @@ Set File Name Parameters
    Prefix for the name of the file that specifies the output fields of the forecast model. 
 
 ``FIELD_TABLE_FN``: ( Default: "field_table")
+
    Prefix for the name of the file that specifies the :term:`tracers <tracer>` that the forecast model will read in from the :term:`IC/LBC <ICs/LBCs>` files.
+
+   Prefix for the name of the file that specifies the :term:`tracers <tracer>` that the forecast model will read in from the :term:`IC/LBC <ICs/LBCs>` files. 
+
 
 .. _tmpl-fn-warning:
 
@@ -545,8 +550,13 @@ Predefined Grid Parameters
    | ``"RRFS_CONUS_25km"``
    | ``"RRFS_CONUS_13km"``
    | ``"RRFS_CONUS_3km"``
+
    | ``"SUBCONUS_Ind_3km"``
    | ``"RRFS_NA_13km"``
+
+   | ``"SUBCONUS_Ind_3km"`` 
+   | ``"RRFS_NA_13km"`` 
+
    
    **Other valid values include:**
 
@@ -656,7 +666,7 @@ Other
 .. _NCOModeParms:
 
 NCO-Specific Variables
-=========================
+
 
 A standard set of environment variables has been established for *nco* mode to simplify the production workflow and improve the troubleshooting process for operational and preoperational models. These variables are only used in *nco* mode (i.e., when ``RUN_ENVIR: "nco"``). When non-default parameters are selected for the variables in this section, they should be added to the ``nco:`` section of the ``config.yaml`` file. 
 
@@ -711,7 +721,7 @@ A standard set of environment variables has been established for *nco* mode to s
 .. _make-grid:
 
 MAKE_GRID Configuration Parameters
-======================================
+
 
 Non-default parameters for the ``make_grid`` task are set in the ``task_make_grid:`` section of the ``config.yaml`` file. 
 
@@ -779,7 +789,7 @@ Note that the regional grid is defined with respect to a "parent" global cubed-s
 
          +---------------------+--------------------+
          | GFDLgrid_NUM_CELLS  | Typical Cell Size  |
-         +=====================+====================+
+         +------------------------------------------+
          |  48                 |     200 km         |
          +---------------------+--------------------+
          |  96                 |     100 km         |
@@ -821,7 +831,7 @@ Note that the regional grid is defined with respect to a "parent" global cubed-s
 .. _make-orog:
  
 MAKE_OROG Configuration Parameters
-=====================================
+
 
 Non-default parameters for the ``make_orog`` task are set in the ``task_make_orog:`` section of the ``config.yaml`` file. 
 
@@ -840,7 +850,7 @@ Non-default parameters for the ``make_orog`` task are set in the ``task_make_oro
 .. _make-sfc-climo:
 
 MAKE_SFC_CLIMO Configuration Parameters
-===========================================
+
 
 Non-default parameters for the ``make_sfc_climo`` task are set in the ``task_make_sfc_climo:`` section of the ``config.yaml`` file. 
 
@@ -859,7 +869,7 @@ Non-default parameters for the ``make_sfc_climo`` task are set in the ``task_mak
 .. _task_get_extrn_ics:
 
 GET_EXTRN_ICS Configuration Parameters
-=========================================
+
 
 Non-default parameters for the ``get_extrn_ics`` task are set in the ``task_get_extrn_ics:`` section of the ``config.yaml`` file. 
 
@@ -871,7 +881,11 @@ Basic Task Parameters
 For each workflow task, certain parameter values must be passed to the job scheduler (e.g., Slurm), which submits a job for the task. 
 
 ``EXTRN_MDL_NAME_ICS``: (Default: "FV3GFS")
+
    The name of the external model that will provide fields from which initial condition (IC) files, surface files, and 0-th hour boundary condition files will be generated for input into the forecast model. Valid values: ``"GSMGFS"`` | ``"FV3GFS"`` | ``"GEFS"`` | ``"GDAS"`` | ``"RAP"`` | ``"HRRR"`` | ``"RRFS"`` | ``"NAM"`` | ``"UFS-CASE-STUDY"``
+
+   The name of the external model that will provide fields from which initial condition (IC) files, surface files, and 0-th hour boundary condition files will be generated for input into the forecast model. Valid values: ``"GSMGFS"`` | ``"FV3GFS"`` | ``"GEFS"`` | ``"GDAS"`` | ``"RAP"`` | ``"HRRR"`` | ``"NAM"`` | ``"UFS-CASE-STUDY"``
+
 
 ``EXTRN_MDL_ICS_OFFSET_HRS``: (Default: 0)
    Users may wish to start a forecast using forecast data from a previous cycle of an external model. This variable indicates how many hours earlier the external model started than the FV3 forecast configured here. For example, if the forecast should start from a 6-hour forecast of the GFS, then ``EXTRN_MDL_ICS_OFFSET_HRS: "6"``.
@@ -913,7 +927,7 @@ File and Directory Parameters
 .. _task_get_extrn_lbcs:
 
 GET_EXTRN_LBCS Configuration Parameters
-==========================================
+
 
 Non-default parameters for the ``get_extrn_lbcs`` task are set in the ``task_get_extrn_lbcs:`` section of the ``config.yaml`` file. 
 
@@ -925,7 +939,11 @@ Basic Task Parameters
 For each workflow task, certain parameter values must be passed to the job scheduler (e.g., Slurm), which submits a job for the task. 
 
 ``EXTRN_MDL_NAME_LBCS``: (Default: "FV3GFS")
+
    The name of the external model that will provide fields from which lateral boundary condition (LBC) files (except for the 0-th hour LBC file) will be generated for input into the forecast model. Valid values: ``"GSMGFS"`` | ``"FV3GFS"`` | ``"GEFS"`` | ``"GDAS"`` | ``"RAP"`` | ``"HRRR"`` | ``"RRFS"`` | ``"NAM"`` | ``"UFS-CASE-STUDY"``
+
+   The name of the external model that will provide fields from which lateral boundary condition (LBC) files (except for the 0-th hour LBC file) will be generated for input into the forecast model. Valid values: ``"GSMGFS"`` | ``"FV3GFS"`` | ``"GEFS"`` | ``"GDAS"`` | ``"RAP"`` | ``"HRRR"`` | ``"NAM"`` | ``"UFS-CASE-STUDY"``
+
 
 ``LBC_SPEC_INTVL_HRS``: (Default: 6)
    The interval (in integer hours) at which LBC files will be generated. This is also referred to as the *boundary update interval*. Note that the model selected in ``EXTRN_MDL_NAME_LBCS`` must have data available at a frequency greater than or equal to that implied by ``LBC_SPEC_INTVL_HRS``. For example, if ``LBC_SPEC_INTVL_HRS`` is set to "6", then the model must have data available at least every 6 hours. It is up to the user to ensure that this is the case.
@@ -956,7 +974,7 @@ File and Directory Parameters
    Analogous to ``EXTRN_MDL_FILES_ICS`` but for :term:`LBCs` instead of :term:`ICs`. Array containing templates of the file names to search for in the ``EXTRN_MDL_SOURCE_BASEDIR_LBCS`` directory. This variable is not used if ``USE_USER_STAGED_EXTRN_FILES`` is set to false. A single template should be used for each model file type that is used. Users may use any of the Python-style templates allowed in the ``ush/retrieve_data.py`` script. To see the full list of supported templates, run that script with the ``-h`` option. For examples, see the ``EXTRN_MDL_FILES_ICS`` variable above. 
 
 MAKE_ICS Configuration Parameters
-======================================
+
 
 Non-default parameters for the ``make_ics`` task are set in the ``task_make_ics:`` section of the ``config.yaml`` file. 
 
@@ -1001,7 +1019,7 @@ Vertical Coordinate Parameters
    Full path to the file used to set the vertical coordinates in FV3. This file should be the same in both ``make_ics`` and ``make_lbcs``.
 
 MAKE_LBCS Configuration Parameters
-======================================
+
 
 Non-default parameters for the ``make_lbcs`` task are set in the ``task_make_lbcs:`` section of the ``config.yaml`` file. 
 
@@ -1029,7 +1047,7 @@ Vertical Coordinate Parameters
 .. _FcstConfigParams:
 
 FORECAST Configuration Parameters
-=====================================
+
 
 Non-default parameters for the ``run_fcst`` task are set in the ``task_run_fcst:`` section of the ``config.yaml`` file. 
 
@@ -1098,9 +1116,12 @@ These parameters set values in the Weather Model's ``model_configure`` file.
 ``WRITE_DOPOST``: (Default: false)
    Flag that determines whether to use the inline post option, which calls the Unified Post Processor (:term:`UPP`) from within the UFS Weather Model. The default ``WRITE_DOPOST: false`` does not use the inline post functionality, and the ``run_post`` tasks are called from outside of the UFS Weather Model. If ``WRITE_DOPOST: true``, the ``WRITE_DOPOST`` flag in the ``model_configure`` file will be set to true, and the post-processing (:term:`UPP`) tasks will be called from within the Weather Model. This means that the post-processed files (in :term:`grib2` format) are output by the Weather Model at the same time that it outputs the ``dynf###.nc`` and ``phyf###.nc`` files. Setting ``WRITE_DOPOST: true`` turns off the separate ``run_post`` task in ``setup.py`` to avoid unnecessary computations. Valid values: ``True`` | ``False``
 
+
 ``ITASKS``: (Default: 1)
    Variable denoting the number of write tasks in the ``i`` direction in the current group. Used for inline post 2D decomposition. Setting this variable to a value greater than 1 will enable 2D decomposition.
    Note that 2D decomposition does not yet work with GNU compilers, so this value will be reset to 1 automatically when using GNU compilers (i.e., when ``COMPILER: gnu``).
+
+
 
 .. _CompParams:
 
@@ -1139,7 +1160,11 @@ Write-Component (Quilting) Parameters
    
    .. math::
       
+
       OMP\_NUM\_THREADS\_RUN\_FCST * (LAYOUT\_X * LAYOUT\_Y + WRTCMP\_write\_groups * WRTCMP\_write\_tasks\_per\_group)
+
+      LAYOUT\_X * LAYOUT\_Y + WRTCMP\_write\_groups * WRTCMP\_write\_tasks\_per\_group 
+
 
 ``WRTCMP_write_groups``: (Default: "")
    The number of write groups (i.e., groups of :term:`MPI` tasks) to use in the write component. Each write group will write to one set of output files (a ``dynf${fhr}.nc`` and a ``phyf${fhr}.nc`` file, where ``${fhr}`` is the forecast hour). Each write group contains ``WRTCMP_write_tasks_per_group`` tasks. Usually, one write group is sufficient. This may need to be increased if the forecast is proceeding so quickly that a single write group cannot complete writing to its set of files before there is a need/request to start writing the next set of files at the next output time.
@@ -1209,7 +1234,7 @@ Restart Parameters
 
 
 RUN_POST Configuration Parameters
-=====================================
+
 
 Non-default parameters for the ``run_post`` task are set in the ``task_run_post:`` section of the ``config.yaml`` file. 
 
@@ -1266,7 +1291,7 @@ Set parameters for customizing the :term:`UPP`.
    Note that 2D decomposition does not yet work with GNU compilers, so this value will be reset to 1 automatically when using GNU compilers (i.e., when ``COMPILER: gnu``).
 
 RUN_PRDGEN Configuration Parameters
-=====================================
+
 
 Non-default parameters for the ``run_prdgen`` task are set in the ``task_run_prdgen:`` section of the ``config.yaml`` file.
 
@@ -1303,7 +1328,6 @@ For each workflow task, certain parameter values must be passed to the job sched
 .. _PlotVars:
 
 PLOT_ALLVARS Configuration Parameters
-========================================
 
 Typically, the following parameters must be set explicitly by the user in the ``task_plot_allvars:`` section of the configuration file (``config.yaml``) when executing the plotting tasks. 
 
@@ -1323,7 +1347,6 @@ Typically, the following parameters must be set explicitly by the user in the ``
    Domains to plot. Currently supported options are ["conus"], ["regional"], or both (i.e., ["conus", "regional"]).
 
 Air Quality Modeling (AQM) Parameters
-======================================
 
 This section includes parameters related to Air Quality Modeling (AQM) tasks. Note that AQM features are not currently supported for community use. 
 
@@ -1384,7 +1407,7 @@ Non-default parameters for the ``bias_correction_pm25`` tasks are set in the ``t
    Controls the size of the stack for threads created by the OpenMP implementation.
 
 Global Configuration Parameters
-===================================
+
 
 Non-default parameters for the miscellaneous tasks are set in the ``global:`` section of the ``config.yaml`` file. 
 
@@ -1596,7 +1619,7 @@ Pressure Tendency Diagnostic
    Option to turn on/off the pressure tendency diagnostic. 
 
 Verification (VX) Parameters
-=================================
+
 
 Non-default parameters for verification tasks are set in the ``verification:`` section of the ``config.yaml`` file.
 
@@ -1634,6 +1657,7 @@ General VX Parameters
   ``"APCP"`` | ``"ASNOW"`` | ``"REFC"`` | ``"RETOP"`` | ``"SFC"`` | ``"UPA"``
 
 ``VX_APCP_ACCUMS_HRS``: (Default: [ 1, 3, 6, 24 ])
+
    The accumulation intervals (in hours) to include in the verification of
    accumulated precipitation (APCP).  If ``VX_FIELD_GROUPS`` contains ``"APCP"``,
    then ``VX_APCP_ACCUMS_HRS`` must contain at least one element.  Otherwise,
@@ -1644,6 +1668,12 @@ General VX Parameters
    accumulated snowfall (ASNOW).  If ``VX_FIELD_GROUPS`` contains ``"ASNOW"``,
    then ``VX_ASNOW_ACCUMS_HRS`` must contain at least one element.  Otherwise,
    ``VX_ASNOW_ACCUMS_HRS`` will be ignored.  Valid values: ``6`` | ``12`` | ``18`` | ``24``
+
+   The accumulation periods (in hours) to consider for accumulated precipitation (APCP). If ``VX_FIELDS`` contains ``"APCP"``, then ``VX_APCP_ACCUMS_HRS`` must contain at least one element. If ``VX_FIELDS`` does not contain ``"APCP"``, ``VX_APCP_ACCUMS_HRS`` will be ignored. Valid values: ``1`` | ``3`` | ``6`` | ``24``
+
+``VX_ASNOW_ACCUMS_HRS``: (Default: [ 6, 24 ])
+   The accumulation periods (in hours) to consider for ``ASNOW`` (accumulated snowfall). If ``VX_FIELDS`` contains ``"ASNOW"``, then ``VX_ASNOW_ACCUMS_HRS`` must contain at least one element. If ``VX_FIELDS`` does not contain ``"ASNOW"``, ``VX_ASNOW_ACCUMS_HRS`` will be ignored. Valid values: ``6`` | ``24``
+
 
 ``VX_CONFIG_[DET|ENS]_FN``: (Default: ``vx_configs/vx_config_[det|ens].yaml``)
    Names of configuration files for deterministic and ensemble verification
@@ -1963,7 +1993,7 @@ VX Parameters for Forecasts
 
 
 Coupled AQM Configuration Parameters
-=====================================
+
 
 Non-default parameters for coupled Air Quality Modeling (AQM) tasks are set in the ``cpl_aqm_parm:`` section of the ``config.yaml`` file. Note that coupled AQM features are not currently supported for community use. 
 
@@ -2060,7 +2090,7 @@ Non-default parameters for coupled Air Quality Modeling (AQM) tasks are set in t
 .. _fire-parameters:
 
 Community Fire Behavior Model Parameters
-========================================
+
 
 Non-default parameters for the Community Fire Behavior Model (CFBM) in SRW are set in the ``fire:`` section of the ``config.yaml`` file.
 
@@ -2169,7 +2199,7 @@ Non-default parameters for the Community Fire Behavior Model (CFBM) in SRW are s
 
 
 Rocoto Parameters
-===================
+
 
 Non-default Rocoto workflow parameters are set in the ``rocoto:`` section of the ``config.yaml`` file. This section is structured as follows:
 

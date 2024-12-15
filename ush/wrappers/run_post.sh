@@ -4,6 +4,8 @@ export GLOBAL_VAR_DEFNS_FP="${EXPTDIR}/var_defns.yaml"
 for sect in workflow ; do
   source_yaml ${GLOBAL_VAR_DEFNS_FP} ${sect}
 done
+
+export GLOBAL_VAR_DEFNS_FP="${EXPTDIR}/var_defns.sh"
 set -xa
 export CDATE=${DATE_FIRST_CYCL}
 export CYCLE_DIR=${EXPTDIR}/${CDATE}

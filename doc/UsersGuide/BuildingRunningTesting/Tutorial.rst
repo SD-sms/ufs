@@ -1,8 +1,8 @@
 .. _Tutorial:
 
-=============
+
 Tutorials
-=============
+
 
 This chapter walks users through experiment configuration options for various severe weather events. It assumes that users have already :ref:`built the SRW App <BuildSRW>` successfully. 
 
@@ -19,7 +19,7 @@ Each section provides a summary of the weather event and instructions for config
 .. _fcst1:
 
 Sample Forecast #1: Severe Weather Over Indianapolis
-=======================================================
+
 
 **Objective:** Modify physics options and compare forecast outputs for similar experiments using the graphics plotting task. 
 
@@ -58,6 +58,11 @@ Load the Workflow
 To load the workflow environment, source the lmod-setup file and load the workflow conda environment by running:
 
 .. include:: ../../doc-snippets/load-env.rst
+
+
+
+where ``<platform>`` is a valid, lowercased machine name (see ``MACHINE`` in :numref:`Section %s <user>` for valid values). 
+
 
 After loading the workflow, users should follow the instructions printed to the console. Usually, the instructions will tell the user to run |activate|. For example, a user on Hera with permissions on the ``nems`` project may issue the following commands to load the workflow (replacing ``User.Name`` with their actual username):
 
@@ -132,6 +137,9 @@ should be included in the ``rocoto:tasks:taskgroups:`` section, like this:
       taskgroups: '{{ ["parm/wflow/prep.yaml", "parm/wflow/coldstart.yaml", "parm/wflow/post.yaml", "parm/wflow/plot.yaml"]|include }}'
 
 
+
+
+
 For more information on how to turn on/off tasks in the workflow, please
 see :numref:`Section %s <ConfigTasks>`.
 
@@ -143,7 +151,7 @@ In the ``task_get_extrn_ics:`` section, add ``USE_USER_STAGED_EXTRN_FILES`` and 
      EXTRN_MDL_NAME_ICS: FV3GFS
      FV3GFS_FILE_FMT_ICS: grib2
      USE_USER_STAGED_EXTRN_FILES: true
-     EXTRN_MDL_SOURCE_BASEDIR_ICS: /path/to/UFS_SRW_App/develop/input_model_data/FV3GFS/grib2/${yyyymmddhh}
+     EXTRN_MDL_SOURCE_BASEDIR_ICS: /path/to/UFS_SRW_App/v2p2/input_model_data/FV3GFS/grib2/${yyyymmddhh}
 
 For a detailed description of the ``task_get_extrn_ics:`` variables, see :numref:`Section %s <task_get_extrn_ics>`. 
 
@@ -156,7 +164,7 @@ Similarly, in the ``task_get_extrn_lbcs:`` section, add ``USE_USER_STAGED_EXTRN_
      LBC_SPEC_INTVL_HRS: 6
      FV3GFS_FILE_FMT_LBCS: grib2
      USE_USER_STAGED_EXTRN_FILES: true
-     EXTRN_MDL_SOURCE_BASEDIR_LBCS: /path/to/UFS_SRW_App/develop/input_model_data/FV3GFS/grib2/${yyyymmddhh}
+     EXTRN_MDL_SOURCE_BASEDIR_LBCS: /path/to/UFS_SRW_App/v2p2/input_model_data/FV3GFS/grib2/${yyyymmddhh}
 
 For a detailed description of the ``task_get_extrn_lbcs:`` variables, see :numref:`Section %s <task_get_extrn_lbcs>`. 
 
@@ -214,7 +222,11 @@ Once the control case is running, users can return to the ``config.yaml`` file (
      EXPT_SUBDIR: test_expt
      CCPP_PHYS_SUITE: FV3_RRFS_v1beta
 
+
 ``EXPT_SUBDIR:`` This name must be different than the ``EXPT_SUBDIR`` name used in the previous forecast experiment. Otherwise, the first forecast experiment will be renamed, and the new experiment will take its place (see :numref:`Section %s <preexisting-dirs>` for details). To avoid this issue, this tutorial uses ``test_expt`` as the second experiment's name, but the user may select a different name if desired.
+
+``EXPT_SUBDIR:`` This name must be different than the ``EXPT_SUBDIR`` name used in the previous forecast experiment. Otherwise, the first forecast experiment will be renamed, and the new experiment will take its place (see :numref:`Section %s <preexisting-dirs>` for details). To avoid this issue, this tutorial uses ``test_expt`` as the second experiment's name, but the user may select a different name if desired. 
+
 
 ``CCPP_PHYS_SUITE:`` The FV3_RRFS_v1beta physics suite was specifically created for convection-allowing scales and is the precursor to the operational physics suite that will be used in the Rapid Refresh Forecast System (:term:`RRFS`). 
 
@@ -228,10 +240,10 @@ Next, users will need to modify the data parameters in ``task_get_extrn_ics:`` a
 
    task_get_extrn_ics:
      EXTRN_MDL_NAME_ICS: HRRR
-     EXTRN_MDL_SOURCE_BASEDIR_ICS: /path/to/UFS_SRW_App/develop/input_model_data/HRRR/${yyyymmddhh}
+     EXTRN_MDL_SOURCE_BASEDIR_ICS: /path/to/UFS_SRW_App/v2p2/input_model_data/HRRR/${yyyymmddhh}
    task_get_extrn_lbcs:
      EXTRN_MDL_NAME_LBCS: RAP
-     EXTRN_MDL_SOURCE_BASEDIR_LBCS: /path/to/UFS_SRW_App/develop/input_model_data/RAP/${yyyymmddhh}
+     EXTRN_MDL_SOURCE_BASEDIR_LBCS: /path/to/UFS_SRW_App/v2p2/input_model_data/RAP/${yyyymmddhh}
      EXTRN_MDL_LBCS_OFFSET_HRS: '-0'
 
 HRRR and RAP data are better than FV3GFS data for use with the FV3_RRFS_v1beta physics scheme because these datasets use the same physics :term:`parameterizations` that are in the FV3_RRFS_v1beta suite. They focus on small-scale weather phenomena involved in storm development, so forecasts tend to be more accurate when HRRR/RAP data are paired with FV3_RRFS_v1beta and a high-resolution (e.g., 3-km) grid. Using HRRR/RAP data with FV3_RRFS_v1beta also limits the "spin-up adjustment" that takes place when initializing with model data coming from different physics.
@@ -295,7 +307,11 @@ Users should substitute ``/path/to/expt_dirs/test_expt`` with the actual path on
 Compare and Analyze Results
 -----------------------------
 
+
 Navigate to ``test_expt/2019061518/postprd``. This directory contains the post-processed data generated by the :term:`UPP` from the ``test_expt`` forecast. After the ``plot_allvars`` task completes, this directory will contain ``.png`` images for several forecast variables including 2-m temperature, 2-m dew point temperature, 10-m winds, accumulated precipitation, composite reflectivity, and surface-based CAPE/CIN. Plots with a ``_diff`` label in the file name are plots that compare the ``control`` forecast and the ``test_expt`` forecast.
+
+Navigate to ``test_expt/2019061518/postprd``. This directory contains the post-processed data generated by the :term:`UPP` from the ``test_expt`` forecast. After the ``plot_allvars`` task completes, this directory will contain ``.png`` images for several forecast variables including 2-m temperature, 2-m dew point temperature, 10-m winds, accumulated precipitation, composite reflectivity, and surface-based CAPE/CIN. Plots with a ``_diff`` label in the file name are plots that compare the ``control`` forecast and the ``test_expt`` forecast. 
+
 
 Copy ``.png`` Files onto Local System
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -315,7 +331,7 @@ The plots generated by the experiment cover a variety of variables. After downlo
 
    +-----------------------------------------+-----------------------------------+
    | Field                                   | File Name                         |
-   +=========================================+===================================+
+   +-----------------------------------------+-----------------------------------+
    | 2-meter dew point temperature           | 2mdew_diff_regional_fhhh.png      |
    +-----------------------------------------+-----------------------------------+
    | 2-meter temperature                     | 2mt_diff_regional_fhhh.png        |
@@ -474,7 +490,7 @@ Users may find the difference plots for :term:`updraft helicity` particularly in
 .. _fcst2:
 
 Sample Forecast #2: Cold Air Damming
-========================================
+
 
 Weather Summary
 -----------------
@@ -500,7 +516,7 @@ Coming Soon!
 .. _fcst3:
 
 Sample Forecast #3: Southern Plains Winter Weather Event
-===========================================================
+
 
 Weather Summary
 --------------------
@@ -522,7 +538,7 @@ Coming Soon!
 .. _fcst4:
 
 Sample Forecast #4: Halloween Storm
-=======================================
+
 
 **Objective:** 
    * Compare forecast outputs for similar experiments that use different :term:`IC/LBC <ics/lbcs>` sources. 
@@ -537,7 +553,11 @@ A line of severe storms brought strong winds, flash flooding, and tornadoes to t
 
    * `Storm Prediction Center (SPC) Storm Report for 20191031 <https://www.spc.noaa.gov/climo/reports/191031_rpts.html>`_
 
+
 .. figure:: https://github.com/ufs-community/ufs-srweather-app/wiki/Tutorial/HalloweenStorm.gif
+
+.. figure:: https://github.com/ufs-community/ufs-srweather-app/wiki/Tutorial/HalloweenStorm.jpg
+
    :alt: Radar animation of the Halloween Storm that swept across the Eastern United States in 2019. 
 
    *Halloween Storm 2019*
@@ -862,7 +882,7 @@ In the composite reflectivity plots below, the ``halloweenHRRR`` and ``halloween
 .. _fcst5:
 
 Sample Forecast #5: Hurricane Barry
-=======================================
+
 
 Weather Summary
 --------------------

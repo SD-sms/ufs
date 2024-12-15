@@ -2,7 +2,7 @@
 
 import os
 from .print_msg import print_err_msg_exit
-
+from .define_macos_utilities import define_macos_utilities
 
 def cmd_vrfy(cmd, *args):
     """Executes system command
@@ -66,6 +66,7 @@ def rm_vrfy(*args):
 
 
 def ln_vrfy(*args):
+
     """Checks that the ``ln`` command executed successfully
 
     Args:
@@ -74,6 +75,11 @@ def ln_vrfy(*args):
         Exit code
     """
     return cmd_vrfy("ln", *args)
+
+    define_macos_utilities()
+    cmd_ln = os.getenv("LN_UTIL")
+    return cmd_vrfy(cmd_ln, *args)
+
 
 
 def mkdir_vrfy(*args):

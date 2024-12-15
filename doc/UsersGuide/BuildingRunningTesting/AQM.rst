@@ -1,10 +1,13 @@
 .. _AQM:
 
-=====================================
+
 Air Quality Modeling (SRW-AQM)
-=====================================
 
 .. attention::
+
+
+
+   
 
    AQM capabilities are an unsupported feature of the SRW App. This means that it is available for users to experiment with, but assistance for AQM-related issues is limited. 
 
@@ -17,7 +20,6 @@ The AQM is a UFS Application that dynamically couples the Community Multiscale A
    Although this chapter is the primary documentation resource for running the AQM configuration, users may need to refer to :numref:`Chapter %s <BuildSRW>` and :numref:`Chapter %s <RunSRW>` for additional information on building and running the SRW App, respectively. 
 
 Quick Start Guide (SRW-AQM)
-=====================================
 
 .. attention::
 
@@ -30,7 +32,7 @@ Clone the |branch| branch of the authoritative SRW App repository:
 
 .. code-block:: console
 
-   git clone -b develop https://github.com/ufs-community/ufs-srweather-app
+   git clone -b release/public-v2.2.0 https://github.com/ufs-community/ufs-srweather-app
    cd ufs-srweather-app
 
 Checkout Externals
@@ -184,7 +186,7 @@ The workflow run is complete when all tasks display a "SUCCEEDED" message. If ev
 .. code-block:: console
 
          CYCLE                   TASK       JOBID       STATE   EXIT STATUS   TRIES   DURATION
-   ============================================================================================
+
    202302170000              make_grid    47411619   SUCCEEDED             0       1       36.0
    202302170000              make_orog    47411728   SUCCEEDED             0       1      151.0
    202302170000         make_sfc_climo    47411801   SUCCEEDED             0       1       58.0
@@ -206,7 +208,7 @@ The workflow run is complete when all tasks display a "SUCCEEDED" message. If ev
    202302170000   run_post_mem000_f002    47660030   SUCCEEDED             0       1       31.0
    ...
    202302170000   run_post_mem000_f006    47660110   SUCCEEDED             0       1       29.0
-   ============================================================================================
+
    202302170600          nexus_gfs_sfc    47659421   SUCCEEDED             0       1       44.0
    202302170600      nexus_emission_00    47659475   SUCCEEDED             0       1      323.0
    202302170600      nexus_emission_01    47659476   SUCCEEDED             0       1      323.0
@@ -230,7 +232,7 @@ The workflow run is complete when all tasks display a "SUCCEEDED" message. If ev
 .. _AQM-more-tasks:
 
 Additional Tasks for AQM
-===============================
+
 
 Structure of SRW-AQM Workflow
 --------------------------------
@@ -298,7 +300,7 @@ The post-processing tasks for air quality modeling (AQM) are shown in :numref:`T
      - Applies a bias-correction technique (e.g., analog ensemble) to improve the raw model forecast for PM2.5 and generates the bias-corrected PM2.5 products. 
 
 WE2E Test for AQM
-=======================
+
 
 Build the app for AQM:
 

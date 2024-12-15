@@ -1,8 +1,8 @@
 .. _Introduction:
 
-==============
+
 Introduction
-==============
+
 
 The Unified Forecast System (:term:`UFS`) is a community-based, coupled, comprehensive Earth modeling system. NOAA's operational model suite for numerical weather prediction (:term:`NWP`) is quickly transitioning to the UFS from a number of different modeling systems. The UFS enables research, development, and contribution opportunities within the broader :term:`Weather Enterprise` (including government, industry, and academia). For more information about the UFS, visit the `UFS Portal <https://ufs.epic.noaa.gov/>`_.
 
@@ -11,6 +11,7 @@ The UFS includes `multiple applications <https://ufs.epic.noaa.gov/applications/
 Since the last release, developers have added a variety of features:
 
    * Bug fixes since the v2.1.0 release
+
    * Addition of the supported ``FV3_RAP`` physics suite (:srw-repo:`PR #811 <pull/811>`) and support for the ``RRFS_NA_13km`` predefined grid
    * Addition of ``FV3_GFS_v17_p8`` physics suite (:srw-repo:`PR #574 <pull/574>`)
    * Updates to :term:`CCPP` that target the top of the ``main`` branch (which is ahead of CCPP v6.0.0). See :ref:`this page <CCPPUpdates>` for a detailed summary of updates that came in ahead of the v2.2.0 release.
@@ -35,10 +36,37 @@ UFS Development Team. (2023, Oct. 31). Unified Forecast System (UFS) Short-Range
 
 .. _ug-organization:
 
+   * Addition of the supported ``FV3_RAP`` physics suite (`PR #811 <https://github.com/ufs-community/ufs-srweather-app/pull/811>`__) and support for the ``RRFS_NA_13km`` predefined grid
+   * Addition of ``FV3_GFS_v17_p8`` physics suite (`PR #574 <https://github.com/ufs-community/ufs-srweather-app/pull/574>`__)
+   * Updates to :term:`CCPP` that target the top of the ``main`` branch (which is ahead of CCPP v6.0.0). See :ref:`this page <CCPPUpdates>` for a detailed summary of updates that came in ahead of the v2.2.0 release.
+   * Expansion of `Level 1 platforms <https://github.com/ufs-community/ufs-srweather-app/wiki/Supported-Platforms-and-Compilers>`__ to include Derecho, Hercules, and Gaea C5 (PRs `#894 <https://github.com/ufs-community/ufs-srweather-app/pull/894>`__, `#898 <https://github.com/ufs-community/ufs-srweather-app/pull/898>`__, `#911 <https://github.com/ufs-community/ufs-srweather-app/pull/911>`__)
+   * Transition to spack-stack modulefiles for most supported platforms to align with the UFS WM shift to spack-stack (PRs `#913 <https://github.com/ufs-community/ufs-srweather-app/pull/913>`__ and `#941 <https://github.com/ufs-community/ufs-srweather-app/pull/941>`__)
+   * Overhaul of WE2E testing suite (see, e.g., PRs `#686 <https://github.com/ufs-community/ufs-srweather-app/pull/686>`__, `#732 <https://github.com/ufs-community/ufs-srweather-app/pull/732>`__,  `#864 <https://github.com/ufs-community/ufs-srweather-app/pull/864>`__, `#871 <https://github.com/ufs-community/ufs-srweather-app/pull/871>`__)
+   * Improvements to the CI/CD automated testing pipeline (see, e.g., PRs `#707 <https://github.com/ufs-community/ufs-srweather-app/pull/707>`__ and `#847 <https://github.com/ufs-community/ufs-srweather-app/pull/847>`__)
+   * Incorporation of additional METplus verification capabilities (PRs `#552 <https://github.com/ufs-community/ufs-srweather-app/pull/552>`__, `#614 <https://github.com/ufs-community/ufs-srweather-app/pull/614>`__, `#757 <https://github.com/ufs-community/ufs-srweather-app/pull/757>`__, `#853 <https://github.com/ufs-community/ufs-srweather-app/pull/853>`__)
+   * Integration of the Unified Workflow's templater tool (`PR #793 <https://github.com/ufs-community/ufs-srweather-app/pull/793>`__)
+   * Ability to create a user-defined custom workflow (`PR #676 <https://github.com/ufs-community/ufs-srweather-app/pull/676>`__)
+   * Option to use a custom vertical coordinate file with different distribution of vertical layers (`PR #813 <https://github.com/ufs-community/ufs-srweather-app/pull/813>`__) and :ref:`documentation on how to use this feature <VerticalLevels>` (`PR #888 <https://github.com/ufs-community/ufs-srweather-app/pull/888>`__)
+   * Incorporation of plotting tasks into the workflow (PR `#482 <https://github.com/ufs-community/ufs-srweather-app/pull/482>`__); addition of ability to plot on both CONUS and smaller regional grid (`PR #560 <https://github.com/ufs-community/ufs-srweather-app/pull/560>`__)
+   * Addition of a sample verification case (`PR #500 <https://github.com/ufs-community/ufs-srweather-app/pull/500>`__) with :ref:`documentation <VXCases>` 
+   * A new :ref:`tutorial chapter <Tutorial>` in the documentation (`PR #584 <https://github.com/ufs-community/ufs-srweather-app/pull/584>`__)
+   * Incorporation of `UFS Case Studies <https://github.com/dtcenter/ufs-case-studies>`__ within the WE2E framework (PRs `#736 <https://github.com/ufs-community/ufs-srweather-app/pull/736>`__ and `#822 <https://github.com/ufs-community/ufs-srweather-app/pull/822>`__)
+   * Air Quality Modeling (AQM) capabilities (unsupported but available; see `PR #613 <https://github.com/ufs-community/ufs-srweather-app/pull/613>`__)
+   * Miscellaneous documentation updates to reflect the changes above
+
+The SRW App v2.2.0 citation is as follows and should be used when presenting results based on research conducted with the App:
+
+UFS Development Team. (2023, Oct. 31). Unified Forecast System (UFS) Short-Range Weather (SRW) Application (Version v2.2.0). Zenodo. https://doi.org/10.5281/zenodo.10015544
+
+
 User's Guide Organization 
-============================
+
+
 
 The SRW Application documentation is organized into four sections: (1) *Background Information*; (2) *Building, Running, and Testing the SRW App*; (3) *Customizing the Workflow*; and (4) *Reference*.
+
+The SRW Application documentation is organized into four sections: (1) *Background Information*; (2) *Building, Running, and Testing the SRW App*; (3) *Customizing the Workflow*; and (4) *Reference*. 
+
 
 Background Information
 -------------------------
@@ -72,7 +100,11 @@ Customizing the Workflow
 
    * :numref:`Section %s: Workflow Parameters <ConfigWorkflow>` documents all of the user-configurable experiment parameters that can be set in the user configuration file (``config.yaml``). 
    * :numref:`Section %s: Input & Output Files <InputOutputFiles>` describes application input and output files, as well as information on where to get publicly available data. 
+
    * :numref:`Section %s: Limited Area Model (LAM) Grids <LAMGrids>` describes the SRW App predefined grids, explains how to create a custom user-generated grid, and provides information on using a custom distribution of vertical levels.
+
+   * :numref:`Section %s: Limited Area Model (LAM) Grids <LAMGrids>` describes the SRW App predefined grids, explains how to create a custom user-generated grid, and provides information on using a custom distribution of vertical levels. 
+
    * :numref:`Section %s: Defining an SRW App Workflow <DefineWorkflow>` explains how to build a customized SRW App workflow XML file. 
    * :numref:`Section %s: Template Variables <TemplateVars>` explains how to use template variables. 
 
@@ -86,7 +118,7 @@ Reference Information
 .. _doc-conventions:
 
 SRW App Documentation Conventions
-===================================
+
 
 This guide uses particular conventions to indicate commands and code snippets, file and directory paths, variables, and options. 
 
@@ -103,7 +135,7 @@ File or directory paths that begin with ``/path/to/`` should be replaced with th
 .. _component-docs:
 
 Component Documentation
-=========================
+
 
 A list of available component documentation is shown in :numref:`Table %s <list_of_documentation>`. In general, technical documentation will explain how to use a particular component, whereas scientific documentation provides more in-depth information on the science involved in specific component files. 
 
@@ -116,42 +148,50 @@ A list of available component documentation is shown in :numref:`Table %s <list_
    * - Documentation
      - Location
    * - spack-stack Documentation
+
      - https://spack-stack.readthedocs.io/en/latest/
    * - HPC-Stack Documentation
      - https://hpc-stack.readthedocs.io/en/latest/
+
+     - https://spack-stack.readthedocs.io/en/1.4.1/
+   * - HPC-Stack Documentation
+     - https://hpc-stack-epic.readthedocs.io/en/release-srw-public-v2.2.0/
+
    * - UFS_UTILS Technical Documentation
-     - https://noaa-emcufs-utils.readthedocs.io/en/latest
+     - https://noaa-emcufs-utils.readthedocs.io/en/ufs_utils_1_11_0/
    * - UFS_UTILS Scientific Documentation
-     - https://ufs-community.github.io/UFS_UTILS/index.html
+     - https://ufs-community.github.io/UFS_UTILS/ver-1.11.0/index.html
    * - UFS Weather Model User's Guide
-     - https://ufs-weather-model.readthedocs.io/en/latest
+     - https://ufs-weather-model.readthedocs.io/en/ufs-srw-v2.2.0-doc/
    * - FV3 Technical Documentation
      - https://noaa-emc.github.io/FV3_Dycore_ufs-v2.0.0/html/index.html
    * - FV3 Scientific Documentation
      - https://repository.library.noaa.gov/view/noaa/30725
    * - CCPP Technical Documentation
-     - https://ccpp-techdoc.readthedocs.io/en/latest/
+     - https://ccpp-techdoc.readthedocs.io/en/ufs_srw_app_v2.2.0/
    * - CCPP Scientific Documentation
      - https://dtcenter.ucar.edu/GMTB/UFS_SRW_App_v2.2.0/sci_doc/index.html
    * - Stochastic Physics Documentation
-     - https://stochastic-physics.readthedocs.io/en/latest/
+     - https://stochastic-physics.readthedocs.io/en/release-public-v3/
    * - ESMF manual
-     - https://earthsystemmodeling.org/docs/release/latest/ESMF_usrdoc/
+     - https://earthsystemmodeling.org/docs/release/ESMF_8_4_2/ESMF_usrdoc/
    * - Unified Post Processor User's Guide
-     - https://upp.readthedocs.io/en/latest/
+     - https://upp.readthedocs.io/en/upp-srw-v2.2.0-docs/
    * - Unified Post Processor Scientific Documentation
      - https://noaa-emc.github.io/UPP/
    * - Unified Workflow User's Guide
+
      - https://uwtools.readthedocs.io/en/main/
+
+     - https://unified-workflow.readthedocs.io/en/v1.0.0/
+
    * - METplus User's Guide
-     - https://metplus.readthedocs.io/en/latest/Users_Guide/index.html
-   * - HEMCO User's Guide (a component of the NEXUS AQM system)
-     - https://hemco.readthedocs.io/en/stable/
+     - https://metplus.readthedocs.io/en/main_v4.1/Users_Guide/index.html
 
 .. _user-support:
 
 User Support and Contributions to Development
-================================================
+
 
 Questions
 -----------
@@ -188,15 +228,27 @@ Additionally, users can file issues in component repositories for contributions 
 
 .. _future-direction:
 
+utilities, model code, and infrastructure. As described above, users can post issues in the SRW App to report bugs or to announce upcoming contributions to the code base. Contributions to the `ufs-srweather-app <https://github.com/ufs-community/ufs-srweather-app>`__ repository should follow the guidelines contained in the `SRW App Contributor's Guide <https://github.com/ufs-community/ufs-srweather-app/wiki/Contributor's-Guide>`__. Additionally, users can file issues in component repositories for contributions that directly concern those repositories. For code to be accepted into a component repository, users must follow the code management rules of that component's authoritative repository. These rules are usually outlined in the component's User's Guide (see :numref:`Table %s <list_of_documentation>`) or GitHub wiki for each respective repository (see :numref:`Table %s <top_level_repos>`). 
+
+
 Future Direction
-=================
+
 
 Users can expect to see incremental improvements and additional capabilities in upcoming releases of the SRW Application to enhance research opportunities and support operational forecast implementations. Planned enhancements include:
+
 
 * Inclusion of data assimilation and forecast restart/cycling capabilities.
 * A more extensive set of supported developmental physics suites.
 * A larger number of pre-defined domains/resolutions and a *fully supported* capability to create a user-defined domain.
 * Incorporation of additional `Unified Workflow <https://github.com/ufs-community/uwtools>`__ tools.
+
+* Inclusion of data assimilation and forecast restart/cycling capabilities via :term:`JEDI`.
+* A more extensive set of supported developmental physics suites.
+* A larger number of pre-defined domains/resolutions and a *fully supported* capability to create a user-defined domain.
+* Incorporation of additional `Unified Workflow <https://github.com/ufs-community/workflow-tools>`__ tools. 
+
+.. bibliography:: ../references.bib
+
 
 
 .. bibliography:: ../../references.bib

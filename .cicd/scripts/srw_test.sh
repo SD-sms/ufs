@@ -1,37 +1,33 @@
-#!/usr/bin/env bash
-#
-# A unified test script for the SRW application. This script is expected to
-# test the SRW application for all supported platforms. NOTE: At this time,
-# this script is a placeholder for a more robust test framework.
-#
+#!/bin/bash
 set -e -u -x
 
-script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" > /dev/null 2>&1 && pwd)"
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 
-# Get repository root from Jenkins WORKSPACE variable if set, otherwise, set
-# relative to script directory.
-declare workspace
-if [[ -d "${WORKSPACE}/${SRW_PLATFORM}" ]]; then
+# Ensure required variables are set
+: "${WORKSPACE:?WORKSPACE is not set}"
+: "${SRW_PLATFORM:?SRW_PLATFORM is not set}"
+
+# Set workspace directory
+if [ -d "${WORKSPACE}/${SRW_PLATFORM}" ]; then
     workspace="${WORKSPACE}/${SRW_PLATFORM}"
 else
-    workspace="$(cd -- "${script_dir}/../.." && pwd)"
+    workspace="$(cd "${script_dir}" && pwd)"
 fi
 
-# Normalize Parallel Works cluster platform value.
-declare platform
-if [[ "${SRW_PLATFORM}" =~ ^(az|g|p)clusternoaa ]]; then
-    platform='noaacloud'
+# Normalize SRW platform value
+if [[ "${SRW_PLATFORM}" == wcoss || "${SRW_PLATFORM}" == noaa ]]; then
+    platform=wcosscloud
 else
     platform="${SRW_PLATFORM}"
 fi
 
 # Test directories
-export we2e_experiment_base_dir="${workspace}/expt_dirs"
-export we2e_test_dir="${workspace}/tests/WE2E"
+export w2e2_experiment_base_dir="${workspace}/tests/WE2E"
+export w2e2_test_dir="${workspace}/tests/WE2E"
 
 # Clean any stale test logs
-rm -f ${workspace}/tests/WE2E/log.*
-rm -f ${we2e_experiment_base_dir}/*/log.generate_FV3LAM_wflow ${we2e_experiment_base_dir}/*/log/* WE2E_summary*txt
+[ -d "${workspace}/tests/WE2E/log" ] && rm -f "${workspace}/tests/WE2E/log/*"
+[ -d "${w2e2_experiment_base_dir}/log" ] && rm -f "${w2e2_experiment_base_dir}/log/WE2E_summary.txt"
 
 # Run the end-to-end tests.
 if "${SRW_WE2E_COMPREHENSIVE_TESTS}"; then

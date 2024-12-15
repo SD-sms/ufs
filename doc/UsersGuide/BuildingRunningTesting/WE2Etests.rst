@@ -1,11 +1,11 @@
 .. _WE2E_tests:
 
-=======================
+
 Testing the SRW App
-=======================
+
 
 Introduction to Workflow End-to-End (WE2E) Tests
-==================================================
+
 
 The SRW App contains a set of end-to-end tests that exercise various workflow configurations of the SRW App. These are referred to as workflow end-to-end (WE2E) tests because they all use the Rocoto workflow manager to run their individual workflows from start to finish. The purpose of these tests is to ensure that new changes to the App do not break existing functionality and capabilities. However, these WE2E tests also provide users with additional sample cases and data beyond the basic ``config.community.yaml`` case. 
 
@@ -27,12 +27,21 @@ current results are identical to previously established baselines. They also do
 not test the scientific integrity of the results (e.g., they do not check that values 
 of output fields are reasonable). These tests only check that the tasks within each test's workflow complete successfully. Currently, it is up to the external repositories that the App clones (see :numref:`Section %s <SRWStructure>`) to check that changes to those repositories do not change results, or, if they do, to ensure that the new results are acceptable. (At least two of these external repositories---``UFS_UTILS`` and ``ufs-weather-model``---do have such regression tests.) 
 
+
+
+.. _we2e-categories:
+
+
 WE2E Test Categories
 ----------------------
 
 WE2E tests are grouped into two categories that are of interest to code developers: ``fundamental`` and ``comprehensive`` tests. "Fundamental" tests are a lightweight but wide-reaching set of tests designed to function as a cheap "`smoke test <https://en.wikipedia.org/wiki/Smoke_testing_(software)>`__" for changes to the UFS SRW App. The fundamental suite of tests runs common combinations of workflow tasks, physical domains, input data, physics suites, etc.
 The comprehensive suite of tests covers a broader range of combinations of capabilities, configurations, and components, ideally including all capabilities that *can* be run on a given platform. Because some capabilities are not available on all platforms (e.g., retrieving data directly from NOAA HPSS), the suite of comprehensive tests varies from machine to machine.
+
 The list of fundamental and comprehensive tests can be viewed in the ``ufs-srweather-app/tests/WE2E/machine_suites/`` directory, and the tests are described in more detail in :doc:`this table <../../tables/Tests>`.
+
+The list of fundamental and comprehensive tests can be viewed in the ``ufs-srweather-app/tests/WE2E/machine_suites/`` directory, and the tests are described in more detail in :doc:`this table <../tables/Tests>`.
+
 
 .. note::
 
@@ -161,7 +170,7 @@ The rows of the file/sheet represent the full set of available tests (not just t
 .. _RunWE2E:
 
 Running the WE2E Tests
-================================
+
 
 About the Test Script (``run_WE2E_tests.py``)
 -----------------------------------------------
@@ -171,6 +180,8 @@ The script to run the WE2E tests is named ``run_WE2E_tests.py`` and is located i
 .. note::
 
    The full list of WE2E tests is extensive, and some larger, high-resolution tests are computationally expensive. Estimates of walltime and core-hour cost for each test are provided in :doc:`this table <../../tables/Tests>`. 
+
+.. COMMENT: Is the list of supported tests up-to-date?
 
 Using the Test Script 
 ----------------------
@@ -183,7 +194,11 @@ First, load the appropriate python environment (as described in :numref:`Section
 
 The test script has three required arguments: machine, account, and tests. 
 
+
    * Users must indicate which machine they are on using the ``--machine`` or ``-m`` option. See :numref:`Section %s <user>` for valid values or check the ``valid_param_vals.yaml`` file.
+
+   * Users must indicate which machine they are on using the ``--machine`` or ``-m`` option. See :numref:`Section %s <user>` for valid values or check the ``valid_param_vals.yaml`` file. 
+
    * Users must submit a valid account name using the ``--account`` or ``-a`` option to run submitted jobs. On systems where an account name is not required, users may simply use ``-a none``. 
    * Users must specify the set of tests to run using the ``--tests`` or ``-t`` option. Users may pass (in order of priority): 
 
@@ -230,7 +245,11 @@ By default, the experiment directory for a WE2E test has the same name as the te
 
       ./run_WE2E_tests.py -t fundamental -m orion -a gsd-fv3 --expt_basedir "test_set_01" -q -p 2
 
+
    * ``--expt_basedir``: Useful for grouping sets of tests. If set to a relative path, the provided path will be appended to the default path. In this case, all of the fundamental tests will reside in ``${HOMEdir}/../expt_dirs/test_set_01/``. It can also take a full (absolute) path as an argument, which will place experiments in the given location.
+
+   * ``--expt_basedir``: Useful for grouping sets of tests. If set to a relative path, the provided path will be appended to the default path. In this case, all of the fundamental tests will reside in ``${HOMEdir}/../expt_dirs/test_set_01/``. It can also take a full (absolute) path as an argument, which will place experiments in the given location. 
+
    * ``-q``: Suppresses the output from ``generate_FV3LAM_wflow()`` and prints only important messages (warnings and errors) to the screen. The suppressed output will still be available in the ``log.run_WE2E_tests`` file.
    * ``-p 2``: Indicates the number of parallel proceeses to run. By default, job monitoring and submission is serial, using a single task. Therefore, the script may take a long time to return to a given experiment and submit the next job when running large test suites. Depending on the machine settings, running in parallel can substantially reduce the time it takes to run all experiments. However, it should be used with caution on shared resources (such as HPC login nodes) due to the potential to overwhelm machine resources. 
 
@@ -437,7 +456,7 @@ The "Status" as specified by the above summary is explained below:
    All jobs are status SUCCEEDED, and we have monitored this job for an additional cycle to ensure there are no unsubmitted jobs. We will no longer monitor this experiment.
 
 Modifying the WE2E System
-============================
+
 
 Users may wish to modify the WE2E testing system to suit specific testing needs.
 

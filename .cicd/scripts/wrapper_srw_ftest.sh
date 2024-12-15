@@ -22,16 +22,28 @@ fi
 
 # Customize wrapper scripts
 if [[ "${SRW_PLATFORM}" == gaea ]]; then
+
     sed -i '15i #SBATCH --clusters=c5' ${WORKSPACE}/${SRW_PLATFORM}/.cicd/scripts/${workflow_cmd}_srw_ftest.sh
     sed -i 's|qos=batch|qos=normal|g' ${WORKSPACE}/${SRW_PLATFORM}/.cicd/scripts/${workflow_cmd}_srw_ftest.sh
     sed -i 's|00:30:00|00:45:00|g' ${WORKSPACE}/${SRW_PLATFORM}/.cicd/scripts/${workflow_cmd}_srw_ftest.sh
     sed -i 's|${JOBSdir}/JREGIONAL_RUN_POST|$USHdir/load_modules_run_task.sh "gaea" "run_post" ${JOBSdir}/JREGIONAL_RUN_POST|g' ${WORKSPACE}/${SRW_PLATFORM}/ush/wrappers/run_post.sh
 fi
 
+    sed -i '15i #SBATCH --clusters=c4' ${WORKSPACE}/${SRW_PLATFORM}/.cicd/scripts/${workflow_cmd}_srw_ftest.sh
+    sed -i 's|qos=batch|qos=windfall|g' ${WORKSPACE}/${SRW_PLATFORM}/.cicd/scripts/${workflow_cmd}_srw_ftest.sh
+fi
+
+if [[ "${SRW_PLATFORM}" == gaea-c5 ]]; then
+    sed -i '15i #SBATCH --clusters=c5' ${WORKSPACE}/${SRW_PLATFORM}/.cicd/scripts/${workflow_cmd}_srw_ftest.sh
+    sed -i 's|qos=batch|qos=normal|g' ${WORKSPACE}/${SRW_PLATFORM}/.cicd/scripts/${workflow_cmd}_srw_ftest.sh
+fi
+
+
 if [[ "${SRW_PLATFORM}" == hera ]]; then
     if [[ "${SRW_COMPILER}" == gnu ]]; then
         sed -i 's|00:30:00|00:45:00|g' ${WORKSPACE}/${SRW_PLATFORM}/.cicd/scripts/${workflow_cmd}_srw_ftest.sh
     fi
+
 fi
 
 if [[ "${SRW_PLATFORM}" == jet ]]; then
@@ -40,6 +52,8 @@ fi
 
 if [[ "${TASK_DEPTH}" == 0 ]] ; then
     exit 0
+
+
 fi
 
 # Call job card and return job_id

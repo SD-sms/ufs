@@ -11,14 +11,14 @@ FAQ
    :depth: 2
    :local:
 
-=====================
+
 Building the SRW App
-=====================
+
 
 .. _CleanUp:
 
 How can I clean up the SRW App code if something went wrong during the build?
-===============================================================================
+
 
 The ``ufs-srweather-app`` repository contains a ``devclean.sh`` convenience script. This script can be used to clean up code if something goes wrong when checking out externals or building the application. To view usage instructions and to get help, run with the ``-h`` or ``--help`` flag:
 
@@ -97,7 +97,7 @@ model directory to the experiment directory ``$EXPTDIR``. For more information o
 .. _ChangeGrid:
 
 How do I change the grid?
-===========================
+
 
 To change the predefined grid, modify the ``PREDEF_GRID_NAME`` variable in the ``task_run_fcst:`` section of the ``config.yaml`` script (see :numref:`Section %s <UserSpecificConfig>` for details on creating and modifying the ``config.yaml`` file). The five supported predefined grids as of the SRW Application |latestr| release are:
 
@@ -109,12 +109,17 @@ To change the predefined grid, modify the ``PREDEF_GRID_NAME`` variable in the `
    SUBCONUS_Ind_3km
    RRFS_NA_13km
 
+
 However, users can choose from a variety of predefined grids listed in :numref:`Section %s <PredefGrid>`. An option also exists to create a user-defined grid, with information available in :numref:`Section %s <UserDefinedGrid>`. However, the user-defined grid option is not fully supported as of the |latestr| release and is provided for informational purposes only.
+
+However, users can choose from a variety of predefined grids listed in :numref:`Section %s <PredefGrid>`. An option also exists to create a user-defined grid, with information available in :numref:`Section %s <UserDefinedGrid>`. However, the user-defined grid option is not fully supported as of the |latestr| release and is provided for informational purposes only. 
+
 
 .. _SetTasks:
 
 How can I select which workflow tasks to run? 
-===============================================
+
+
 
 :numref:`Section %s <ConfigTasks>` provides a full description of how to turn on/off workflow tasks.
 
@@ -124,7 +129,7 @@ The default workflow tasks are defined in ``ufs-srweather-app/parm/wflow/default
 .. _CompPower:
 
 How can I configure the computational parameters to use more compute power? 
-==============================================================================
+
 
 In general, there are two options for using more compute power: (1) increase the number of PEs or (2) enable more threads.
 
@@ -144,10 +149,15 @@ Users can take a look at the `SRW App predefined grids <https://github.com/ufs-c
 
 In general, enabling more threads offers less increase in performance than doubling the number of PEs. However, it uses less memory and still improves performance. To enable more threading, set ``OMP_NUM_THREADS_RUN_FCST`` to a higher number (e.g., 2 or 4). When increasing the value, it must be a factor of the number of cores/CPUs (``number of MPI tasks * OMP threads`` cannot exceed the number of cores per node). Typically, it is best not to raise this value higher than 4 or 5 because there is a limit to the improvement possible via OpenMP parallelization (compared to MPI parallelization, which is significantly more efficient).
 
+:numref:`Section %s <ConfigTasks>` provides a full description of how to turn on/off workflow tasks. 
+
+The default workflow tasks are defined in ``ufs-srweather-app/parm/wflow/default_workflow.yaml``. However, the ``/parm/wflow`` directory contains several ``YAML`` files that configure different workflow task groups. Each file contains a number of tasks that are typically run together (see :numref:`Table %s <task-group-files>` for a description of each task group). To add or remove workflow tasks, users will need to alter the user configuration file (``config.yaml``) as described in :numref:`Section %s <ConfigTasks>` to override the default workflow and run the selected tasks and task groups.   
+
+
 .. _CycleInd:
 
 How do I turn on/off the cycle-independent workflow tasks?
-===========================================================
+
 
 The first three pre-processing tasks ``make_grid``, ``make_orog``, and ``make_sfc_climo``
 are :term:`cycle-independent`, meaning that they only need to be run once per experiment. 
@@ -164,7 +174,11 @@ To skip these tasks, remove ``parm/wflow/prep.yaml`` from the list of task group
      tasks:
        taskgroups: '{{ ["parm/wflow/coldstart.yaml", "parm/wflow/post.yaml"]|include }}'
 
+
 Then, add the appropriate tasks and paths to the previously generated grid, orography, and surface climatology files to ``config.yaml``:
+
+Then, add the appropriate tasks and paths to the previously generated grid, orography, and surface climatology files to ``config.yaml``: 
+
 
 .. code-block:: console
 
@@ -180,7 +194,7 @@ All three sets of files *may* be placed in the same directory location (and woul
 .. _change-default-params:
 
 How can I change the default parameters (e.g., walltime) for workflow tasks?
-=============================================================================
+
 
 You can change default parameters for a workflow task by setting them to a new value in the ``rocoto: tasks:`` section of the ``config.yaml`` file. First, be sure that the task you want to change is part of the :ref:`default workflow <WorkflowTasksTable>` or included under ``taskgroups:`` in the ``rocoto: tasks:`` section of ``config.yaml``. For instructions on how to add a task to the workflow, see :ref:`this FAQ <SetTasks>`. 
 
@@ -209,7 +223,7 @@ See `SRW Discussion #990 <https://github.com/ufs-community/ufs-srweather-app/dis
 .. _AddPhys:
 
 :bolditalic:`Advanced:` How can I add a physics scheme (e.g., YSU PBL) to the UFS SRW App?
-===============================================================================================
+
 
 At this time, there are ten physics suites available in the SRW App, :ref:`five of which are fully supported <CCPP_Params>`. However, several additional physics schemes are available in the UFS Weather Model (WM) and can be enabled in the SRW App. The CCPP Scientific Documentation details the various `namelist options <https://dtcenter.ucar.edu/GMTB/v6.0.0/sci_doc/_c_c_p_psuite_nml_desp.html>`__ available in the UFS WM, including physics schemes, and also includes an `overview of schemes and suites <https://dtcenter.ucar.edu/GMTB/v6.0.0/sci_doc/allscheme_page.html>`__. 
 
@@ -229,14 +243,14 @@ Depending on the scheme, additional changes to the SDF (e.g., to add, remove, or
 
 After making appropriate changes to the SDF and namelist files, users must ensure that they are using the same physics suite in their ``config.yaml`` file as the one they modified in ``FV3.input.yml``. Then, the user can run the ``generate_FV3LAM_wflow.py`` script to generate an experiment and navigate to the experiment directory. They should see ``do_ysu = .true.`` in the namelist file (or a similar statement, depending on the physics scheme selected), which indicates that the YSU PBL scheme is enabled.
 
-===========================================
+
 Running an Experiment and Troubleshooting
-===========================================
+
 
 .. _RestartTask:
 
 How do I restart a DEAD task?
-=============================
+
 
 On platforms that utilize Rocoto workflow software (such as NCAR's Derecho machine), if something goes wrong with the workflow, a task may end up in the DEAD state:
 
@@ -244,7 +258,7 @@ On platforms that utilize Rocoto workflow software (such as NCAR's Derecho machi
 
    rocotostat -w FV3SAR_wflow.xml -d FV3SAR_wflow.db -v 10
           CYCLE            TASK        JOBID    STATE    EXIT STATUS  TRIES DURATION
-   =================================================================================
+  
    201906151800       make_grid      9443237   QUEUED              -      0      0.0
    201906151800       make_orog            -        -              -      -        -
    201906151800  make_sfc_climo            -        -              -      -        -
@@ -264,7 +278,7 @@ advance the workflow, the job will be resubmitted.
 .. _TweakExpt:
 
 I ran an experiment, and now I want to tweak one minor detail and rerun the task(s) without regenerating the experiment. How can I do this?
-==============================================================================================================================================
+
 
 In almost every case, it is best to regenerate the experiment from scratch, even if most of the experiment ran successfully and the modification seems minor. Some variable checks are performed in the workflow generation step, while others are done at runtime. Some settings are changed based on the cycle, and some changes may be incompatible with the output of a previous task. At this time, there is no general way to partially rerun an experiment with different settings, so it is almost always better just to regenerate the experiment from scratch.
 
@@ -277,12 +291,20 @@ See `SRW Discussion #995 <https://github.com/ufs-community/ufs-srweather-app/dis
 .. _NewExpt:
 
 How can I run a new experiment?
-==================================
+
+
 
 To run a new experiment at a later time, users need to rerun the commands in :numref:`Section %s <SetUpPythonEnv>` that reactivate the |wflow_env| environment:
 
+To run a new experiment at a later time, users need to rerun the commands in :numref:`Section %s <SetUpPythonEnv>` that reactivate the |wflow_env| environment: 
+
 .. include:: ../../doc-snippets/load-env.rst
 Follow any instructions output by the console (e.g., |activate|).
+
+
+
+Follow any instructions output by the console (e.g., |activate|). 
+
 
 Then, users can configure a new experiment by updating the experiment parameters in ``config.yaml`` to reflect the desired experiment configuration. Detailed instructions can be viewed in :numref:`Section %s <UserSpecificConfig>`. Parameters and valid values are listed in :numref:`Section %s <ConfigWorkflow>`. After adjusting the configuration file, generate the new experiment by running ``./generate_FV3LAM_wflow.py``. Check progress by navigating to the ``$EXPTDIR`` and running ``rocotostat -w FV3LAM_wflow.xml -d FV3LAM_wflow.db -v 10``.
 
@@ -293,7 +315,7 @@ Then, users can configure a new experiment by updating the experiment parameters
 .. _IC-LBC-gen-issue:
 
 How can I troubleshoot issues related to :term:`ICS`/:term:`LBCS` generation for a predefined 3-km grid?
-==========================================================================================================
+
 
 If you encounter issues while generating ICS and LBCS for a predefined 3-km grid using the UFS SRW App, there are a number of troubleshooting options. The first step is always to check the log file for a failed task. This file will provide information on what went wrong. A log file for each task appears in the ``log`` subdirectory of the experiment directory (e.g., ``$EXPTDIR/log/make_ics``).
 

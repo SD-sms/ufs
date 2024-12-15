@@ -69,8 +69,13 @@ export COMOUTwmo="${COMOUTwmo:-${COMOUT}/wmo}"
 #
 #-----------------------------------------------------------------------
 #
+
 if [ ${subcyc:-0} -ne 0 ]; then
   export cycle="t${cyc}${subcyc}z"
+
+if [ ${subcyc:-0} -eq 0 ]; then
+    export cycle="t${cyc}z"
+
 else
   export cycle="t${cyc}z"
 fi

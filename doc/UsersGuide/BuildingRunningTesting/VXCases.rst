@@ -1,25 +1,32 @@
 .. _VXCases:
 
-===================================
+
 METplus Verification Sample Cases
-===================================
+
 
 Introduction
-===============
+
+
 
 The goal of these sample cases is to provide the UFS community with datasets that they can modify and run to see if their changes can improve the forecast and/or reduce the model biases. Each case covers an interesting weather event. The case that was added ahead of the v2.1.0 release was a severe weather event over Indianapolis on June 15-16, 2019. Content was updated for the v2.2.0 release. In the future, additional sample cases will be provided. 
+
+The goal of these sample cases is to provide the UFS community with datasets that they can modify and run to see if their changes can improve the forecast and/or reduce the model biases. Each case covers an interesting weather event. The case that was added ahead of the v2.1.0 release was a severe weather event over Indianapolis on June 15-16, 2019. Content has been updated for the |latestr| release. In the future, additional sample cases will be provided. 
+
 
 Each sample case contains model output from a control run; this output includes ``postprd`` (post-processed) and ``metprd`` (MET verification-processed) directories. Under the ``postprd`` directory, users will find the :term:`UPP` output of the model run along with plots for several forecast variables (when plotting tasks are run). These can be used for a visual/qualitative comparison of forecasts. The ``metprd`` directory contains METplus verification statistics files, which can be used for a quantitative comparison of forecast outputs. 
 
 Prerequisites
-================
+
 
 This chapter assumes that users have already (1) built the SRW App |latestr| release successfully and (2) installed MET and METplus on their system (e.g., as part of :term:`spack-stack` installation). For instructions on how to build the |latestr| release, see :numref:`Section %s <BuildSRW>`. Users will have an easier time if they run through the out-of-the-box case described in :numref:`Section %s <RunSRW>` before attempting to run any verification sample cases, but doing so is optional.
 
+
 For information on MET and METplus, see :numref:`Section %s <MetplusComponent>`, which contains information on METplus, links to a list of existing MET/METplus builds on :srw-wiki:`Level 1 & 2 <Supported-Platforms-and-Compilers>` systems, and links to installation instructions and documentation for users on other systems. 
 
+For information on MET and METplus, see :numref:`Section %s <MetplusComponent>`, which contains information on METplus, links to a list of existing MET/METplus builds on `Level 1 & 2 <https://github.com/ufs-community/ufs-srweather-app/wiki/Supported-Platforms-and-Compilers>`__ systems, and links to installation instructions and documentation for users on other systems. 
+
+
 Indianapolis Severe Weather Case
-==========================================
 
 Description
 --------------
@@ -34,7 +41,10 @@ There were many storm reports for this event with the majority of tornadoes and 
 Set Up Verification
 -----------------------
 
+
 Follow the instructions below to reproduce a forecast for this event using your own model setup! Make sure to install and build the latest version of the SRW Application (|latestr|). ``develop`` branch code is constantly changing, so it does not provide a consistent baseline for comparison.
+
+Follow the instructions below to reproduce a forecast for this event using your own model setup! Make sure to install and build the latest version of the SRW Application (|latestr|). ``develop`` branch code is constantly changing, so it does not provide a consistent baseline for comparison. 
 
 .. _GetSampleData:
 
@@ -67,7 +77,11 @@ After downloading ``Indy-Severe-Weather.tgz`` using one of the three methods abo
 
    tar xvfz Indy-Severe-Weather.tgz
 
+
 Save the path to this file in and ``INDYDATA`` environment variable:
+
+Save the path to this file in and ``INDYDATA`` environment variable: 
+
    
 .. code-block:: console 
 
@@ -103,7 +117,11 @@ where ``/path/to/ufs-srweather-app/ush`` is replaced by the actual path to the `
 Then, edit the configuration file (``config.yaml``) to include the variables and values in the sample configuration excerpt below (variables not listed below do not need to be changed or removed). Users must be sure to substitute values in ``<>`` with values appropriate to their system.  
 
 .. note::
+
    Users working on a :srw-wiki:`Level 1 platform <Supported-Platforms-and-Compilers>` do not need to add or update the following variables: ``CCPA_OBS_DIR``, ``MRMS_OBS_DIR``, and ``NDAS_OBS_DIR``.
+
+   Users working on a `Level 1 platform <https://github.com/ufs-community/ufs-srweather-app/wiki/Supported-Platforms-and-Compilers>`__ do not need to add or update the following variables: ``CCPA_OBS_DIR``, ``MRMS_OBS_DIR``, and ``NDAS_OBS_DIR``.
+
 
 .. code-block:: console
 
@@ -111,11 +129,6 @@ Then, edit the configuration file (``config.yaml``) to include the variables and
       MACHINE: <your_machine_name>
       ACCOUNT: <my_account>
    platform:
-      MODEL: FV3_GFS_v16_SUBCONUS_3km
-      MET_INSTALL_DIR: /path/to/met/x.x.x           # Example: MET_INSTALL_DIR: /contrib/met/10.1.1
-      METPLUS_PATH: /path/to/METplus/METplus-x.x.x  # Example: METPLUS_PATH: /contrib/METplus/METplus-4.1.1
-      # Add MET_BIN_EXEC variable to config.yaml
-      MET_BIN_EXEC: bin
       CCPA_OBS_DIR: /path/to/Indy-Severe-Weather/obs_data/ccpa/proc
       MRMS_OBS_DIR: /path/to/Indy-Severe-Weather/obs_data/mrms/proc
       NDAS_OBS_DIR: /path/to/Indy-Severe-Weather/obs_data/ndas/proc
@@ -205,7 +218,7 @@ Comparing the plots is relatively straightforward since they are in ``.png`` for
 
    +-----------------------------------------+-----------------------------------+
    | Field                                   | File Name                         |
-   +=========================================+===================================+
+   +-----------------------------------------------------------------------------+
    | Sea level pressure                      | slp_regional_fhhh.png             |
    +-----------------------------------------+-----------------------------------+
    | Surface-based CAPE/CIN                  | sfcape_regional_fhhh.png          |
@@ -262,8 +275,12 @@ Point STAT Files
 
 The Point-Stat files contain continuous variables like temperature, pressure, and wind speed. A description of the Point-Stat file can be found :ref:`here <met:point-stat>` in the MET documentation. 
 
+
 The Point-Stat files contain a potentially overwhelming amount of information. Therefore, it is recommended that users focus on the CNT MET test, which contains the Root Mean Squared Error (`RMSE <https://metplus.readthedocs.io/en/latest/Users_Guide/statistics_list.html#statistics-list-p-r>`_) and Magnitude &
 Multiplicative bias (`MBIAS <https://metplus.readthedocs.io/en/latest/Users_Guide/statistics_list.html#statistics-list-g-m>`_) statistics. The MET tests are defined in column 24 'LINE_TYPE' of the ``.stat`` file. Look for 'CNT' in this column. Then find column 66-68 for MBIAS and 78-80 for RMSE statistics. A full description of this file can be found :ref:`here <met:point_stat-output>`.
+
+The Point-Stat files contain a potentially overwhelming amount of information. Therefore, it is recommended that users focus on the CNT MET test, which contains the `RMSE <https://met.readthedocs.io/en/latest/Users_Guide/appendixC.html#root-mean-squared-error-rmse>`__ and `MBIAS <https://met.readthedocs.io/en/latest/Users_Guide/appendixC.html#multiplicative-bias>`__ statistics. The MET tests are defined in column 24 'LINE_TYPE' of the ``.stat`` file. Look for 'CNT' in this column. Then find column 66-68 for MBIAS and 78-80 for RMSE statistics. A full description of this file can be found :ref:`here <met:point_stat-output>`.
+
 
 To narrow down the variable field even further, users can focus on these weather variables: 
 
@@ -291,7 +308,7 @@ As with the Point-Stat file, there are several MET tests and statistics availabl
 
    +----------------+----------+-----------------+----------------------+
    | File Type      | MET Test | Statistic       | Statistic Column     |
-   +================+==========+=================+======================+
+   +----------------+----------+-----------------+----------------------+
    | APCP           | NBRCTS   | FBIAS           | 41-43                |
    +----------------+----------+-----------------+----------------------+
    | APCP           | NBRCNT   | FSS             | 29-31                |

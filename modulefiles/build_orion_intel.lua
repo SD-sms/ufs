@@ -16,12 +16,17 @@ load("srw_common")
 
 load("nccmp/1.9.0.1")
 load("nco/5.0.6")
+
 load(pathJoin("prod_util", os.getenv("prod_util_ver") or "2.1.1"))
 
 setenv("CFLAGS","-diag-disable=10441")
 setenv("FFLAGS","-diag-disable=10441")
 
 setenv("FC", "mpiifort")
+
+load("ufs-pyenv")
+load("wget")
+
 
 setenv("CMAKE_C_COMPILER","mpiicc")
 setenv("CMAKE_CXX_COMPILER","mpiicpc")

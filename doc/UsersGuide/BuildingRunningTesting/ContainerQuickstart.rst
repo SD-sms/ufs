@@ -1,8 +1,8 @@
 .. _QuickstartC:
 
-====================================
+
 Container-Based Quick Start Guide
-====================================
+
 
 This Container-Based Quick Start Guide will help users build and run the "out-of-the-box" case for the Unified Forecast System (:term:`UFS`) Short-Range Weather (SRW) Application using a `Singularity/Apptainer <https://apptainer.org/docs/user/1.2/introduction.html>`__ container. The :term:`container` approach provides a uniform enviroment in which to build and run the SRW App. Normally, the details of building and running the SRW App vary from system to system due to the many possible combinations of operating systems, compilers, :term:`MPIs <MPI>`, and package versions available. Installation via container reduces this variability and allows for a smoother SRW App build experience. 
 
@@ -16,7 +16,7 @@ The basic "out-of-the-box" case described in this User's Guide builds a weather 
 .. _DownloadCodeC:
 
 Download the Container
-==========================
+
 
 Prerequisites 
 -------------------
@@ -36,7 +36,9 @@ To build and run the SRW App using a Singularity/Apptainer container, first inst
 .. attention:: 
    Docker containers can only be run with root privileges, and users cannot have root privileges on :term:`HPCs <HPC>`. Therefore, it is not possible to build the SRW App, which uses the spack-stack, inside a Docker container on an HPC system. However, a Singularity/Apptainer image may be built directly from a Docker image for use on the system.
 
+
 .. _work-on-hpc:
+
 
 Working in the Cloud or on HPC Systems
 -----------------------------------------
@@ -48,7 +50,25 @@ Users working on systems with limited disk space in their ``/home`` directory ma
    export SINGULARITY_CACHEDIR=/absolute/path/to/writable/directory/cache
    export SINGULARITY_TMPDIR=/absolute/path/to/writable/directory/tmp
 
+
 where ``/absolute/path/to/writable/directory/`` refers to the absolute path to a writable directory with sufficient disk space. If the ``cache`` and ``tmp`` directories do not exist already, they must be created with a ``mkdir`` command. See :numref:`Section %s <work-on-hpc-details>` to view an example of how this can be done. 
+
+where ``/absolute/path/to/writable/directory/`` refers to a writable directory (usually a project or user directory within ``/lustre``, ``/work``, ``/scratch``, or ``/glade`` on NOAA Level 1 systems). If the ``cache`` and ``tmp`` directories do not exist already, they must be created with a ``mkdir`` command. 
+
+On NOAA Cloud systems, the ``sudo su`` command may also be required. For example:
+   
+.. code-block:: 
+
+   mkdir /lustre/cache
+   mkdir /lustre/tmp
+   sudo su
+   export SINGULARITY_CACHEDIR=/lustre/cache
+   export SINGULARITY_TMPDIR=/lustre/tmp
+   exit
+
+.. note:: 
+   ``/lustre`` is a fast but non-persistent file system used on NOAA Cloud systems. To retain work completed in this directory, `tar the files <https://www.howtogeek.com/248780/how-to-compress-and-extract-files-using-the-tar-command-on-linux/>`__ and move them to the ``/contrib`` directory, which is much slower but persistent.
+
 
 .. _BuildC:
 
@@ -66,7 +86,7 @@ Build the Container
 Level 1 Systems
 ^^^^^^^^^^^^^^^^^^
 
-On most Level 1 systems, a container named ``ubuntu20.04-intel-ue-1.4.1-srw-dev.img`` has already been built at the following locations:
+On most Level 1 systems, a container named ``ubuntu20.04-intel-srwapp-release-public-v2.2.0.img`` has already been built at the following locations:
 
 .. list-table:: Locations of pre-built containers
    :widths: 20 50
@@ -74,13 +94,20 @@ On most Level 1 systems, a container named ``ubuntu20.04-intel-ue-1.4.1-srw-dev.
 
    * - Machine
      - File Location
+
    * - Derecho [#fn]_
      - /glade/work/epicufsrt/contrib/containers
    * - Gaea [#fn]_
+
+   * - Cheyenne/Derecho `*`_
+     - /glade/scratch/epicufsrt/containers
+   * - Gaea `*`_
+
      - /lustre/f2/dev/role.epic/containers
    * - Hera
      - /scratch1/NCEPDEV/nems/role.epic/containers
    * - Jet
+
      - /mnt/lfs5/HFIP/hfv3gfs/role.epic/containers
    * - NOAA Cloud
      - /contrib/EPIC/containers
@@ -88,6 +115,17 @@ On most Level 1 systems, a container named ``ubuntu20.04-intel-ue-1.4.1-srw-dev.
      - /work/noaa/epic/role-epic/contrib/containers
 
 .. [#fn] On these systems, container testing shows inconsistent results. 
+
+     - /mnt/lfs4/HFIP/hfv3gfs/role.epic/containers
+   * - NOAA Cloud
+     - /contrib/EPIC/containers
+   * - Orion/Hercules `*`_
+     - /work/noaa/epic/role-epic/contrib/containers
+   
+.. _`*` : 
+
+   \* On these systems, container testing shows inconsistent results. 
+
 
 .. note::
    * On Gaea, Singularity/Apptainer is only available on the C5 partition, and therefore container use is only supported on Gaea C5. 
@@ -97,7 +135,7 @@ Users can simply set an environment variable to point to the container:
 
 .. code-block:: console
 
-   export img=/path/to/ubuntu20.04-intel-ue-1.4.1-srw-dev.img
+   export img=/path/to/ubuntu20.04-intel-srwapp-release-public-v2.2.0.img
 
 Users may convert the container ``.img`` file to a writable sandbox:
 
@@ -110,7 +148,7 @@ When making a writable sandbox on Level 1 systems, the following warnings common
 .. code-block:: console
 
    INFO:    Starting build...
-   INFO:    Verifying bootstrap image ubuntu20.04-intel-ue-1.4.1-srw-dev.img
+   INFO:    Verifying bootstrap image ubuntu20.04-intel-srwapp-release-public-v2.2.0.img
    WARNING: integrity: signature not found for object group 1
    WARNING: Bootstrap image could not be verified, but build will continue.
 
@@ -123,9 +161,10 @@ On non-Level 1 systems, users should build the container in a writable sandbox:
 
 .. code-block:: console
 
-   sudo singularity build --sandbox ubuntu20.04-intel-srwapp docker://noaaepic/ubuntu20.04-intel-srwapp:develop
+   sudo singularity build --sandbox ubuntu20.04-intel-srwapp docker://noaaepic/ubuntu20.04-intel-srwapp:release-public-v2.2.0
 
 Some users may prefer to issue the command without the ``sudo`` prefix. Whether ``sudo`` is required is system-dependent. 
+
 
 .. note::
    Users can choose to build a release version of the container using a similar command:
@@ -133,6 +172,8 @@ Some users may prefer to issue the command without the ``sudo`` prefix. Whether 
    .. code-block:: console
 
       sudo singularity build --sandbox ubuntu20.04-intel-srwapp docker://noaaepic/ubuntu20.04-intel-srwapp:release-public-v2.2.0
+
+
 
 For easier reference, users can set an environment variable to point to the container: 
 
@@ -182,7 +223,7 @@ The list of directories printed will be similar to this:
 Users can run ``exit`` to exit the shell. 
 
 Download and Stage the Data
-============================
+
 
 The SRW App requires input files to run. These include static datasets, initial and boundary condition files, and model configuration files. On Level 1 systems, the data required to run SRW App tests are already available as long as the bind argument (starting with ``-B``) in :numref:`Step %s <RunContainer>` included the directory with the input model data. See :numref:`Table %s <DataLocations>` for Level 1 data locations. For Level 2-4 systems, the data must be added manually by the user. In general, users can download fix file data and experiment data (:term:`ICs/LBCs`) from the `SRW App Data Bucket <https://registry.opendata.aws/noaa-ufs-shortrangeweather/>`__ and then untar it:
 
@@ -198,7 +239,7 @@ More detailed information can be found in :numref:`Section %s <DownloadingStagin
 .. _GenerateForecastC:
 
 Generate the Forecast Experiment 
-=================================
+
 To generate the forecast experiment, users must:
 
 #. :ref:`Activate the workflow <SetUpPythonEnvC>`
@@ -256,22 +297,31 @@ where:
 
    * ``-c`` indicates the compiler on the user's local machine (e.g., ``intel/2022.1.2``)
    * ``-m`` indicates the :term:`MPI` on the user's local machine (e.g., ``impi/2022.1.2``)
+
    * ``<platform>`` refers to the local machine (e.g., ``hera``, ``jet``, ``noaacloud``, ``macos``, ``linux``). See ``MACHINE`` in :numref:`Section %s <user>` for a full list of options.
    * ``-i`` indicates the container image that was built in :numref:`Step %s <BuildC>` (``ubuntu20.04-intel-srwapp`` or ``ubuntu20.04-intel-ue-1.4.1-srw-dev.img`` by default).
+
+   * ``<platform>`` refers to the local machine (e.g., ``hera``, ``jet``, ``noaacloud``, ``macos``, ``linux``). See ``MACHINE`` in :numref:`Section %s <user>` for a full list of options. 
+   * ``-i`` indicates the container image that was built in :numref:`Step %s <BuildC>` (``ubuntu20.04-intel-srwapp`` or ``ubuntu20.04-intel-srwapp-release-public-v2.2.0.img`` by default).
+
 
 For example, on Hera, the command would be:
 
 .. code-block:: console
 
-   ./stage-srw.sh -c=intel/2022.1.2 -m=impi/2022.1.2 -p=hera -i=ubuntu20.04-intel-ue-1.4.1-srw-dev.img
+   ./stage-srw.sh -c=intel/2022.1.2 -m=impi/2022.1.2 -p=hera -i=ubuntu20.04-intel-srwapp-release-public-v2.2.0.img
 
 .. attention::
 
    The user must have an Intel compiler and MPI on their system because the container uses an Intel compiler and MPI. Intel compilers are now available for free as part of the `Intel oneAPI Toolkit <https://www.intel.com/content/www/us/en/developer/tools/oneapi/hpc-toolkit-download.html>`__.
 
+
 After this command runs, the working directory should contain ``srw.sh``, a ``ufs-srweather-app`` directory, and an ``ush`` directory.
 
 .. COMMENT: Check that the above is true for the dev containers...
+
+After this command runs, the working directory should contain ``srw.sh``, a ``ufs-srweather-app`` directory, and an ``ush`` directory. 
+
 
 From here, users can follow the steps below to configure the out-of-the-box SRW App case with an automated Rocoto workflow. For more detailed instructions on experiment configuration, users can refer to :numref:`Section %s <UserSpecificConfig>`. 
 
@@ -307,7 +357,7 @@ From here, users can follow the steps below to configure the out-of-the-box SRW 
       .. code-block:: console
 
          USE_USER_STAGED_EXTRN_FILES: true
-         EXTRN_MDL_SOURCE_BASEDIR_ICS: /scratch1/NCEPDEV/nems/role.epic/UFS_SRW_data/develop/input_model_data/FV3GFS/grib2/${yyyymmddhh}
+         EXTRN_MDL_SOURCE_BASEDIR_ICS: /scratch1/NCEPDEV/nems/role.epic/UFS_SRW_data/v2p2/input_model_data/FV3GFS/grib2/${yyyymmddhh}
 
       On other systems, users will need to change the path for ``EXTRN_MDL_SOURCE_BASEDIR_ICS`` and ``EXTRN_MDL_SOURCE_BASEDIR_LBCS`` (below) to reflect the location of the system's data. The location of the machine's global data can be viewed :ref:`here <Data>` for Level 1 systems. Alternatively, the user can add the path to their local data if they downloaded it as described in :numref:`Section %s <InitialConditions>`. 
 
@@ -316,7 +366,7 @@ From here, users can follow the steps below to configure the out-of-the-box SRW 
       .. code-block:: console
 
          USE_USER_STAGED_EXTRN_FILES: true
-         EXTRN_MDL_SOURCE_BASEDIR_LBCS: /scratch1/NCEPDEV/nems/role.epic/UFS_SRW_data/develop/input_model_data/FV3GFS/grib2/${yyyymmddhh}
+         EXTRN_MDL_SOURCE_BASEDIR_LBCS: /scratch1/NCEPDEV/nems/role.epic/UFS_SRW_data/v2p2/input_model_data/FV3GFS/grib2/${yyyymmddhh}
 
 
 .. _GenerateWorkflowC: 
@@ -354,7 +404,7 @@ After a few (3-5) minutes, ``rocotostat`` should show a status-monitoring table:
 .. code-block:: console
 
           CYCLE             TASK      JOBID    STATE   EXIT STATUS   TRIES   DURATION
-   ==================================================================================
+   
    201906151800        make_grid   53583094   QUEUED             -       0        0.0
    201906151800        make_orog          -        -             -       -          -
    201906151800   make_sfc_climo          -        -             -       -          -
@@ -381,17 +431,20 @@ If a task goes DEAD, it will be necessary to restart it according to the instruc
    crontab -e
    */3 * * * * cd /path/to/expt_dirs/test_community && ./launch_FV3LAM_wflow.sh called_from_cron="TRUE"
 
+
 where ``/path/to`` is replaced by the actual path to the user's experiment directory.
 
+where ``/path/to`` is replaced by the actual path to the user's experiment directory. 
 New Experiment
-===============
+
+
 
 To run a new experiment in the container at a later time, users will need to rerun the commands in :numref:`Section %s <SetUpPythonEnvC>` to reactivate the workflow. Then, users can configure a new experiment by updating the experiment variables in ``config.yaml`` to reflect the desired experiment configuration. Basic instructions appear in :numref:`Section %s <SetUpConfigFileC>` above, and detailed instructions can be viewed in :numref:`Section %s <UserSpecificConfig>`. After adjusting the configuration file, regenerate the experiment by running ``./generate_FV3LAM_wflow.py``.
 
 .. _appendix:
 
 Appendix
-==========
+
 
 .. _work-on-hpc-details:
 
@@ -440,3 +493,6 @@ If users have the PBS resource manager installed on their system, the allocation
 For more information on the ``qsub`` command options, see the `PBS Manual §2.59.3 <https://2021.help.altair.com/2021.1/PBSProfessional/PBS2021.1.pdf>`__, (p. 1416).
 
 These commands should output a hostname. Users can then run ``ssh <hostname>``. After "ssh-ing" to the compute node, they can run the container from that node. To run larger experiments, it may be necessary to allocate multiple compute nodes. 
+
+To run a new experiment in the container at a later time, users will need to rerun the commands in :numref:`Section %s <SetUpPythonEnvC>` to reactivate the workflow. Then, users can configure a new experiment by updating the variables in ``config.yaml`` to reflect the desired experiment configuration. Basic instructions appear in :numref:`Section %s <SetUpConfigFileC>` above, and detailed instructions can be viewed in :numref:`Section %s <UserSpecificConfig>`. After adjusting the configuration file, regenerate the experiment by running ``./generate_FV3LAM_wflow.py``.
+
